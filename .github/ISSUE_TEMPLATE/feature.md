@@ -1,7 +1,7 @@
 ---
 name: Feature
 about: A New feature for the Project
-title: "[Ticket-]"
+title: "[Ticket-]: "
 labels: ''
 assignees: comendrun
 
