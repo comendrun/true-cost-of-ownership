@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useEffect } from "react";
 import {
@@ -29,102 +30,36 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import NumberFormField from "@/components/ui/form/NumberFormField";
+import { useCarFormStore } from "@/lib/store";
+import { carFormDefaultValues } from "@/data/consts";
+import { CarFormValues, carFormSchema } from "@/types";
+
+function calculateMonthlyPayment(
+  remainingAmount: number,
+  annualInterestRate: number,
+  numYears: number,
+) {
+  const monthlyRate = annualInterestRate / 100 / 12;
+  const totalPayments = numYears * 12;
+  return (
+    (remainingAmount * monthlyRate) /
+    (1 - Math.pow(1 + monthlyRate, -totalPayments))
+  );
+}
 
 // car brand, car model, car year, user interior score, user exterior score, purchase price, prepayment, remaining amount, interest rate, financing duration, initial price of the model, current used car price, depreciation amounted from the difference in prices, guarantee?, guarantee years?, service cost, offer on service costs, tires (winter, summer), tire costs (probably similar), TUV costs (probably similar), brakes change costs, insurance (vollkasko), taxes, fuel consumption, total planned KMs per year, extended warranty cost?, oil change costs (probably included in service costs)
-
-const carFormSchema = z.object({
-  brand: z
-    .string()
-    .min(1, { message: "Please select a car brand from the list." }),
-  model: z
-    .string()
-    .min(1, { message: "Please select a car model from the list." }),
-
-  year: z.number(),
-  mileage: z.number(), // KM
-  interiorScore: z
-    .number()
-    .min(1, "Value must be at least 1")
-    .max(10, "Value must be at most 10")
-    .optional(),
-  exteriorScore: z
-    .number()
-    .min(1, "Value must be at least 1")
-    .max(10, "Value must be at most 10")
-    .optional(),
-  purchasePrice: z.number(), // euros
-  prepayment: z.number(), // euros
-  remainingAmount: z.number(), // euros
-  interestRate: z.number(), // percentage
-  financingDuration: z.number().max(10), // years
-  initialPrice: z.number(), // euros
-  depreciationRate: z.number(), // percentage
-  guaranteeYears: z.number(), // years
-  serviceCosts: z.number(), // euros
-  serviceIncludes: z.string(), // list of the services
-  tiresCosts: z.number(), // euros, probably similar for different cars
-  tuvCosts: z.number(), // euros, probably similar for different cars
-  oilChangeCosts: z.number(), // euros, as an example of the costs associated to the car
-  insuranceType: z.enum(["Minimum", "Partial", "Full"]),
-  insuranceCost: z.number(), // euros, depends on the car
-  taxes: z.number(), // yearly
-  totalPlannedKMs: z.number(), // KMs, total number of KMs planned to drive the car yearly
-  fuelConsumption: z.number(), // liters per 100KM
-  offerOnExtendedWarranty: z.boolean().optional(),
-  extendedWarrantyCost: z.number().optional(),
-  fuelType: z.enum([
-    "Diesel",
-    "Petrol",
-    "Hybrid/Diesel",
-    "Hybrid/Petrol",
-    "Electric",
-  ]),
-  averageFuelCost: z.number(),
-  tco: z.number(),
-});
-
-type CarFormValues = z.infer<typeof carFormSchema>;
-
-const defaultValues: CarFormValues = {
-  brand: "", // Initially empty; a brand must be selected
-  model: "", // Initially empty; a model must be selected
-  year: 0, // Current year as default
-  mileage: 0, // Default to 0 km (brand new)
-  interiorScore: 5, // Midpoint score (on a scale of 1-10)
-  exteriorScore: 5, // Midpoint score (on a scale of 1-10)
-  purchasePrice: 20000, // Example purchase price in euros
-  prepayment: 0, // Example prepayment in euros
-  remainingAmount: 0, // Calculated as purchase price - prepayment
-  interestRate: 5, // Example interest rate in percentage
-  financingDuration: 5, // Financing duration of 5 years
-  initialPrice: 25000, // Initial price of the model (new price)
-  depreciationRate: 15, // Example depreciation rate in percentage per year
-  guaranteeYears: 2, // Example guarantee duration in years
-  serviceCosts: 300, // Example service costs in euros per year
-  serviceIncludes: "Regular maintenance, oil change", // Example list of included services
-  tiresCosts: 400, // Example costs for tires in euros per year
-  tuvCosts: 80, // Example Tüv costs in euros per year
-  oilChangeCosts: 100, // Example oil change costs in euros
-  insuranceType: "Full", // Default insurance type
-  insuranceCost: 800, // Example insurance cost in euros per year
-  taxes: 150, // Example yearly taxes in euros
-  totalPlannedKMs: 15000, // Example total planned kilometers per year
-  fuelConsumption: 6, // Example fuel consumption in liters per 100 km
-  offerOnExtendedWarranty: false, // Default to not offering extended warranty
-  extendedWarrantyCost: undefined, // No cost associated initially
-  fuelType: "Petrol",
-  averageFuelCost: 0,
-  tco: 0,
-};
 
 export default function CarForm() {
   const form = useForm<CarFormValues>({
     resolver: zodResolver(carFormSchema),
-    defaultValues,
+    defaultValues: carFormDefaultValues,
   });
+
+  const updateState = useCarFormStore((state) => state.updateState);
 
   const onSubmit: SubmitHandler<CarFormValues> = (data) => {
     console.log("data", data);
+    updateState(data);
   };
 
   const {
@@ -136,22 +71,51 @@ export default function CarForm() {
   } = form;
 
   useEffect(() => {
-    const values = getValues();
-    const purchasePrice = values?.purchasePrice;
-    const prepayment = values?.prepayment;
+    const { purchasePrice, prepayment } = getValues();
     const remainingAmount = Number(purchasePrice) - Number(prepayment);
     setValue("remainingAmount", remainingAmount);
   }, [getValues().purchasePrice, getValues().prepayment, getValues, setValue]);
 
   useEffect(() => {
-    const values = getValues();
-    const purchasePrice = values?.purchasePrice;
-    const initialPrice = values?.initialPrice;
-    const carFirstRegistration = values?.year;
+    const {
+      purchasePrice,
+      remainingAmount,
+      financingDuration,
+      interestRate,
+      prepayment,
+    } = getValues();
+
+    const monthlyPayment = calculateMonthlyPayment(
+      remainingAmount,
+      interestRate,
+      financingDuration,
+    );
+
+    const totalAmountPaid =
+      monthlyPayment * financingDuration * 12 + prepayment;
+
+    const totalInterestPaid = totalAmountPaid - purchasePrice;
+
+    setValue("truePurchasePrice", totalAmountPaid);
+    setValue("totalInterestPaid", totalInterestPaid);
+  }, [
+    getValues().financingDuration,
+    getValues().purchasePrice,
+    getValues().remainingAmount,
+    getValues().interestRate,
+    getValues,
+    setValue,
+  ]);
+
+  useEffect(() => {
+    const {
+      purchasePrice,
+      initialPrice,
+      year: carFirstRegistration,
+    } = getValues();
     const carAge = new Date().getFullYear() - carFirstRegistration;
     const depreciationRate =
-      (((initialPrice - purchasePrice) / purchasePrice) * 100) / carAge;
-    console.log("depreciationRate", depreciationRate);
+      (((initialPrice - purchasePrice) / initialPrice) * 100) / carAge;
 
     if (depreciationRate > 0)
       setValue("depreciationRate", Number(depreciationRate.toFixed(2)));
@@ -162,12 +126,100 @@ export default function CarForm() {
     setValue,
   ]);
 
+  useEffect(() => {
+    const {
+      averageFuelCost,
+      fuelConsumption,
+      totalPlannedKMs,
+      plannedYearsOfOwnership,
+      serviceCosts,
+      oilChangeCosts,
+      tiresCosts,
+      tuvCosts,
+      insuranceCost,
+      taxes,
+      offerOnExtendedWarranty,
+      extendedWarrantyCost,
+      purchasePrice,
+      truePurchasePrice,
+      year,
+      initialPrice,
+    } = getValues();
+
+    let { depreciationRate } = getValues();
+
+    if (!depreciationRate) {
+      const carAge = new Date().getFullYear() - year;
+      depreciationRate =
+        (((initialPrice - purchasePrice) / initialPrice) * 100) / carAge;
+    }
+
+    // Estimate future resale value assuming constant depreciation
+    const estimatedResaleValue =
+      purchasePrice *
+      Math.pow(1 - depreciationRate / 100, plannedYearsOfOwnership);
+
+    const totalFinancingCost = truePurchasePrice - purchasePrice;
+
+    const totalDepreciationCost = purchasePrice - estimatedResaleValue;
+
+    const totalFuelCost =
+      (totalPlannedKMs / 100) *
+      fuelConsumption *
+      averageFuelCost *
+      plannedYearsOfOwnership;
+
+    const totalMaintenanceCost =
+      (serviceCosts + oilChangeCosts + tiresCosts + tuvCosts) *
+      plannedYearsOfOwnership;
+
+    const totalTaxCost = taxes * plannedYearsOfOwnership;
+
+    const totalInsuranceCost = insuranceCost * plannedYearsOfOwnership;
+
+    const totalWarrantyCost = offerOnExtendedWarranty
+      ? extendedWarrantyCost || 0
+      : 0;
+
+    const TCO =
+      truePurchasePrice +
+      totalFuelCost +
+      totalMaintenanceCost +
+      totalInsuranceCost +
+      totalTaxCost +
+      totalWarrantyCost -
+      estimatedResaleValue;
+
+    setValue("tco", Number(TCO.toFixed(2)));
+  }, [
+    getValues().purchasePrice,
+    getValues().prepayment,
+    getValues().interestRate,
+    getValues().financingDuration,
+    getValues().totalPlannedKMs,
+    getValues().fuelConsumption,
+    getValues().averageFuelCost,
+    getValues().plannedYearsOfOwnership,
+    getValues().serviceCosts,
+    getValues().oilChangeCosts,
+    getValues().tiresCosts,
+    getValues().tuvCosts,
+    getValues().insuranceCost,
+    getValues().taxes,
+    getValues().extendedWarrantyCost,
+    getValues().offerOnExtendedWarranty,
+    getValues().depreciationRate,
+    getValues,
+    setValue,
+  ]);
+
   return (
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="m-auto mt-5 flex w-full flex-col gap-8 divide-y-2 border p-5"
       >
+        <h2 className="text-xl font-bold ">Vehicle Information</h2>
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">General Information</p>
 
@@ -251,6 +303,28 @@ export default function CarForm() {
             }}
           />
 
+          <FormField
+            control={control}
+            name="variant"
+            disabled={!getValues().brand}
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel>Variant</FormLabel>
+                    <div className="col-span-3 flex w-full">
+                      <FormControl>
+                        <Input type="text" placeholder="Variant" {...field} />
+                      </FormControl>
+                    </div>
+                  </div>
+                  <FormDescription></FormDescription>
+                  <FormMessage>{errors.variant?.message}</FormMessage>
+                </FormItem>
+              );
+            }}
+          />
+
           {/* year */}
           <FormField
             control={control}
@@ -299,39 +373,6 @@ export default function CarForm() {
           />
 
           {/* mileage */}
-          {/* <FormField
-            control={control}
-            name="mileage"
-            disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Mileage</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="text"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-
-                            if (/^\d*\.?\d{0,2}$/.test(value))
-                              field.onChange(Number(value));
-                          }}
-                          suffix="Kilometers"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How many Kilometers has this car been used for?
-                  </FormDescription>
-                  <FormMessage>{errors.mileage?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
-          /> */}
           <NumberFormField
             control={control}
             errors={errors}
@@ -439,278 +480,98 @@ export default function CarForm() {
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">Finance</p>
           {/* purchasePrice */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="purchasePrice"
+            label="Price"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Price</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much does the vehicle in total costs?
-                  </FormDescription>
-                  <FormMessage>{errors.purchasePrice?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="How much does the vehicle in total costs?"
           />
           {/* prepayment */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="prepayment"
+            label="Prepayment"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Prepayment</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          suffix="Euros"
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much are you planning on paying upfront?
-                  </FormDescription>
-                  <FormMessage>{errors.prepayment?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="How much are you planning on paying upfront?"
           />
           {/* remainingAmount */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="remainingAmount"
-            disabled
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Remaining amount</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          suffix="Euros"
-                          // value={remainingAmount}
-                          // onChange={(e) => {
-                          //   const { value } = e?.target;
-                          //   field.onChange(Number(value));
-                          // }}
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>The credit amount.</FormDescription>
-                  <FormMessage>{errors.remainingAmount?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            label="Remaining amount"
+            disabled={!getValues().brand || !getValues().model}
+            inputSuffix="Euros"
+            formDescription="The credit amount."
           />
           {/* interestRate */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="interestRate"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Interest Rate</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Percentage"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much do you have to pay in interest for the taken
-                    credit?
-                  </FormDescription>
-                  <FormMessage>{errors.interestRate?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            label="Interest Rate"
+            disabled={!getValues().brand || !getValues().model}
+            inputSuffix="Percentage"
+            formDescription="How much do you have to pay in interest for the taken credit?"
           />
           {/* financingDuration */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="financingDuration"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Financing Duration</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Years"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much do you have to pay in interest for the taken
-                    credit?
-                  </FormDescription>
-                  <FormMessage>{errors.financingDuration?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            label="Financing Duration"
+            disabled={!getValues().brand || !getValues().model}
+            inputSuffix="Years"
           />
         </div>
 
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">The Car Depreciation Fields</p>
           {/* initialPrice */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="initialPrice"
+            label="Original Initial Price"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Original Initial Price</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much was the car originally sold for?
-                  </FormDescription>
-                  <FormMessage>{errors.initialPrice?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="How much was the car originally sold for?"
           />
           {/* depreciationRate */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="depreciationRate"
+            label="The car price depreciation rate"
             disabled
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>The car price depreciation rate</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input type="number" {...field} suffix="Percentage" />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much the car has depreciated, per year.
-                  </FormDescription>
-                  <FormMessage>{errors.depreciationRate?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Percentage"
+            formDescription="How much the car has depreciated, per year."
           />
         </div>
 
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">Guarantee and Service</p>
-          {/* guaranteeYears */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="guaranteeYears"
+            label="How many years of Warranty does the car have?"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>
-                      How many years of Warranty does the car have?
-                    </FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input type="number" {...field} suffix="Years" />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription></FormDescription>
-                  <FormMessage>{errors.guaranteeYears?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Years"
           />
-          {/* serviceCosts */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="serviceCosts"
+            label="How much on average the car service costs?"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>
-                      How much on average the car service costs?
-                    </FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input type="number" {...field} suffix="Years" />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    There might be a difference between the service done at the
-                    manufacturer and in private shops.
-                  </FormDescription>
-                  <FormMessage>{errors.serviceCosts?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="There might be a difference between the service done at the manufacturer and in private shops."
           />
           {/* serviceIncludes */}
           <FormField
@@ -727,7 +588,11 @@ export default function CarForm() {
                     </FormLabel>
                     <div className="col-span-3 flex w-full items-center gap-2">
                       <FormControl>
-                        <Textarea rows={4} placeholder="Service Package" />
+                        <Textarea
+                          rows={4}
+                          placeholder="Service Package"
+                          {...field}
+                        />
                       </FormControl>
                     </div>
                   </div>
@@ -740,29 +605,13 @@ export default function CarForm() {
               );
             }}
           />
-          {/* oilChangeCosts */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="oilChangeCosts"
+            label="How much on average changing the car oil costs?"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>
-                      How much on average changing the car oil costs?
-                    </FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription></FormDescription>
-                  <FormMessage>{errors.oilChangeCosts?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
           />
 
           {/* offerOnExtendedWarranty */}
@@ -783,7 +632,6 @@ export default function CarForm() {
                           type="button"
                           checked={field.value}
                           onCheckedChange={(value) => {
-                            console.log("e", value);
                             if (!value)
                               setValue("extendedWarrantyCost", undefined);
                             field.onChange(value);
@@ -805,107 +653,49 @@ export default function CarForm() {
           />
 
           {/* extendedWarrantyCost */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="extendedWarrantyCost"
+            label=" How much extending car guarantee by the manufacturer
+                      costs?"
             disabled={
               !getValues().brand ||
               !getValues().model ||
               !getValues().offerOnExtendedWarranty
             }
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>
-                      How much extending car guarantee by the manufacturer
-                      costs?
-                    </FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input type="number" {...field} suffix="Euros" />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    If the manufacturer is offering such possibility.
-                  </FormDescription>
-                  <FormMessage>
-                    {errors.extendedWarrantyCost?.message}
-                  </FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="If the manufacturer is offering such possibility."
           />
         </div>
 
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">Efficiency</p>
-          {/* totalPlannedKMs */}
-          <FormField
+          <NumberFormField
             control={control}
-            name="totalPlannedKMs"
+            errors={errors}
+            name="plannedYearsOfOwnership"
+            label="Planned Ownership time in years"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Planned traveling distance per year?</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Kilometers"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How many Kilometers are you planning to drive this car, per
-                    year?
-                  </FormDescription>
-                  <FormMessage>{errors.totalPlannedKMs?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Years"
           />
-          {/* fuelConsumption */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="totalPlannedKMs"
+            label="Planned traveling distance per year?"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Fuel per 100KM?</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Kilometers"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much fuel does the car burn per 100 Kilometers of
-                    travel?
-                  </FormDescription>
-                  <FormMessage>{errors.totalPlannedKMs?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Kilometers"
+            formDescription="How many Kilometers are you planning to drive this car, per year?"
+          />
+          <NumberFormField
+            control={control}
+            errors={errors}
+            name="fuelConsumption"
+            label="Fuel per 100KM?"
+            disabled={!getValues().brand || !getValues().model}
+            inputSuffix="Liters"
+            formDescription="How much fuel does the car burn per 100 Kilometers of travel?"
           />
           {/* fuelType */}
           <FormField
@@ -954,37 +744,15 @@ export default function CarForm() {
             }}
           />
           {/* averageFuelCost */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="averageFuelCost"
+            label="Average Fuel cost?"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Average Fuel cost?</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    How much a liter of the fuel type cost? for electric
-                    vehicles, put the cost of each full charge.
-                  </FormDescription>
-                  <FormMessage>{errors.averageFuelCost?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="How much a liter of the fuel type cost? for electric
+                    vehicles, put the cost of each full charge."
           />
         </div>
 
@@ -1031,131 +799,46 @@ export default function CarForm() {
             }}
           />
           {/* insuranceCost */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="insuranceCost"
+            label="Insurance Cost"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Insurance Cost</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>Per Year.</FormDescription>
-                  <FormMessage>{errors.insuranceCost?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="Per Year."
           />
         </div>
 
         <div className="my-5 flex flex-col gap-4">
           <p className="mt-4">Other</p>
-          {/* tuvCosts */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="tuvCosts"
+            label="TÜV Costs"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>TÜV Costs</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>Per Year.</FormDescription>
-                  <FormMessage>{errors.tuvCosts?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="Per Year."
           />
-          {/* tiresCosts */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="tiresCosts"
+            label="Tires Costs"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Tires Costs</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>
-                    Per Year. (Probably the same number for different cars
-                    depending on the wheel size)
-                  </FormDescription>
-                  <FormMessage>{errors.tiresCosts?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="Per Year. (Probably the same number for different cars depending on the wheel size)"
           />
           {/* taxes */}
-          <FormField
+          <NumberFormField
             control={control}
+            errors={errors}
             name="taxes"
+            label="Taxes"
             disabled={!getValues().brand || !getValues().model}
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel>Taxes</FormLabel>
-                    <div className="col-span-3 flex w-full items-center gap-2">
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...field}
-                          onChange={(e) => {
-                            const { value } = e?.target;
-                            field.onChange(Number(value));
-                          }}
-                          suffix="Euros"
-                        />
-                      </FormControl>
-                    </div>
-                  </div>
-                  <FormDescription>Per Year.</FormDescription>
-                  <FormMessage>{errors.taxes?.message}</FormMessage>
-                </FormItem>
-              );
-            }}
+            inputSuffix="Euros"
+            formDescription="Per Year."
           />
         </div>
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   FormControl,
@@ -39,14 +40,17 @@ export default function NumberFormField({
               <div className="col-span-3 flex w-full items-center gap-2">
                 <FormControl>
                   <Input
-                    type="text"
+                    type="number"
                     {...field}
                     onChange={(e) => {
-                      const { value } = e?.target;
-
-                      if (/^\d*\.?\d{0,2}$/.test(value))
-                        field.onChange(Number(value));
+                      field.onChange(e.target.valueAsNumber);
                     }}
+                    // onChange={(e) => {
+                    //   const { value } = e?.target;
+
+                    //   if (/^\d*\.?\d{0,2}$/.test(value))
+                    //     field.onChange(Number(value));
+                    // }}
                     suffix={inputSuffix}
                   />
                 </FormControl>
