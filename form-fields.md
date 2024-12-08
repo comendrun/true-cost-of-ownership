@@ -1,0 +1,8 @@
+- General Information
+- Personal Preferences
+- Finances
+- Car Depreciation
+- Guarantee and Warranty Information
+- Efficiency
+- Insurance
+- other (Parking, Maintenance, etc.)
