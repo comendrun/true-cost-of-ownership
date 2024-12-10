@@ -1,0 +1,57 @@
+- General Information
+  - brand
+  - model
+  - variant
+  - year
+  - mileage
+  - plannedYearsOfOwnership
+- Personal Preferences
+  > **Note**: This is entirely optional, as it can be -5 to +5 and it should not
+  > be mandatory, it will be used just as a reference.
+  - interiorScore
+  - exteriorScore
+- Finances
+  - purchasePrice
+  - prepayment
+  - remainingAmount
+  - interestRate
+  - financingDuration
+  - totalInterestPaid
+  - truePurchasePrice
+- Depreciation
+  - initialPrice
+  - depreciationRate
+- Warranty and Service
+  - guaranteeYears
+  - serviceCosts
+  - serviceIncludes
+  - tiresCosts
+  - oilChangeCosts
+  - offerOnExtendedWarranty
+  - extendedWarrantyCost
+- Efficiency
+  - totalPlannedKMs
+  - fuelConsumption
+  - fuelType
+  - averageFuelCost
+- Insurance
+  - insuranceType
+  - insuranceCost
+- Other Costs
+  - tuvCosts
+    > **Note**: This will happen every 3 years after the cars first
+    > registration, and then every two years.
+  - taxes
+  - parkingSpace
+- Resale Value
+  - estimatedResaleValue
+  - resaleValueAfterYears
+- Maintenance
+  - regularMaintenanceCosts
+  - unexpectedRepairCosts
+  - maintenanceFrequency
+- Environmental Impact
+  - emissions
+  - ecoTax
+- Total Cost of Ownership
+  - tco
