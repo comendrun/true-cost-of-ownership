@@ -87,12 +87,14 @@ export default function CarForm() {
                 trigger={trigger}
                 errors={errors}
                 currentStep={step}
+                key={index}
               >
                 {fields.map((formField: FormFieldType) => {
                   if (isInputField(formField)) {
                     if (formField.type === 'number') {
                       return (
                         <NumberFormField
+                          key={formField.key}
                           control={control}
                           errors={errors}
                           disabled={formField.infoField}
@@ -148,6 +150,7 @@ export default function CarForm() {
                   if (isSelectField(formField)) {
                     return (
                       <FormField
+                        key={formField.key}
                         control={control}
                         name={formField.key}
                         render={({ field }) => (
@@ -216,6 +219,7 @@ export default function CarForm() {
                   if (isChekboxField(formField)) {
                     return (
                       <FormField
+                        key={formField.key}
                         control={control}
                         name={formField.key}
                         // disabled={!getValues().brand || !getValues().model}
@@ -264,6 +268,7 @@ export default function CarForm() {
                   if (isTextareaField(formField)) {
                     return (
                       <FormField
+                        key={formField.key}
                         control={control}
                         name={formField.key}
                         // disabled={!getValues().brand || !getValues().model}

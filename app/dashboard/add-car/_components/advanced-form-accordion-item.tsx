@@ -44,8 +44,6 @@ export default function AdvancedFormAccordionItem({
       <AccordionTrigger
         onClick={async () => {
           const isValid = await trigger(stepKeys)
-          console.log('isValid', isValid)
-
           if (!isValid || Object.entries(errors).length > 0) {
             console.log('if statement is true')
             toast.error('Some required fields are empty', {
@@ -78,7 +76,6 @@ export default function AdvancedFormAccordionItem({
               className='ml-auto'
               onClick={async () => {
                 const isValid = await trigger(stepKeys)
-                console.log('isValid', isValid)
 
                 if (!isValid || Object.entries(errors).length > 0) {
                   console.log('Missing Information!')
