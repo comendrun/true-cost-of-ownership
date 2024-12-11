@@ -11,11 +11,6 @@ export default function CarsPage() {
   return (
     <div className='flex flex-col items-center justify-center gap-5'>
       <CarForm />
-
-      </div>
-      <div className='col-span-1 flex h-full w-full'>
-        <CarExpensesSection />
-      </div> */}
     </div>
   )
 }
