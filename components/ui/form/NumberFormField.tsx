@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React from 'react'
 import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "../form";
-import { Input } from "../input";
+  FormMessage
+} from '../form'
+import { Input } from '../input'
+import { FieldErrors } from 'react-hook-form'
+import {
+  CarFormValues,
+  FormStepsIDs
+} from '@/app/dashboard/add-car/_components/_types/types'
 
 export default function NumberFormField({
   control,
@@ -18,14 +23,16 @@ export default function NumberFormField({
   inputSuffix,
   name,
   formDescription,
+  required = false
 }: {
-  name: string;
-  label: string;
-  control: any;
-  errors: any;
-  disabled?: boolean;
-  inputSuffix?: string;
-  formDescription?: string;
+  name: keyof CarFormValues
+  label: string
+  control: any
+  errors: FieldErrors<CarFormValues>
+  disabled?: boolean
+  inputSuffix?: string
+  formDescription?: string
+  required: boolean
 }) {
   return (
     <FormField
@@ -35,16 +42,21 @@ export default function NumberFormField({
       render={({ field }) => {
         return (
           <FormItem>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <FormLabel>{label}</FormLabel>
-              <div className="col-span-3 flex w-full items-center gap-2">
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <FormLabel
+                className={`${required && !disabled ? 'required-field' : ''}`}
+              >
+                {label}
+              </FormLabel>
+              <div className='col-span-3 flex w-full items-center gap-2'>
                 <FormControl>
                   <Input
-                    type="number"
+                    type='number'
                     {...field}
-                    onChange={(e) => {
-                      field.onChange(e.target.valueAsNumber);
+                    onChange={e => {
+                      field.onChange(e.target.valueAsNumber)
                     }}
+                    disabled={disabled}
                     // onChange={(e) => {
                     //   const { value } = e?.target;
 
@@ -59,8 +71,8 @@ export default function NumberFormField({
             <FormDescription>{formDescription}</FormDescription>
             <FormMessage>{errors?.[name]?.message}</FormMessage>
           </FormItem>
-        );
+        )
       }}
     />
-  );
+  )
 }

@@ -1,4 +1,5 @@
-import { formStepIdMap, FormStepsIDs } from './_types/types'
+import { formStepIdMap } from '../_consts/consts'
+import { FormStepsIDs } from './_types/types'
 
 export function onNextStep(
   currentStep: string,

@@ -50,16 +50,6 @@ export default function LoginPage() {
   const searchParams = useSearchParams()
   const loginActionMessage = searchParams.get('message')
 
-  // const [mysession, setMySession] = useState<UserResponse | undefined>()
-  // const supabase = createClient()
-  // useEffect(() => {
-  //   supabase.auth.getUser().then(session => {
-  //     console.log('session in the useEffect', session)
-
-  //     // do something here with the session like  ex: setState(session)
-  //     setMySession(session)
-  //   })
-  // }, [])
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema)
@@ -80,17 +70,6 @@ export default function LoginPage() {
     const loginResult = await login(formData)
     console.log('loginResult', loginResult)
   }
-
-  // if (mysession?.data.user?.aud === 'authenticated') {
-  //   return (
-  //     <div className='flex items-center justify-center'>
-  //       <p>You are already Authenticated!</p>
-  //       <Link href='/dashboard'>
-  //         <Button>Take me to dashboard</Button>
-  //       </Link>
-  //     </div>
-  //   )
-  // }
 
   return (
     <TabsContent value='login'>

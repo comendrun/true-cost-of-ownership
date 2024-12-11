@@ -76,3 +76,8 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.required-field:after {
+  content: ' *';
+  color: red;
+}

@@ -14,7 +14,6 @@ export default function AuthenticationPage({
 }) {
   const [mysession, setMySession] = useState<UserResponse | undefined>()
   const pathname = usePathname()
-  console.log('pathname', pathname)
   const supabase = createClient()
   useEffect(() => {
     supabase.auth.getUser().then(session => {
@@ -24,8 +23,6 @@ export default function AuthenticationPage({
       setMySession(session)
     })
   }, [])
-
-  console.log('session')
 
   redirect('/auth/login')
 

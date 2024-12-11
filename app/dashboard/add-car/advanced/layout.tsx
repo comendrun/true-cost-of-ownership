@@ -11,12 +11,11 @@ export default function AdvancedFormLayout({
       {/* STEPPER COMPONENT */}
       <div className='col-span-2'>
         {/* <CarForm /> */}
-        {/* A multi Step Form */}
         {children}
       </div>
-      <div className='col-span-1 flex h-full w-full'>
+      {/* <div className='col-span-1 flex h-full w-full'>
         <CarExpensesSection />
-      </div>
+      </div> */}
     </div>
   )
 }
