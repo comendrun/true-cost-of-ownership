@@ -1,10 +1,9 @@
+import Navbar from '@/components/Navbar'
+import { ThemeProvider } from '@/components/ui/providers/theme-provider'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import { ThemeProvider } from '@/components/ui/providers/theme-provider'
-import Navbar from '@/components/Navbar'
-import { Button } from '@/components/ui/button'
-import { createClient } from '@/utils/supabase/server'
+import { Toaster } from '@/components/ui/sonner'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -43,6 +42,7 @@ export default function RootLayout({
             {children}
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )
