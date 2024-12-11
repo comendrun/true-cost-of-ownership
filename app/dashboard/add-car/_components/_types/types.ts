@@ -117,6 +117,7 @@ export type TextareaField = BaseField & {
 }
 
 export type CheckboxField = BaseField & {
+=======
   component: 'checkbox'
 }
 
@@ -146,3 +147,4 @@ export type FormStepsIDs =
   | 'personalPreferences'
   | 'environmentalImpact'
   | 'totalCostOfOwnership'
+

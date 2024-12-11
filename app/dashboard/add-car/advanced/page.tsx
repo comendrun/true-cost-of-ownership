@@ -11,7 +11,7 @@ export default function CarsPage() {
   return (
     <div className='flex flex-col items-center justify-center gap-5'>
       <CarForm />
-      {/* <div className='col-span-2'>
+
       </div>
       <div className='col-span-1 flex h-full w-full'>
         <CarExpensesSection />
@@ -19,3 +19,8 @@ export default function CarsPage() {
     </div>
   )
 }
+// import { redirect } from 'next/navigation'
+
+// export default function AdvancedFormRedirect() {
+//   redirect('/dashboard/add-car/advanced/first-step')
+// }
