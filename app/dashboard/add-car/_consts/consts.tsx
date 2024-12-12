@@ -3,7 +3,7 @@ import {
   getModelsByBrand,
   getYearsByBrandAndModel
 } from '@/data/cars-data'
-import { FormSteps, FormStepsIDs } from '../_components/_types/types'
+import { FormSteps, FormStepsIDs } from '../_types/types'
 
 export const advancedFormSteps: FormSteps[] = [
   {

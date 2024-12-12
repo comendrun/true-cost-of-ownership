@@ -42,7 +42,7 @@ import {
   isInputField,
   isSelectField,
   isTextareaField
-} from '@/app/dashboard/add-car/_components/_types/types'
+} from '@/app/dashboard/add-car/_types/types'
 import {
   Accordion,
   AccordionContent,

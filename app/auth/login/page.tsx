@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TabsContent } from '@radix-ui/react-tabs'
-import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { login } from '../actions'
@@ -25,23 +24,12 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useSearchParams } from 'next/navigation'
-import { createClient } from '@/utils/supabase/client'
-import { UserResponse } from '@supabase/supabase-js'
-import Link from 'next/link'
 
 const loginSchema = z.object({
   email: z.string().trim().email({
     message: 'Invalid Email Address.'
   }),
   password: z.string().trim()
-  // .min(8, 'Password must be at least 8 characters long')
-  // .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-  // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-  // .regex(/[0-9]/, 'Password must contain at least one number')
-  // .regex(
-  //   /[^a-zA-Z0-9]/,
-  //   'Password must contain at least one special character'
-  // )
 })
 
 export type LoginForm = z.infer<typeof loginSchema>
@@ -49,7 +37,6 @@ export type LoginForm = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const searchParams = useSearchParams()
   const loginActionMessage = searchParams.get('message')
-
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema)
@@ -66,7 +53,6 @@ export default function LoginPage() {
   const onLoginSubmitHandler: SubmitHandler<LoginForm> = async data => {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => formData.append(key, value))
-    ;('use server')
     const loginResult = await login(formData)
     console.log('loginResult', loginResult)
   }

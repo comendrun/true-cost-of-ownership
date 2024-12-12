@@ -6,7 +6,7 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { CarFormValues, FormStepsIDs } from './_types/types'
+import { CarFormValues, FormStepsIDs } from '../_types/types'
 import { onNextStep, onPreviousStep } from './helper-functions'
 import { FieldErrors, UseFormTrigger } from 'react-hook-form'
 import { toast } from 'sonner'

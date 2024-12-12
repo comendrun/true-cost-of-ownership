@@ -7,7 +7,7 @@ import {
   InputField,
   SelectField,
   TextareaField
-} from '../_components/_types/types'
+} from '../_types/types'
 import { advancedFormSteps } from '../_consts/consts'
 
 export function calculateMonthlyPayment(
