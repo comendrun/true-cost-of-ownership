@@ -5,7 +5,7 @@ import {
   FormFieldType,
   FormStepsIDs,
   carFormSchema
-} from '@/app/dashboard/add-car/_components/_types/types'
+} from '@/app/dashboard/add-car/_types/types'
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -87,14 +87,14 @@ export default function CarForm() {
                 trigger={trigger}
                 errors={errors}
                 currentStep={step}
-                key={index}
+                key={`${index}-${id}`}
               >
                 {fields.map((formField: FormFieldType) => {
                   if (isInputField(formField)) {
                     if (formField.type === 'number') {
                       return (
                         <NumberFormField
-                          key={formField.key}
+                          key={`${index}-${formField.key}-${formField.label}`}
                           control={control}
                           errors={errors}
                           disabled={formField.infoField}
@@ -111,6 +111,7 @@ export default function CarForm() {
                     if (formField.type === 'string') {
                       return (
                         <FormField
+                          key={`${index}-${formField.key}-${formField.label}`}
                           control={control}
                           name='variant'
                           // disabled={!getValues().brand}
@@ -150,7 +151,7 @@ export default function CarForm() {
                   if (isSelectField(formField)) {
                     return (
                       <FormField
-                        key={formField.key}
+                        key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         name={formField.key}
                         render={({ field }) => (
@@ -182,7 +183,7 @@ export default function CarForm() {
                                         ? formField.selectItems.map(
                                             (item, index) => (
                                               <SelectItem
-                                                key={index}
+                                                key={`${index}-${item}`}
                                                 value={item}
                                               >
                                                 {item}
@@ -193,7 +194,7 @@ export default function CarForm() {
                                             .selectItems(getValues())
                                             ?.map((item, index) => (
                                               <SelectItem
-                                                key={index}
+                                                key={`${index}-${item}`}
                                                 value={item.toString()}
                                               >
                                                 {item}
@@ -219,7 +220,7 @@ export default function CarForm() {
                   if (isChekboxField(formField)) {
                     return (
                       <FormField
-                        key={formField.key}
+                        key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         name={formField.key}
                         // disabled={!getValues().brand || !getValues().model}
@@ -245,9 +246,10 @@ export default function CarForm() {
                                           )
                                         field.onChange(value)
                                       }}
-                                      name={field.name}
-                                      ref={field.ref}
-                                      onBlur={field.onBlur}
+                                      // name={field.name}
+                                      // ref={field.ref}
+                                      // onBlur={field.onBlur}
+                                      {...fields}
                                     />
                                   </FormControl>
                                 </div>
@@ -268,7 +270,7 @@ export default function CarForm() {
                   if (isTextareaField(formField)) {
                     return (
                       <FormField
-                        key={formField.key}
+                        key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         name={formField.key}
                         // disabled={!getValues().brand || !getValues().model}
@@ -286,6 +288,12 @@ export default function CarForm() {
                                     <Textarea
                                       rows={4}
                                       placeholder={formField.placeholder}
+                                      // onChange={field.onChange}
+                                      // onBlur={field.onBlur}
+                                      // name={field.name}
+                                      // ref={field.ref}
+                                      disabled={field.disabled}
+                                      {...field}
                                       value={
                                         field.value as
                                           | string
@@ -293,11 +301,6 @@ export default function CarForm() {
                                           | readonly string[]
                                           | undefined
                                       }
-                                      onChange={field.onChange}
-                                      onBlur={field.onBlur}
-                                      name={field.name}
-                                      ref={field.ref}
-                                      disabled={field.disabled}
                                     />
                                   </FormControl>
                                 </div>

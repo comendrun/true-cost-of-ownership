@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import { CarFormValues } from '@/app/dashboard/add-car/_types/types'
+import { FieldErrors } from 'react-hook-form'
 import {
   FormControl,
   FormDescription,
@@ -9,11 +10,6 @@ import {
   FormMessage
 } from '../form'
 import { Input } from '../input'
-import { FieldErrors } from 'react-hook-form'
-import {
-  CarFormValues,
-  FormStepsIDs
-} from '@/app/dashboard/add-car/_components/_types/types'
 
 export default function NumberFormField({
   control,
@@ -52,18 +48,12 @@ export default function NumberFormField({
                 <FormControl>
                   <Input
                     type='number'
+                    suffix={inputSuffix}
+                    disabled={disabled}
                     {...field}
                     onChange={e => {
                       field.onChange(e.target.valueAsNumber)
                     }}
-                    disabled={disabled}
-                    // onChange={(e) => {
-                    //   const { value } = e?.target;
-
-                    //   if (/^\d*\.?\d{0,2}$/.test(value))
-                    //     field.onChange(Number(value));
-                    // }}
-                    suffix={inputSuffix}
                   />
                 </FormControl>
               </div>
