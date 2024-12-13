@@ -1,9 +1,8 @@
-import React from 'react'
-import { Button } from './ui/button'
-import Link from 'next/link'
-import { ModeToggle } from './ui/providers/theme-toggle'
-import { createClient } from '@/utils/supabase/server'
+'use client'
 import { logUserOut } from '@/app/actions'
+import Link from 'next/link'
+import { Button } from './ui/button'
+import { ModeToggle } from './ui/providers/theme-toggle'
 
 export default function Navbar() {
   return (
@@ -16,9 +15,9 @@ export default function Navbar() {
           <Button>Dashboard</Button>
         </Link>
 
-        <form action={logUserOut}>
-          <Button>Sign out</Button>
-        </form>
+        <button onClick={() => logUserOut()} className='shadcn-button'>
+          Logout
+        </button>
 
         <ModeToggle />
       </div>
