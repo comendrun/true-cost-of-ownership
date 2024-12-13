@@ -66,7 +66,6 @@ export default function RegisterPage() {
   const onRegisterHandler: SubmitHandler<RegisterForm> = async data => {
     const formData = new FormData()
     Object.entries(data).forEach(([key, value]) => formData.append(key, value))
-    ;('use server')
     await signup(formData)
   }
 

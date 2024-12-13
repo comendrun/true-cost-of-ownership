@@ -94,7 +94,7 @@ export default function CarForm() {
                     if (formField.type === 'number') {
                       return (
                         <NumberFormField
-                          key={`${index}-${formField.key}-${formField.label}`}
+                          key={`input-number-${index}-${formField.key}-${formField.label}`}
                           control={control}
                           errors={errors}
                           disabled={formField.infoField}
@@ -127,6 +127,7 @@ export default function CarForm() {
                                   <div className='col-span-3 flex w-full'>
                                     <FormControl>
                                       <Input
+                                        key={`input-string-${index}-${formField.key}-${formField.label}`}
                                         type='text'
                                         placeholder='Variant'
                                         {...field}
@@ -165,6 +166,7 @@ export default function CarForm() {
                               <div className='col-span-3 flex w-full'>
                                 <FormControl>
                                   <Select
+                                    key={`select-${index}-${formField.key}-${formField.label}`}
                                     {...field}
                                     value={field.value?.toString()}
                                     onValueChange={
@@ -236,6 +238,7 @@ export default function CarForm() {
                                 <div className='col-span-3 flex w-full items-center gap-2'>
                                   <FormControl>
                                     <Checkbox
+                                      key={`checkbox-${index}-${formField.key}-${formField.label}`}
                                       type='button'
                                       checked={field.value as boolean}
                                       onCheckedChange={value => {
@@ -286,6 +289,7 @@ export default function CarForm() {
                                 <div className='col-span-3 flex w-full items-center gap-2'>
                                   <FormControl>
                                     <Textarea
+                                      key={`textarea-${index}-${formField.key}-${formField.label}`}
                                       rows={4}
                                       placeholder={formField.placeholder}
                                       // onChange={field.onChange}
