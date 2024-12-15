@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CarFormValues } from '@/app/dashboard/add-car/_types/types'
+import { CarFormValues } from '@/app/add-car/_types/types'
 import { FieldErrors } from 'react-hook-form'
 import {
   FormControl,
@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '../form'
-import { Input } from '../input'
+} from '../../../components/ui/form'
+import { Input } from '../../../components/ui/input'
 
 export default function NumberFormField({
   control,

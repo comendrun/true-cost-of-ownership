@@ -45,11 +45,11 @@ export default function AdvancedFormAccordionItem({
         onClick={async () => {
           const isValid = await trigger(stepKeys)
           if (!isValid || Object.entries(errors).length > 0) {
-            console.log('if statement is true')
             toast.error('Some required fields are empty', {
-              description: `Please make sure that the following fields are filled correctly: ${errorFieldsLabels
-                ?.map(fieldLabel => fieldLabel.label)
-                .flat()}`
+              description: `Please make sure that the following fields are filled correctly: ${
+                errorFieldsLabels?.map(fieldLabel => fieldLabel.label).flat() ||
+                ''
+              }`
             })
             return
           }
@@ -80,9 +80,11 @@ export default function AdvancedFormAccordionItem({
                 if (!isValid || Object.entries(errors).length > 0) {
                   console.log('Missing Information!')
                   toast.error('Some required fields are empty', {
-                    description: `Please make sure that the following fields are filled correctly: ${errorFieldsLabels
-                      ?.map(fieldLabel => fieldLabel.label)
-                      .flat()}`
+                    description: `Please make sure that the following fields are filled correctly: ${
+                      errorFieldsLabels
+                        ?.map(fieldLabel => fieldLabel.label)
+                        .flat() || ''
+                    }`
                   })
                   return
                 }
