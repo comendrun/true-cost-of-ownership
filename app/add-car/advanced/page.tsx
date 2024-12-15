@@ -14,8 +14,3 @@ export default function CarsPage() {
     </div>
   )
 }
-// import { redirect } from 'next/navigation'
-
-// export default function AdvancedFormRedirect() {
-//   redirect('/dashboard/add-car/advanced/first-step')
-// }

@@ -21,7 +21,7 @@ export default async function AuthLayout({
     return (
       <div className='flex flex-col items-center justify-center gap-2'>
         <p>You are already Authenticated!</p>
-        <Link href='/dashboard'>
+        <Link href=''>
           <Button>Take me to dashboard</Button>
         </Link>
       </div>

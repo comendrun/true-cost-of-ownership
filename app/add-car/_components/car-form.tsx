@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
+import NumberFormField from '@/app/add-car/_components/NumberFormField'
 import {
   CarFormValues,
   FormFieldType,
   FormStepsIDs,
   carFormSchema
-} from '@/app/dashboard/add-car/_types/types'
+} from '@/app/add-car/_types/types'
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -18,15 +19,6 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import NumberFormField from '@/components/ui/form/NumberFormField'
-import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { carFormDefaultValues } from '@/data/consts'
 import { useCarFormStore } from '@/lib/store'
@@ -41,6 +33,8 @@ import {
   isTextareaField
 } from '../_functions/helper-functions'
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
+import SelectFormField from './SelectFormField'
+import TextInputFormField from './TextInputFormField'
 
 export default function CarForm() {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
@@ -98,7 +92,6 @@ export default function CarForm() {
                           control={control}
                           errors={errors}
                           disabled={formField.infoField}
-                          // disabled={!getValues().brand || !getValues().model}
                           label={formField.label}
                           inputSuffix={formField?.inputSuffix || ''}
                           name={formField.key}
@@ -110,40 +103,16 @@ export default function CarForm() {
 
                     if (formField.type === 'string') {
                       return (
-                        <FormField
-                          key={`${index}-${formField.key}-${formField.label}`}
+                        <TextInputFormField
+                          key={`input-number-${index}-${formField.key}-${formField.label}`}
                           control={control}
-                          name='variant'
-                          // disabled={!getValues().brand}
-                          render={({ field }) => {
-                            return (
-                              <FormItem>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                  <FormLabel
-                                    className={`${formField.required && !formField.infoField ? 'required-field' : ''}`}
-                                  >
-                                    {formField.label}
-                                  </FormLabel>
-                                  <div className='col-span-3 flex w-full'>
-                                    <FormControl>
-                                      <Input
-                                        key={`input-string-${index}-${formField.key}-${formField.label}`}
-                                        type='text'
-                                        placeholder='Variant'
-                                        {...field}
-                                      />
-                                    </FormControl>
-                                  </div>
-                                </div>
-                                <FormDescription>
-                                  {formField.formDescription}
-                                </FormDescription>
-                                <FormMessage>
-                                  {errors?.[formField.key]?.message}
-                                </FormMessage>
-                              </FormItem>
-                            )
-                          }}
+                          errors={errors}
+                          disabled={formField?.infoField}
+                          label={formField.label}
+                          inputSuffix={formField?.inputSuffix}
+                          name={formField.key}
+                          formDescription={formField.formDescription}
+                          required={formField.required}
                         />
                       )
                     }
@@ -151,70 +120,19 @@ export default function CarForm() {
 
                   if (isSelectField(formField)) {
                     return (
-                      <FormField
+                      <SelectFormField
                         key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
+                        errors={errors}
+                        disabled={formField.disabled}
+                        label={formField.label}
                         name={formField.key}
-                        render={({ field }) => (
-                          <FormItem className=''>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                              <FormLabel
-                                className={`${formField.required && !formField.infoField ? 'required-field' : ''} col-span-1`}
-                              >
-                                {formField.label}
-                              </FormLabel>
-                              <div className='col-span-3 flex w-full'>
-                                <FormControl>
-                                  <Select
-                                    key={`select-${index}-${formField.key}-${formField.label}`}
-                                    {...field}
-                                    value={field.value?.toString()}
-                                    onValueChange={
-                                      formField.type === 'number'
-                                        ? value => field.onChange(Number(value))
-                                        : field.onChange
-                                    }
-                                  >
-                                    <SelectTrigger className='w-full'>
-                                      <SelectValue
-                                        placeholder={formField.placeholder}
-                                      />
-                                    </SelectTrigger>
-                                    <SelectContent className='w-full'>
-                                      {Array.isArray(formField.selectItems)
-                                        ? formField.selectItems.map(
-                                            (item, index) => (
-                                              <SelectItem
-                                                key={`${index}-${item}`}
-                                                value={item}
-                                              >
-                                                {item}
-                                              </SelectItem>
-                                            )
-                                          )
-                                        : formField
-                                            .selectItems(getValues())
-                                            ?.map((item, index) => (
-                                              <SelectItem
-                                                key={`${index}-${item}`}
-                                                value={item.toString()}
-                                              >
-                                                {item}
-                                              </SelectItem>
-                                            ))}
-                                    </SelectContent>
-                                  </Select>
-                                </FormControl>
-                              </div>
-                            </div>
-                            <FormDescription>
-                              {formField.formDescription}
-                            </FormDescription>
-                            <FormMessage>
-                              {errors?.[formField?.key]?.message}
-                            </FormMessage>
-                          </FormItem>
-                        )}
+                        formDescription={formField.formDescription}
+                        required={formField.required}
+                        type={formField.type}
+                        placeholder={formField.placeholder}
+                        selectItems={formField.selectItems}
+                        getValues={getValues}
                       />
                     )
                   }
@@ -225,7 +143,6 @@ export default function CarForm() {
                         key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         name={formField.key}
-                        // disabled={!getValues().brand || !getValues().model}
                         render={({ field }) => {
                           return (
                             <FormItem>
@@ -249,9 +166,6 @@ export default function CarForm() {
                                           )
                                         field.onChange(value)
                                       }}
-                                      // name={field.name}
-                                      // ref={field.ref}
-                                      // onBlur={field.onBlur}
                                       {...fields}
                                     />
                                   </FormControl>
@@ -276,7 +190,6 @@ export default function CarForm() {
                         key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         name={formField.key}
-                        // disabled={!getValues().brand || !getValues().model}
                         render={({ field }) => {
                           return (
                             <FormItem>
@@ -292,10 +205,6 @@ export default function CarForm() {
                                       key={`textarea-${index}-${formField.key}-${formField.label}`}
                                       rows={4}
                                       placeholder={formField.placeholder}
-                                      // onChange={field.onChange}
-                                      // onBlur={field.onBlur}
-                                      // name={field.name}
-                                      // ref={field.ref}
                                       disabled={field.disabled}
                                       {...field}
                                       value={
@@ -328,11 +237,11 @@ export default function CarForm() {
         </Accordion>
 
         <div className='flex w-full items-center justify-center gap-2'>
-          <Button className='w-full' type='submit'>
+          <Button className='w-full' variant='outline'>
             Save The Car
           </Button>
-          <Button variant='outline' className='w-full'>
-            Create a PIE Chart
+          <Button variant='default' className='w-full' type='submit'>
+            Analyze the Car Costs
           </Button>
         </div>
       </form>

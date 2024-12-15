@@ -1,5 +1,5 @@
 import { carFormDefaultValues } from '@/data/consts'
-import { CarFormValues } from '@/app/dashboard/add-car/_types/types'
+import { CarFormValues } from '@/app/add-car/_types/types'
 import { create } from 'zustand'
 
 export type State = {
