@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import NumberFormField from '@/app/add-car/_components/NumberFormField'
 import {
@@ -23,8 +22,10 @@ import { Textarea } from '@/components/ui/textarea'
 import { carFormDefaultValues } from '@/data/consts'
 import { useCarFormStore } from '@/lib/store'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { advancedFormSteps } from '../_consts/consts'
 import {
   isChekboxField,
@@ -35,21 +36,31 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import SelectFormField from './SelectFormField'
 import TextInputFormField from './TextInputFormField'
+import { saveVehicle } from '../actions'
 
 export default function CarForm() {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
 
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const id: string | number | null = searchParams.get('id')
+
   const form = useForm<CarFormValues>({
-    resolver: zodResolver(carFormSchema),
-    defaultValues: carFormDefaultValues
+    resolver: zodResolver(carFormSchema)
+    // defaultValues: carFormDefaultValues
   })
+
   const updateState = useCarFormStore(state => state.updateState)
   const setCarFormFieldValue = useCarFormStore(
     state => state.setCarFormFieldValue
   )
+  const stateValues = useCarFormStore(state => state.carFormValues)
+
   const onSubmit: SubmitHandler<CarFormValues> = data => {
     console.log('data', data)
     updateState(data)
+
+    const savedVehicle = saveVehicle(id, data)
   }
 
   const {
@@ -61,7 +72,8 @@ export default function CarForm() {
     trigger,
     getFieldState,
     setFocus,
-    clearErrors
+    clearErrors,
+    reset
   } = form
 
   return (
@@ -82,6 +94,7 @@ export default function CarForm() {
                 errors={errors}
                 currentStep={step}
                 key={`${index}-${id}`}
+                clearErrors={clearErrors}
               >
                 {fields.map((formField: FormFieldType) => {
                   if (isInputField(formField)) {
@@ -113,6 +126,7 @@ export default function CarForm() {
                           name={formField.key}
                           formDescription={formField.formDescription}
                           required={formField.required}
+                          placeholder={formField?.placeholder}
                         />
                       )
                     }
@@ -237,6 +251,27 @@ export default function CarForm() {
         </Accordion>
 
         <div className='flex w-full items-center justify-center gap-2'>
+          <Button
+            variant='destructive'
+            onClick={() => {
+              const params = new URLSearchParams(searchParams.toString())
+              params.delete('id')
+              router.replace('/add-car/advanced')
+            }}
+          >
+            Start Over
+          </Button>
+          <Button
+            className='w-full'
+            variant='secondary'
+            type='reset'
+            onClick={() => {
+              reset()
+              toast.info('The fields has been reset. Feel free to start over.')
+            }}
+          >
+            Reset
+          </Button>
           <Button className='w-full' variant='outline'>
             Save The Car
           </Button>
@@ -248,3 +283,6 @@ export default function CarForm() {
     </Form>
   )
 }
+// function saveVehicle(id: string | null, dataType: { brand: string; model: string; year: number; mileage: number; plannedYearsOfOwnership: number; drivingExperienceYears: number; driverAgeRange: "18-25" | "25-35" | "35-55" | "55+"; purchasePrice: number; prepayment: number; totalPlannedKMs: number; fuelType: "Diesel" | "Petrol" | "Hybrid/Diesel" | "Hybrid/Petrol" | "Electric"; insuranceType: "Minimum" | "Partial" | "Full"; name?: string | undefined; variant?: string | undefined; interiorScore?: number | undefined; exteriorScore?: number | undefined; interestRate?: number | undefined; financingDuration?: number | undefined; remainingAmount?: number | undefined; totalInterestPaid?: number | undefined; truePurchasePrice?: number | undefined; initialPrice?: number | undefined; depreciationRate?: number | undefined; guaranteeYears?: number | undefined; serviceCosts?: number | undefined; serviceIncludes?: string | undefined; tiresCosts?: number | undefined; oilChangeCosts?: number | undefined; offerOnExtendedWarranty?: boolean | undefined; extendedWarrantyCost?: number | undefined; fuelConsumption?: number | undefined; averageFuelCost?: number | undefined; insuranceCost?: number | undefined; tuvCosts?: number | undefined; taxes?: number | undefined; parkingCosts?: number | undefined; estimatedResaleValue?: number | undefined; resaleValueAfterYears?: number | undefined; regularMaintenanceCosts?: number | undefined; unexpectedRepairCosts?: number | undefined; maintenanceFrequency?: string | undefined; emissions?: number | undefined; ecoTax?: number | undefined; tco?: number | undefined }) {
+//   throw new Error('Function not implemented.')
+// }

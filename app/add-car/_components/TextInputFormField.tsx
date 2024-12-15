@@ -18,6 +18,7 @@ export default function TextInputFormField({
   inputSuffix,
   name,
   formDescription,
+  placeholder,
   required = false
 }: {
   name: keyof CarFormValues
@@ -28,11 +29,12 @@ export default function TextInputFormField({
   inputSuffix?: string
   formDescription?: string
   required: boolean
+  placeholder?: string
 }) {
   return (
     <FormField
       control={control}
-      name='variant'
+      name={name}
       render={({ field }) => {
         return (
           <FormItem>
@@ -47,7 +49,7 @@ export default function TextInputFormField({
                   <Input
                     // key={`input-string-${index}-${formField.key}-${formField.label}`}
                     type='text'
-                    placeholder='Variant'
+                    placeholder={placeholder}
                     {...field}
                   />
                 </FormControl>
