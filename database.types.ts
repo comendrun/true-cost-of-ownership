@@ -9,7 +9,199 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      ai_responses: {
+        Row: {
+          car_id: number | null
+          created_at: string | null
+          id: number
+          response: string
+        }
+        Insert: {
+          car_id?: number | null
+          created_at?: string | null
+          id?: number
+          response: string
+        }
+        Update: {
+          car_id?: number | null
+          created_at?: string | null
+          id?: number
+          response?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_responses_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "user_cars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_cars: {
+        Row: {
+          average_fuel_cost: number | null
+          brand: string
+          created_at: string | null
+          depreciation_rate: number | null
+          driver_age_range: string
+          driving_experience_years: number
+          eco_tax: number | null
+          emissions: number | null
+          estimated_resale_value: number | null
+          extended_warranty_cost: number | null
+          exterior_score: number | null
+          financing_duration: number | null
+          fuel_consumption: number | null
+          fuel_type: string
+          guarantee_years: number | null
+          id: number
+          initial_price: number | null
+          insurance_cost: number | null
+          insurance_type: string
+          interest_rate: number | null
+          interior_score: number | null
+          last_ai_response_id: number | null
+          maintenance_frequency: string | null
+          mileage: number
+          model: string
+          name: string
+          offer_on_extended_warranty: boolean | null
+          oil_change_costs: number | null
+          parking_costs: number | null
+          planned_years_of_ownership: number
+          prepayment: number
+          purchase_price: number
+          regular_maintenance_costs: number | null
+          remaining_amount: number | null
+          resale_value_after_years: number | null
+          service_costs: number | null
+          service_includes: string | null
+          taxes: number | null
+          tco: number | null
+          tires_costs: number | null
+          total_interest_paid: number | null
+          total_planned_kms: number
+          true_purchase_price: number | null
+          tuv_costs: number | null
+          unexpected_repair_costs: number | null
+          updated_at: string | null
+          user_id: string | null
+          variant: string | null
+          year: number
+        }
+        Insert: {
+          average_fuel_cost?: number | null
+          brand: string
+          created_at?: string | null
+          depreciation_rate?: number | null
+          driver_age_range: string
+          driving_experience_years: number
+          eco_tax?: number | null
+          emissions?: number | null
+          estimated_resale_value?: number | null
+          extended_warranty_cost?: number | null
+          exterior_score?: number | null
+          financing_duration?: number | null
+          fuel_consumption?: number | null
+          fuel_type: string
+          guarantee_years?: number | null
+          id?: number
+          initial_price?: number | null
+          insurance_cost?: number | null
+          insurance_type: string
+          interest_rate?: number | null
+          interior_score?: number | null
+          last_ai_response_id?: number | null
+          maintenance_frequency?: string | null
+          mileage: number
+          model: string
+          name: string
+          offer_on_extended_warranty?: boolean | null
+          oil_change_costs?: number | null
+          parking_costs?: number | null
+          planned_years_of_ownership: number
+          prepayment: number
+          purchase_price: number
+          regular_maintenance_costs?: number | null
+          remaining_amount?: number | null
+          resale_value_after_years?: number | null
+          service_costs?: number | null
+          service_includes?: string | null
+          taxes?: number | null
+          tco?: number | null
+          tires_costs?: number | null
+          total_interest_paid?: number | null
+          total_planned_kms: number
+          true_purchase_price?: number | null
+          tuv_costs?: number | null
+          unexpected_repair_costs?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          variant?: string | null
+          year: number
+        }
+        Update: {
+          average_fuel_cost?: number | null
+          brand?: string
+          created_at?: string | null
+          depreciation_rate?: number | null
+          driver_age_range?: string
+          driving_experience_years?: number
+          eco_tax?: number | null
+          emissions?: number | null
+          estimated_resale_value?: number | null
+          extended_warranty_cost?: number | null
+          exterior_score?: number | null
+          financing_duration?: number | null
+          fuel_consumption?: number | null
+          fuel_type?: string
+          guarantee_years?: number | null
+          id?: number
+          initial_price?: number | null
+          insurance_cost?: number | null
+          insurance_type?: string
+          interest_rate?: number | null
+          interior_score?: number | null
+          last_ai_response_id?: number | null
+          maintenance_frequency?: string | null
+          mileage?: number
+          model?: string
+          name?: string
+          offer_on_extended_warranty?: boolean | null
+          oil_change_costs?: number | null
+          parking_costs?: number | null
+          planned_years_of_ownership?: number
+          prepayment?: number
+          purchase_price?: number
+          regular_maintenance_costs?: number | null
+          remaining_amount?: number | null
+          resale_value_after_years?: number | null
+          service_costs?: number | null
+          service_includes?: string | null
+          taxes?: number | null
+          tco?: number | null
+          tires_costs?: number | null
+          total_interest_paid?: number | null
+          total_planned_kms?: number
+          true_purchase_price?: number | null
+          tuv_costs?: number | null
+          unexpected_repair_costs?: number | null
+          updated_at?: string | null
+          user_id?: string | null
+          variant?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_last_ai_response"
+            columns: ["last_ai_response_id"]
+            isOneToOne: false
+            referencedRelation: "ai_responses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

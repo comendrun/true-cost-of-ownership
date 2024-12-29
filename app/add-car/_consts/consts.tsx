@@ -12,6 +12,16 @@ export const advancedFormSteps: FormSteps[] = [
     title: 'General Information',
     fields: [
       {
+        key: 'name',
+        type: 'string',
+        required: false,
+        label: 'Name',
+        component: 'input',
+        placeholder: 'Name',
+        formDescription:
+          'Please choose a proper name for the Car you want to analyze.'
+      },
+      {
         key: 'brand',
         type: 'string',
         required: true,
@@ -33,7 +43,8 @@ export const advancedFormSteps: FormSteps[] = [
         type: 'string',
         required: false,
         label: 'Variant',
-        component: 'input'
+        component: 'input',
+        placeholder: 'Variant'
       },
       {
         key: 'year',
@@ -59,6 +70,22 @@ export const advancedFormSteps: FormSteps[] = [
         label: 'Planned Ownership time in years',
         component: 'input',
         inputSuffix: 'Years'
+      },
+      {
+        key: 'drivingExperienceYears',
+        type: 'number',
+        required: true,
+        label: 'How many years of driing experience you have got?',
+        component: 'input',
+        inputSuffix: 'Years'
+      },
+      {
+        key: 'driverAgeRange',
+        type: 'string',
+        required: true,
+        label: 'How old are you?',
+        component: 'select',
+        selectItems: ['18-25', '25-35', '35-55', '55+']
       }
     ]
   },
@@ -86,7 +113,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'financingDuration',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Financing Duration',
         component: 'input',
         inputSuffix: 'Years'
@@ -94,7 +121,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'interestRate',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Interest Rate',
         component: 'input',
         inputSuffix: 'Percentage'
@@ -102,7 +129,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'remainingAmount',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Remaining amount',
         component: 'input',
         inputSuffix: 'Euros',
@@ -111,7 +138,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'totalInterestPaid',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Total Interest Paid',
         component: 'input',
         inputSuffix: 'Euros',
@@ -120,7 +147,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'truePurchasePrice',
         type: 'number',
-        required: true,
+        required: false,
         label: 'True Purchase Price',
         component: 'input',
         inputSuffix: 'Euros',
@@ -136,7 +163,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'initialPrice',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Original Initial Price',
         component: 'input',
         inputSuffix: 'Euros'
@@ -160,7 +187,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'guaranteeYears',
         type: 'number',
-        required: true,
+        required: false,
         label: 'How many years of Warranty does the car have?',
         component: 'input',
         inputSuffix: 'Years'
@@ -168,7 +195,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'serviceCosts',
         type: 'number',
-        required: true,
+        required: false,
         label: 'How much on average the car service costs?',
         component: 'input',
         inputSuffix: 'Euros'
@@ -176,7 +203,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'serviceIncludes',
         type: 'string',
-        required: true,
+        required: false,
         label:
           'Which services are included in the company regular service checks?',
         component: 'textarea',
@@ -186,7 +213,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'tiresCosts',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Tires Costs',
         component: 'input',
         inputSuffix: 'Euros'
@@ -194,7 +221,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'oilChangeCosts',
         type: 'number',
-        required: true,
+        required: false,
         label: 'How much on average changing the car oil costs?',
         component: 'input',
         inputSuffix: 'Euros'
@@ -227,12 +254,12 @@ export const advancedFormSteps: FormSteps[] = [
         required: true,
         label: 'Planned traveling distance per year?',
         component: 'input',
-        inputSuffix: 'Kilometers'
+        inputSuffix: 'Kilometers/Year'
       },
       {
         key: 'fuelConsumption',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Fuel per 100KM?',
         component: 'input',
         inputSuffix: 'Liters'
@@ -254,7 +281,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'averageFuelCost',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Average Fuel cost?',
         component: 'input',
         inputSuffix: 'Euros'
@@ -277,7 +304,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'insuranceCost',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Insurance Cost',
         component: 'input',
         inputSuffix: 'Euros'
@@ -292,7 +319,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'tuvCosts',
         type: 'number',
-        required: true,
+        required: false,
         label: 'TÜV Costs',
         component: 'input',
         inputSuffix: 'Euros'
@@ -300,7 +327,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'taxes',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Taxes',
         component: 'input',
         inputSuffix: 'Euros'
@@ -422,7 +449,7 @@ export const advancedFormSteps: FormSteps[] = [
       {
         key: 'tco',
         type: 'number',
-        required: true,
+        required: false,
         label: 'Total Cost of Ownership',
         component: 'input',
         inputSuffix: 'Euros'

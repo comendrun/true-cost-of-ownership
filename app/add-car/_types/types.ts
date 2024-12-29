@@ -1,7 +1,9 @@
+import { Database } from '@/database.types'
 import { z } from 'zod'
 
 export const carFormSchema = z.object({
   // General Information
+  name: z.string().optional(),
   brand: z
     .string()
     .min(1, { message: 'Please select a car brand from the list.' }),
@@ -12,7 +14,10 @@ export const carFormSchema = z.object({
   year: z.number(),
   mileage: z.number(), // KM
   plannedYearsOfOwnership: z.number().min(1),
-
+  drivingExperienceYears: z
+    .number()
+    .min(0, 'The years of experience cannot be negative.'),
+  driverAgeRange: z.enum(['18-25', '25-35', '35-55', '55+']),
   // Personal Preferences
   interiorScore: z
     .number()
@@ -24,24 +29,24 @@ export const carFormSchema = z.object({
     .min(-5, 'Value must be at least -5')
     .max(5, 'Value must be at most 5')
     .optional(),
-
   // Finances
   purchasePrice: z.number(), // euros
   prepayment: z.number(), // euros
-  interestRate: z.number(), // percentage
-  financingDuration: z.number().max(10), // years
+  interestRate: z.number().optional(), // percentage
+  financingDuration: z.number().max(10).optional(), // years
   remainingAmount: z.number().optional(), // euros
   totalInterestPaid: z.number().optional(),
   truePurchasePrice: z.number().optional(),
 
   // Depreciation
-  initialPrice: z.number(), // euros
+  initialPrice: z.number().optional(), // euros // the initial price of the vehicle when it was first sold as new
   depreciationRate: z.number().optional(), // percentage
 
   // Warranty and Service
   guaranteeYears: z
     .number()
-    .min(0, { message: "The Guaranteed years can't be less than 0" }), // years
+    .min(0, { message: "The Guaranteed years can't be less than 0" })
+    .optional(), // years
   serviceCosts: z.number().optional(), // euros - this is done annually and regardless of any repairs are due to be paid.
   serviceIncludes: z.string().optional(), // list of the services
   tiresCosts: z.number().optional(), // euros, probably similar for different cars
@@ -51,7 +56,7 @@ export const carFormSchema = z.object({
 
   // Efficiency
   totalPlannedKMs: z.number(), // KMs, total number of KMs planned to drive the car yearly
-  fuelConsumption: z.number(), // liters per 100KM
+  fuelConsumption: z.number().optional(), // liters per 100KM
   fuelType: z.enum([
     'Diesel',
     'Petrol',
@@ -59,15 +64,15 @@ export const carFormSchema = z.object({
     'Hybrid/Petrol',
     'Electric'
   ]),
-  averageFuelCost: z.number(),
+  averageFuelCost: z.number().optional(),
 
   // Insurance
   insuranceType: z.enum(['Minimum', 'Partial', 'Full']),
-  insuranceCost: z.number(), // euros, depends on the car
+  insuranceCost: z.number().optional(), // euros, depends on the car
 
   // Other Costs
-  tuvCosts: z.number(), // euros, probably similar for different cars
-  taxes: z.number(), // yearly
+  tuvCosts: z.number().optional(), // euros, probably similar for different cars
+  taxes: z.number().optional(), // yearly
   parkingCosts: z.number().optional(),
 
   // Resale Value
@@ -84,10 +89,11 @@ export const carFormSchema = z.object({
   ecoTax: z.number().optional(),
 
   // Total Cost of Ownership
-  tco: z.number()
+  tco: z.number().optional()
 })
 
 export type CarFormValues = z.infer<typeof carFormSchema>
+
 type BaseField = {
   key: keyof CarFormValues
   type: 'string' | 'number' | 'boolean' // type of the returned value
@@ -96,6 +102,7 @@ type BaseField = {
   disabled?: boolean
   formDescription?: string
   infoField?: boolean
+  placeholder?: string
 }
 
 export type InputField = BaseField & {
@@ -146,3 +153,14 @@ export type FormStepsIDs =
   | 'personalPreferences'
   | 'environmentalImpact'
   | 'totalCostOfOwnership'
+
+export type UserCarsTableRow = Database['public']['Tables']['user_cars']['Row']
+
+export type UserCarsTableInsert =
+  Database['public']['Tables']['user_cars']['Insert']
+
+export type UserCarsTableKeysRow = keyof UserCarsTableRow
+
+export type UserCarsTableKeysInsert = keyof UserCarsTableInsert
+
+export type CarFormValuesKeys = keyof CarFormValues

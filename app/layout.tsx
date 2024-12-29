@@ -18,7 +18,7 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'CorMon',
+  title: 'CorMon - developed by comendrun',
   description:
     'A helper app to calculate true cost of ownership for your current or planned cars.'
 }

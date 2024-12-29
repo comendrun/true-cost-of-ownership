@@ -32,8 +32,8 @@ export const calculateEstimatedResaleValue = ({
 
 export const calculateTotalFuelCost = ({
   totalPlannedKMs,
-  fuelConsumption,
-  averageFuelCost,
+  fuelConsumption = 1,
+  averageFuelCost = 1,
   plannedYearsOfOwnership
 }: CarFormValues) =>
   (totalPlannedKMs / 100) *
@@ -45,7 +45,7 @@ export const calculateTotalMaintenanceCost = ({
   serviceCosts = 0,
   oilChangeCosts = 0,
   tiresCosts = 0,
-  tuvCosts,
+  tuvCosts = 1,
   plannedYearsOfOwnership
 }: CarFormValues) =>
   (serviceCosts + oilChangeCosts + tiresCosts + tuvCosts) *
@@ -76,9 +76,27 @@ export const extractErrorFieldsLabels = (
   return null
 }
 
+export const getStepFormFields = (stepId: FormStepsIDs) =>
+  advancedFormSteps.filter(s => s.id === stepId)[0]
+
 export const getStepFieldKeys = (stepId: FormStepsIDs) => {
-  const step = advancedFormSteps.filter(s => s.id === stepId)[0]
+  const step = getStepFormFields(stepId)
   return step.fields.map(stepField => stepField.key)
+}
+
+export const getAllFormFieldKeys = () => {
+  const formFieldKeys = advancedFormSteps
+    .map(step => step.fields.map(formField => formField.key))
+    .flat()
+  return formFieldKeys
+}
+
+export const getKeysOutsideStep = (stepId: FormStepsIDs) => {
+  const allFormFieldKeys = getAllFormFieldKeys()
+
+  const stepKeys = getStepFieldKeys(stepId)
+  const otherKeys = allFormFieldKeys.filter(key => !stepKeys.includes(key))
+  return otherKeys
 }
 
 export const isInputField = (field: FormFieldType): field is InputField =>

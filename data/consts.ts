@@ -1,9 +1,10 @@
-import { CarFormValues } from "@/app/add-car/_types/types";
+import { CarFormValues } from '@/app/add-car/_types/types'
 
 export const carFormDefaultValues: CarFormValues = {
-  brand: "", // Initially empty; a brand must be selected
-  model: "", // Initially empty; a model must be selected
-  variant: "",
+  name: undefined,
+  brand: '', // Initially empty; a brand must be selected
+  model: '', // Initially empty; a model must be selected
+  variant: undefined,
   year: new Date().getFullYear(), // Current year as default
   mileage: 0, // Default to 0 km (brand new)
   plannedYearsOfOwnership: 1, // Default to 1 year of ownership
@@ -24,7 +25,7 @@ export const carFormDefaultValues: CarFormValues = {
 
   guaranteeYears: 2, // Example guarantee duration in years
   serviceCosts: 300, // Example service costs in euros per year
-  serviceIncludes: "Regular maintenance, oil change", // Example list of included services
+  serviceIncludes: 'Regular maintenance, oil change', // Example list of included services
   tiresCosts: 400, // Example costs for tires in euros per year
   oilChangeCosts: 100, // Example oil change costs in euros
   offerOnExtendedWarranty: false, // Default to not offering extended warranty
@@ -32,10 +33,10 @@ export const carFormDefaultValues: CarFormValues = {
 
   totalPlannedKMs: 15000, // Example total planned kilometers per year
   fuelConsumption: 6, // Example fuel consumption in liters per 100 km
-  fuelType: "Petrol", // Default fuel type
+  fuelType: 'Petrol', // Default fuel type
   averageFuelCost: 0, // Initially 0
 
-  insuranceType: "Full", // Default insurance type
+  insuranceType: 'Full', // Default insurance type
   insuranceCost: 800, // Example insurance cost in euros per year
 
   tuvCosts: 80, // Example Tüv costs in euros per year
@@ -52,5 +53,7 @@ export const carFormDefaultValues: CarFormValues = {
   emissions: undefined, // Initially undefined
   ecoTax: undefined, // Initially undefined
 
-  tco: 0, // Initially 0
-};
+  tco: 0,
+  drivingExperienceYears: 0,
+  driverAgeRange: '18-25'
+}
