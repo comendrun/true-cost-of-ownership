@@ -4,6 +4,7 @@ import {
   CarFormValues,
   FormFieldType,
   FormStepsIDs,
+  UserCarsTableRow,
   carFormSchema
 } from '@/app/add-car/_types/types'
 import { Accordion } from '@/components/ui/accordion'
@@ -36,7 +37,7 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import SelectFormField from './SelectFormField'
 import TextInputFormField from './TextInputFormField'
-import { saveVehicle } from '../actions'
+import { saveCar } from '../actions'
 
 export default function CarForm() {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
@@ -56,11 +57,11 @@ export default function CarForm() {
   )
   const stateValues = useCarFormStore(state => state.carFormValues)
 
-  const onSubmit: SubmitHandler<CarFormValues> = data => {
+  const onSubmit: SubmitHandler<CarFormValues> = async data => {
     console.log('data', data)
     updateState(data)
 
-    const savedVehicle = saveVehicle(id, data)
+    const savedCar: UserCarsTableRow = await saveCar(id, data)
   }
 
   const {

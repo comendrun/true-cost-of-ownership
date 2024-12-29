@@ -154,8 +154,13 @@ export type FormStepsIDs =
   | 'environmentalImpact'
   | 'totalCostOfOwnership'
 
-export type UserCarsTable = Database['public']['Tables']['user_cars']['Row']
+export type UserCarsTableRow = Database['public']['Tables']['user_cars']['Row']
 
-export type UserCarsTableKeys = keyof UserCarsTable
+export type UserCarsTableInsert =
+  Database['public']['Tables']['user_cars']['Insert']
+
+export type UserCarsTableKeysRow = keyof UserCarsTableRow
+
+export type UserCarsTableKeysInsert = keyof UserCarsTableInsert
 
 export type CarFormValuesKeys = keyof CarFormValues
