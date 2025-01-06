@@ -11,6 +11,7 @@ import { onNextStep, onPreviousStep } from './helper-functions'
 import {
   FieldErrors,
   UseFormClearErrors,
+  UseFormGetFieldState,
   UseFormTrigger
 } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -30,7 +31,8 @@ export default function AdvancedFormAccordionItem({
   trigger,
   errors,
   children,
-  clearErrors
+  clearErrors,
+  getFieldState
 }: {
   title: string
   id: FormStepsIDs
@@ -41,18 +43,25 @@ export default function AdvancedFormAccordionItem({
   currentStep: FormStepsIDs
   children: ReactNode
   clearErrors: UseFormClearErrors<CarFormValues>
+  getFieldState: UseFormGetFieldState<CarFormValues>
 }) {
   const stepKeys = getStepFieldKeys(currentStep)
   const otherKeys = getKeysOutsideStep(currentStep)
 
-  const errorFieldsLabels = extractErrorFieldsLabels(errors)
+  // const errorFieldsLabels = extractErrorFieldsLabels(errors)
 
   async function handleFormNextStep() {
-    console.log('stepKeys', stepKeys)
     const clearErrorsResult = clearErrors(otherKeys)
     const isValid = await trigger(stepKeys)
 
-    if (!isValid || Object.entries(errors).length > 0) {
+    const updatedErrors = stepKeys.reduce((acc, key) => {
+      const fieldState = getFieldState(key)
+      if (fieldState.error) acc[key] = fieldState.error
+      return acc
+    }, {} as FieldErrors<CarFormValues>)
+
+    if (!isValid || Object.entries(updatedErrors).length > 0) {
+      const errorFieldsLabels = extractErrorFieldsLabels(updatedErrors)
       toast.error('Some required fields are empty', {
         description: `Please make sure that the following fields are filled correctly: ${
           errorFieldsLabels?.map(fieldLabel => fieldLabel.label).flat() || ''
@@ -60,14 +69,20 @@ export default function AdvancedFormAccordionItem({
       })
       return
     }
-    console.log('error', errors)
-
     onNextStep(id, index, setStep)
   }
 
   async function formStepsLabelOnClickHandler() {
     const isValid = await trigger(stepKeys)
+
+    const updatedErrors = stepKeys.reduce((acc, key) => {
+      const fieldState = getFieldState(key)
+      if (fieldState.error) acc[key] = fieldState.error
+      return acc
+    }, {} as FieldErrors<CarFormValues>)
+
     if (!isValid || Object.entries(errors).length > 0) {
+      const errorFieldsLabels = extractErrorFieldsLabels(updatedErrors)
       toast.error('Some required fields are empty', {
         description: `Please make sure that the following fields are filled correctly: ${
           errorFieldsLabels?.map(fieldLabel => fieldLabel.label).flat() || ''
