@@ -67,7 +67,7 @@ export const advancedFormSteps: FormSteps[] = [
         key: 'plannedYearsOfOwnership',
         type: 'number',
         required: true,
-        label: 'Planned Ownership time in years',
+        label: 'Planned Ownership in Years',
         component: 'input',
         inputSuffix: 'Years'
       },
@@ -75,7 +75,7 @@ export const advancedFormSteps: FormSteps[] = [
         key: 'drivingExperienceYears',
         type: 'number',
         required: true,
-        label: 'How many years of driing experience you have got?',
+        label: 'Driving Experience in Years',
         component: 'input',
         inputSuffix: 'Years'
       },

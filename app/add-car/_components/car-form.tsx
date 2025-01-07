@@ -38,6 +38,7 @@ import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import SelectFormField from './SelectFormField'
 import TextInputFormField from './TextInputFormField'
 import { saveCar } from '../actions'
+import useGetCarById from '../_hooks/useGetCarById'
 
 export default function CarForm() {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
@@ -46,10 +47,7 @@ export default function CarForm() {
   const searchParams = useSearchParams()
   const id: string | number | null = searchParams.get('id')
 
-  const form = useForm<CarFormValues>({
-    resolver: zodResolver(carFormSchema)
-    // defaultValues: carFormDefaultValues
-  })
+  const { data: car, error, carEntryFormValues, isLoading: isCarLoading } = useGetCarById(id)
 
   const updateState = useCarFormStore(state => state.updateState)
   const setCarFormFieldValue = useCarFormStore(
@@ -57,16 +55,23 @@ export default function CarForm() {
   )
   const stateValues = useCarFormStore(state => state.carFormValues)
 
+  const form = useForm<CarFormValues>({
+    resolver: zodResolver(carFormSchema),
+    values: carEntryFormValues ?? undefined
+  })
+
   const onSubmit: SubmitHandler<CarFormValues> = async data => {
     console.log('data', data)
     updateState(data)
 
-    const savedCar: UserCarsTableRow = await saveCar(id, data)
+    const savedCar: UserCarsTableRow | null = await saveCar(data, id)
+
+    console.log('savedCar', savedCar)
   }
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isLoading },
     control,
     getValues,
     setValue,
@@ -74,7 +79,9 @@ export default function CarForm() {
     getFieldState,
     setFocus,
     clearErrors,
-    reset
+    reset,
+    watch,
+    
   } = form
 
   return (
@@ -96,6 +103,7 @@ export default function CarForm() {
                 currentStep={step}
                 key={`${index}-${id}`}
                 clearErrors={clearErrors}
+                getFieldState={getFieldState}
               >
                 {fields.map((formField: FormFieldType) => {
                   if (isInputField(formField)) {
@@ -105,7 +113,7 @@ export default function CarForm() {
                           key={`input-number-${index}-${formField.key}-${formField.label}`}
                           control={control}
                           errors={errors}
-                          disabled={formField.infoField}
+                          disabled={isCarLoading || formField.infoField}
                           label={formField.label}
                           inputSuffix={formField?.inputSuffix || ''}
                           name={formField.key}
@@ -121,7 +129,7 @@ export default function CarForm() {
                           key={`input-number-${index}-${formField.key}-${formField.label}`}
                           control={control}
                           errors={errors}
-                          disabled={formField?.infoField}
+                          disabled={isCarLoading || formField?.infoField}
                           label={formField.label}
                           inputSuffix={formField?.inputSuffix}
                           name={formField.key}
@@ -139,7 +147,7 @@ export default function CarForm() {
                         key={`${index}-${formField.key}-${formField.label}`}
                         control={control}
                         errors={errors}
-                        disabled={formField.disabled}
+                        disabled={isCarLoading || formField.disabled}
                         label={formField.label}
                         name={formField.key}
                         formDescription={formField.formDescription}
@@ -148,6 +156,7 @@ export default function CarForm() {
                         placeholder={formField.placeholder}
                         selectItems={formField.selectItems}
                         getValues={getValues}
+                        watch={watch}
                       />
                     )
                   }
@@ -182,6 +191,7 @@ export default function CarForm() {
                                         field.onChange(value)
                                       }}
                                       {...fields}
+                                      disabled={isCarLoading}
                                     />
                                   </FormControl>
                                 </div>
@@ -220,7 +230,7 @@ export default function CarForm() {
                                       key={`textarea-${index}-${formField.key}-${formField.label}`}
                                       rows={4}
                                       placeholder={formField.placeholder}
-                                      disabled={field.disabled}
+                                      disabled={isCarLoading || field.disabled}
                                       {...field}
                                       value={
                                         field.value as
@@ -259,6 +269,7 @@ export default function CarForm() {
               params.delete('id')
               router.replace('/add-car/advanced')
             }}
+            disabled={isCarLoading}
           >
             Start Over
           </Button>
@@ -270,13 +281,14 @@ export default function CarForm() {
               reset()
               toast.info('The fields has been reset. Feel free to start over.')
             }}
+            disabled={isCarLoading}
           >
             Reset
           </Button>
-          <Button className='w-full' variant='outline'>
+          <Button className='w-full' variant='outline' disabled={isCarLoading}>
             Save The Car
           </Button>
-          <Button variant='default' className='w-full' type='submit'>
+          <Button variant='default' className='w-full' type='submit' disabled={isCarLoading}>
             Analyze the Car Costs
           </Button>
         </div>
@@ -284,6 +296,3 @@ export default function CarForm() {
     </Form>
   )
 }
-// function saveVehicle(id: string | null, dataType: { brand: string; model: string; year: number; mileage: number; plannedYearsOfOwnership: number; drivingExperienceYears: number; driverAgeRange: "18-25" | "25-35" | "35-55" | "55+"; purchasePrice: number; prepayment: number; totalPlannedKMs: number; fuelType: "Diesel" | "Petrol" | "Hybrid/Diesel" | "Hybrid/Petrol" | "Electric"; insuranceType: "Minimum" | "Partial" | "Full"; name?: string | undefined; variant?: string | undefined; interiorScore?: number | undefined; exteriorScore?: number | undefined; interestRate?: number | undefined; financingDuration?: number | undefined; remainingAmount?: number | undefined; totalInterestPaid?: number | undefined; truePurchasePrice?: number | undefined; initialPrice?: number | undefined; depreciationRate?: number | undefined; guaranteeYears?: number | undefined; serviceCosts?: number | undefined; serviceIncludes?: string | undefined; tiresCosts?: number | undefined; oilChangeCosts?: number | undefined; offerOnExtendedWarranty?: boolean | undefined; extendedWarrantyCost?: number | undefined; fuelConsumption?: number | undefined; averageFuelCost?: number | undefined; insuranceCost?: number | undefined; tuvCosts?: number | undefined; taxes?: number | undefined; parkingCosts?: number | undefined; estimatedResaleValue?: number | undefined; resaleValueAfterYears?: number | undefined; regularMaintenanceCosts?: number | undefined; unexpectedRepairCosts?: number | undefined; maintenanceFrequency?: string | undefined; emissions?: number | undefined; ecoTax?: number | undefined; tco?: number | undefined }) {
-//   throw new Error('Function not implemented.')
-// }

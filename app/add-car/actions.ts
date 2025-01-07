@@ -1,74 +1,15 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import {
-  CarFormValues,
-  UserCarsTableInsert,
-  UserCarsTableRow
-} from './_types/types'
-
-const convertAdvancedFormValuesToUserCarsTableInsert = (
-  formValues: CarFormValues,
-  userId: string
-) => {
-  const data: UserCarsTableInsert = {
-    average_fuel_cost: formValues.averageFuelCost,
-    brand: formValues.brand,
-    created_at: new Date().toISOString(),
-    depreciation_rate: formValues.depreciationRate,
-    driver_age_range: formValues.driverAgeRange,
-    driving_experience_years: formValues.drivingExperienceYears,
-    eco_tax: formValues.ecoTax,
-    emissions: formValues.emissions,
-    estimated_resale_value: formValues.estimatedResaleValue,
-    extended_warranty_cost: formValues.extendedWarrantyCost,
-    exterior_score: formValues.exteriorScore,
-    financing_duration: formValues.financingDuration,
-    fuel_consumption: formValues.fuelConsumption,
-    fuel_type: formValues.fuelType,
-    guarantee_years: formValues.guaranteeYears,
-    initial_price: formValues.initialPrice,
-    insurance_cost: formValues.insuranceCost,
-    insurance_type: formValues.insuranceType,
-    interest_rate: formValues.interestRate,
-    interior_score: formValues.interiorScore,
-    last_ai_response_id: null, // Assuming this is not provided in formValues
-    maintenance_frequency: formValues.maintenanceFrequency,
-    mileage: formValues.mileage,
-    model: formValues.model,
-    name: formValues.name || '',
-    offer_on_extended_warranty: formValues.offerOnExtendedWarranty,
-    oil_change_costs: formValues.oilChangeCosts,
-    parking_costs: formValues.parkingCosts,
-    planned_years_of_ownership: formValues.plannedYearsOfOwnership,
-    prepayment: formValues.prepayment,
-    purchase_price: formValues.purchasePrice,
-    regular_maintenance_costs: formValues.regularMaintenanceCosts,
-    remaining_amount: formValues.remainingAmount,
-    resale_value_after_years: formValues.resaleValueAfterYears,
-    service_costs: formValues.serviceCosts,
-    service_includes: formValues.serviceIncludes,
-    taxes: formValues.taxes,
-    tco: formValues.tco,
-    tires_costs: formValues.tiresCosts,
-    total_interest_paid: formValues.totalInterestPaid,
-    total_planned_kms: formValues.totalPlannedKMs,
-    true_purchase_price: formValues.truePurchasePrice,
-    tuv_costs: formValues.tuvCosts,
-    unexpected_repair_costs: formValues.unexpectedRepairCosts,
-    updated_at: new Date().toISOString(),
-    user_id: userId, // Assuming this is provided elsewhere
-    variant: formValues.variant,
-    year: formValues.year
-  }
-
-  return data
-}
+import { CarFormValues, UserCarsTableRow } from './_types/types'
+import { convertAdvancedFormValuesToUserCarsTableInsert } from './_functions/helper-functions'
+import { PostgrestError } from '@supabase/supabase-js'
 
 export const saveCar = async (
-  id: string | number | null,
-  formValues: CarFormValues
+  formValues: CarFormValues,
+  id: string | number | null
 ) => {
+  console.log('Starting saveCar function')
   const supabase = createClient()
 
   const {
@@ -80,7 +21,10 @@ export const saveCar = async (
     return null
   }
 
+  console.log('User identified:', user)
+
   if (id) {
+    console.log('Updating existing car with id:', id)
     const { data, error } = await supabase
       .from('user_cars')
       .select()
@@ -88,8 +32,11 @@ export const saveCar = async (
       .single()
 
     if (error || !data) {
+      console.error('Error fetching car data or no data found:', error)
       return null
     }
+
+    console.log('Existing car data:', data)
 
     const updatedValues = Object.keys(data).reduce((acc, key) => {
       const typedKey = key as keyof UserCarsTableRow
@@ -103,29 +50,37 @@ export const saveCar = async (
       return acc
     }, {} as Partial<UserCarsTableRow>)
 
+    console.log('Updated values to be saved:', updatedValues)
+
     const { data: dbUpdatedValues, error: updateError } = await supabase
       .from('user_cars')
       .update(updatedValues)
       .eq('id', id)
       .select()
+      .single()
 
     if (updateError) {
       console.error('There was an error while updating the values', updateError)
       return null
     }
 
+    console.log('Successfully updated car data:', dbUpdatedValues)
     return dbUpdatedValues
   }
 
+  console.log('Inserting new car data')
   const payload = convertAdvancedFormValuesToUserCarsTableInsert(
     formValues,
     user.id
   )
 
+  console.log('Payload for new car:', payload)
+
   const { data, error } = await supabase
     .from('user_cars')
     .insert(payload)
     .select()
+    .single()
 
   if (error || !data) {
     console.error(
@@ -135,5 +90,47 @@ export const saveCar = async (
     return null
   }
 
+  console.log('Successfully inserted new car data:', data)
   return data
+}
+
+export async function getCarById(
+  id: string | number
+): Promise<{
+  data: UserCarsTableRow | null
+  error: PostgrestError | string | null
+}> {
+  if (!id)
+    return {
+      data: null,
+      error: 'No id for the operation was provided'
+    }
+  const supabase = createClient()
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
+
+  if (!user) {
+    console.error('No user identified when trying to fetch the car instance.')
+    return {
+      data: null,
+      error: 'No user identified when trying to fetch the car instance.'
+    }
+  }
+
+  const { data, error } = await supabase
+    .from('user_cars')
+    .select()
+    .eq('id', id)
+    .single()
+
+  if (error || !data) {
+    console.error(
+      '[getCarById] - Error fetching car data or no data found:',
+      error
+    )
+  }
+
+  return { error, data }
 }
