@@ -13,7 +13,7 @@ export default function Navbar({ user }: { user: User | null }) {
   return (
     <div className='mb-10 flex items-center justify-between gap-6'>
       <Link className='text-xl font-bold' href='/'>
-        AutoMoney
+        AutoMon
       </Link>
 
       {isAuthenticated ? (

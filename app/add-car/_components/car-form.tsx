@@ -23,8 +23,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { carFormDefaultValues } from '@/data/consts'
 import { useCarFormStore } from '@/lib/store'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { advancedFormSteps } from '../_consts/consts'
@@ -39,15 +39,66 @@ import SelectFormField from './SelectFormField'
 import TextInputFormField from './TextInputFormField'
 import { saveCar } from '../actions'
 import useGetCarById from '../_hooks/useGetCarById'
+import { createClient } from '@/utils/supabase/client'
+import { User } from '@supabase/supabase-js'
 
-export default function CarForm() {
-  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
-
-  const router = useRouter()
+export default function CarForm({
+  id,
+  user,
+  pageError
+}: {
+  id: string | number | null
+  user: User | null
+  pageError: string | null
+}) {
+  console.log('pageError', pageError)
   const searchParams = useSearchParams()
-  const id: string | number | null = searchParams.get('id')
+  const router = useRouter()
 
-  const { data: car, error, carEntryFormValues, isLoading: isCarLoading } = useGetCarById(id)
+  // if (pageError) {
+  //   toast.error(pageError)
+  //   // const params = new URLSearchParams(searchParams.toString())
+  //   // params.delete('id')
+  //   // return <CarForm id={null} user={user} pageError={null}
+  //   router.replace('/add-car/advanced')
+  // }
+
+  useEffect(() => {
+    if (pageError) {
+      toast.error(pageError)
+      // Remove the search parameters and redirect
+      const params = new URLSearchParams(searchParams.toString())
+      params.delete('id')
+      router.replace('/add-car/advanced')
+    }
+  }, [pageError, searchParams, router])
+
+  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
+  // const [mySession, setMySession] = useState()
+
+  const {
+    data: car,
+    error,
+    carEntryFormValues,
+    isLoading: isCarLoading
+  } = useGetCarById(id)
+
+  // if (car && car.user_id !== user?.id) {
+  //   toast.error("You don't have access to this entity.")
+  //   // const params = new URLSearchParams(searchParams.toString())
+  //   // params.delete('id')
+  //   // router.replace('/add-car/advanced')
+  // }
+
+  // useEffect(() => {
+  //   if (car && car.user_id !== user?.id) {
+  //     toast.error("You don't have access to this entity.")
+  //     // Remove the search parameters and redirect
+  //     const params = new URLSearchParams(searchParams.toString())
+  //     params.delete('id')
+  //     router.replace('/add-car/advanced', undefined)
+  //   }
+  // }, [car, user, searchParams, router])
 
   const updateState = useCarFormStore(state => state.updateState)
   const setCarFormFieldValue = useCarFormStore(
@@ -80,9 +131,16 @@ export default function CarForm() {
     setFocus,
     clearErrors,
     reset,
-    watch,
-    
+    watch
   } = form
+
+  // if (pageError) {
+  //   toast.error(pageError)
+  //   // const params = new URLSearchParams(searchParams.toString())
+  //   // params.delete('id')
+  //   // return <CarForm id={null} user={user} pageError={null}
+  //   router.replace('/add-car/advanced')
+  // }
 
   return (
     <Form {...form}>
@@ -288,7 +346,16 @@ export default function CarForm() {
           <Button className='w-full' variant='outline' disabled={isCarLoading}>
             Save The Car
           </Button>
-          <Button variant='default' className='w-full' type='submit' disabled={isCarLoading}>
+          <Button
+            variant='default'
+            className='w-full'
+            type='submit'
+            disabled={isCarLoading}
+          >
+            <svg
+              className='... mr-3 h-5 w-5 animate-spin text-white'
+              viewBox='0 0 24 24'
+            />
             Analyze the Car Costs
           </Button>
         </div>

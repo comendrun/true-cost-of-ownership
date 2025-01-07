@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { MouseEvent, ReactNode, useState } from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -50,7 +50,8 @@ export default function AdvancedFormAccordionItem({
 
   // const errorFieldsLabels = extractErrorFieldsLabels(errors)
 
-  async function handleFormNextStep() {
+  async function handleFormNextStep(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
     const clearErrorsResult = clearErrors(otherKeys)
     const isValid = await trigger(stepKeys)
 
@@ -72,7 +73,8 @@ export default function AdvancedFormAccordionItem({
     onNextStep(id, index, setStep)
   }
 
-  async function formStepsLabelOnClickHandler() {
+  async function formStepsLabelOnClickHandler(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
     const isValid = await trigger(stepKeys)
 
     const updatedErrors = stepKeys.reduce((acc, key) => {
@@ -93,9 +95,14 @@ export default function AdvancedFormAccordionItem({
     setStep(id)
   }
 
-  function handleFormPreviousStep() {
+  function handleFormPreviousStep(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
     onPreviousStep(id, index, setStep)
   }
+
+  // function handleFormNextStep(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  //   throw new Error('Function not implemented.')
+  // }
 
   return (
     <AccordionItem value={id} id={id}>

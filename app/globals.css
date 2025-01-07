@@ -11,7 +11,8 @@ body {
     text-wrap: balance;
   }
 }
-@layer base {
+
+/* @layer base {
   :root {
     --background: 225 30% 99%;
     --foreground: 225 57% 2%;
@@ -66,9 +67,9 @@ body {
     --chart-4: 225 13% 16%;
     --chart-5: 225 70% 31%;
   }
-}
+} */
 
-/* @layer base {
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -96,6 +97,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -122,12 +124,13 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-} */
+}
 
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -136,4 +139,20 @@ body {
 .required-field:after {
   content: ' *';
   color: red;
+}
+
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
