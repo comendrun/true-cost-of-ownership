@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import { createClient } from '@/utils/supabase/server'
+import Providers from './providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -36,20 +37,14 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full    antialiased`}
       >
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          // disableTransitionOnChange
-        >
-          <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'>
-            <Navbar user={user} />
-            {children}
-          </div>
-        </ThemeProvider>
-        <Toaster />
+        <Providers>
+          {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
+          {/* <Navbar user={user} /> */}
+          {children}
+          {/* </div> */}
+        </Providers>
       </body>
     </html>
   )

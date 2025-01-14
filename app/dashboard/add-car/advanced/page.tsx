@@ -1,8 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import CarForm from '../_components/car-form'
 import { getCarById } from '../actions'
-import { toast } from 'sonner'
-import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
 export default async function CarsPage({
@@ -25,15 +23,10 @@ export default async function CarsPage({
       return (error = 'There was an error fetching the requested entry.')
 
     if (data?.user_id !== user?.id) {
-      // toast.error('You dont have access to this entity.')
-
-      error = "You don't have access to this entity."
+      error =
+        "You don't have access to this entity. Please start with a fresh form."
     }
   }
-
-  // if (error) {
-  //   redirect('/add-car/advanced')
-  // }
 
   return (
     <div className='flex flex-col items-center justify-center gap-5'>

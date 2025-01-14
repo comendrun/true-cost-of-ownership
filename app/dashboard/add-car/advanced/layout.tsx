@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import CarExpensesSection from '../_components/car-expenses-section'
 
 export default function AdvancedFormLayout({
   children

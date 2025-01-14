@@ -18,6 +18,7 @@ export const advancedFormSteps: FormSteps[] = [
         label: 'Name',
         component: 'input',
         placeholder: 'Name',
+        fullWidth: true,
         formDescription:
           'Please choose a proper name for the Car you want to analyze.'
       },

@@ -113,7 +113,7 @@ export default function AdvancedFormAccordionItem({
         {title}
       </AccordionTrigger>
       <AccordionContent>
-        <div className='flex h-full w-full flex-col gap-8'>{children}</div>
+        <div className='flex h-full w-full flex-col xl:grid xl:grid-cols-2 xl:gap-x-20 gap-8 '>{children}</div>
 
         <div className='mb-0 mt-6 flex w-full items-center justify-between'>
           <Button

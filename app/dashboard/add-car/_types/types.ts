@@ -103,6 +103,7 @@ type BaseField = {
   formDescription?: string
   infoField?: boolean
   placeholder?: string
+  fullWidth?: boolean
 }
 
 export type InputField = BaseField & {
