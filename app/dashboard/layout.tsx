@@ -27,7 +27,7 @@ export default async function DashboardLayout({
   const { data: userLatestCars, error } = await supabase
     .from('user_cars')
     .select()
-    .eq('user_id', user?.id as String)
+    .eq('user_id', user?.id as string)
     .order('created_at', { ascending: false })
     .limit(3)
 
