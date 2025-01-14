@@ -7,7 +7,12 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { FieldErrors, UseFormGetValues, UseFormWatch } from 'react-hook-form'
+import {
+  Control,
+  FieldErrors,
+  UseFormGetValues,
+  UseFormWatch
+} from 'react-hook-form'
 
 import {
   Select,
@@ -33,7 +38,7 @@ export default function SelectFormField({
 }: {
   name: keyof CarFormValues
   label: string
-  control: any
+  control: Control<CarFormValues>
   errors: FieldErrors<CarFormValues>
   disabled?: boolean
   inputSuffix?: string
