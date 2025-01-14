@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CarFormValues } from '@/app/add-car/_types/types'
-import { FieldErrors } from 'react-hook-form'
 import {
   FormControl,
   FormDescription,
@@ -8,10 +6,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from '../../../components/ui/form'
-import { Input } from '../../../components/ui/input'
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { FieldErrors } from 'react-hook-form'
 
-export default function NumberFormField({
+export default function TextInputFormField({
   control,
   errors,
   disabled,
@@ -19,7 +18,9 @@ export default function NumberFormField({
   inputSuffix,
   name,
   formDescription,
-  required = false
+  placeholder,
+  required = false,
+  fullWidth
 }: {
   name: keyof CarFormValues
   label: string
@@ -29,31 +30,29 @@ export default function NumberFormField({
   inputSuffix?: string
   formDescription?: string
   required: boolean
+  placeholder?: string
+  fullWidth?: boolean
 }) {
   return (
     <FormField
       control={control}
       name={name}
-      disabled={disabled}
       render={({ field }) => {
         return (
-          <FormItem>
+          <FormItem className={`${fullWidth ? 'col-span-2' : ''}`}>
             <div className='grid grid-cols-4 items-center gap-4'>
               <FormLabel
                 className={`${required && !disabled ? 'required-field' : ''}`}
               >
                 {label}
               </FormLabel>
-              <div className='col-span-3 flex w-full items-center gap-2'>
+              <div className='col-span-3 flex w-full'>
                 <FormControl>
                   <Input
-                    type='number'
-                    suffix={inputSuffix}
-                    disabled={disabled}
+                    // key={`input-string-${index}-${formField.key}-${formField.label}`}
+                    type='text'
+                    placeholder={placeholder}
                     {...field}
-                    onChange={e => {
-                      field.onChange(e.target.valueAsNumber)
-                    }}
                   />
                 </FormControl>
               </div>

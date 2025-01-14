@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CarFormValues } from '@/app/add-car/_types/types'
 import {
   FormControl,
@@ -10,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { FieldErrors } from 'react-hook-form'
 
-export default function TextInputFormField({
+export default function NumberFormField({
   control,
   errors,
   disabled,
@@ -18,7 +19,6 @@ export default function TextInputFormField({
   inputSuffix,
   name,
   formDescription,
-  placeholder,
   required = false
 }: {
   name: keyof CarFormValues
@@ -29,12 +29,12 @@ export default function TextInputFormField({
   inputSuffix?: string
   formDescription?: string
   required: boolean
-  placeholder?: string
 }) {
   return (
     <FormField
       control={control}
       name={name}
+      disabled={disabled}
       render={({ field }) => {
         return (
           <FormItem>
@@ -44,13 +44,16 @@ export default function TextInputFormField({
               >
                 {label}
               </FormLabel>
-              <div className='col-span-3 flex w-full'>
+              <div className='col-span-3 flex w-full items-center gap-2'>
                 <FormControl>
                   <Input
-                    // key={`input-string-${index}-${formField.key}-${formField.label}`}
-                    type='text'
-                    placeholder={placeholder}
+                    type='number'
+                    suffix={inputSuffix}
+                    disabled={disabled}
                     {...field}
+                    onChange={e => {
+                      field.onChange(e.target.valueAsNumber)
+                    }}
                   />
                 </FormControl>
               </div>
