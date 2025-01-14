@@ -1,4 +1,3 @@
-import { CarFormValues } from '@/app/add-car/_types/types'
 import {
   FormControl,
   FormDescription,
@@ -21,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { CarFormValues } from '../_types/types'
 
 export default function SelectFormField({
   control,

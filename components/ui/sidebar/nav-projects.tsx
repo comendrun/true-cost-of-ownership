@@ -1,19 +1,14 @@
-"use client"
+'use client'
 
-import {
-  Folder,
-  Forward,
-  Trash2,
-  type LucideIcon,
-} from "lucide-react"
+import { Folder, Forward, Trash2, type LucideIcon } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -21,27 +16,29 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar"
-import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { navItems } from "./consts"
+  useSidebar
+} from '@/components/ui/sidebar'
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { navItems } from './consts'
 
 export function NavProjects({
-  projects,
+  projects
 }: {
-  projects: {
-    name: string
-    url: string
-    icon: LucideIcon | string
-  }[] | null
+  projects:
+    | {
+        name: string
+        url: string
+        icon?: LucideIcon | string
+      }[]
+    | null
 }) {
   const { isMobile } = useSidebar()
 
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
       <SidebarGroupLabel>{navItems().cars.title}</SidebarGroupLabel>
       <SidebarMenu>
-        {projects?.map((item) => (
+        {projects?.map(item => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
@@ -79,8 +76,8 @@ export function NavProjects({
           </SidebarMenuItem>
         ))}
         <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <DotsHorizontalIcon className="text-sidebar-foreground/70" />
+          <SidebarMenuButton className='text-sidebar-foreground/70'>
+            <DotsHorizontalIcon className='text-sidebar-foreground/70' />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

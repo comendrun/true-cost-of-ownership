@@ -1,4 +1,3 @@
-import { CarFormValues } from '@/app/add-car/_types/types'
 import {
   FormControl,
   FormDescription,
@@ -9,6 +8,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Control, FieldErrors } from 'react-hook-form'
+import { CarFormValues } from '../_types/types'
 
 export default function TextInputFormField({
   control,

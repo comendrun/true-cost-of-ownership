@@ -44,6 +44,7 @@ export const saveCar = async (
       const formFieldValue = formValues[typedKey as keyof CarFormValues]
 
       if (formFieldValue !== undefined && formFieldValue !== dbFieldValue) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         acc[typedKey] = formFieldValue as any // Use 'any' to bypass type mismatch
       }
 
@@ -94,9 +95,7 @@ export const saveCar = async (
   return data
 }
 
-export async function getCarById(
-  id: string | number
-): Promise<{
+export async function getCarById(id: string | number): Promise<{
   data: UserCarsTableRow | null
   error: PostgrestError | string | null
 }> {

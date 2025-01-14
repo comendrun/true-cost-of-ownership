@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CarFormValues } from '@/app/add-car/_types/types'
 import {
   FormControl,
   FormDescription,
@@ -10,6 +8,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Control, FieldErrors } from 'react-hook-form'
+import { CarFormValues } from '../_types/types'
 
 export default function NumberFormField({
   control,
@@ -36,7 +35,7 @@ export default function NumberFormField({
       name={name}
       disabled={disabled}
       render={({ field }) => {
-        const value = typeof field.value === 'boolean' ? '' : field.value;
+        const value = typeof field.value === 'boolean' ? '' : field.value
         return (
           <FormItem>
             <div className='grid grid-cols-4 items-center gap-4'>

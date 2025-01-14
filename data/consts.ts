@@ -1,4 +1,4 @@
-import { CarFormValues } from '@/app/add-car/_types/types'
+import { CarFormValues } from "@/app/dashboard/add-car/_types/types";
 
 export const carFormDefaultValues: CarFormValues = {
   name: undefined,
