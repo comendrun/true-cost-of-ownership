@@ -9,7 +9,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { FieldErrors } from 'react-hook-form'
+import { Control, FieldErrors } from 'react-hook-form'
 
 export default function NumberFormField({
   control,
@@ -23,7 +23,7 @@ export default function NumberFormField({
 }: {
   name: keyof CarFormValues
   label: string
-  control: any
+  control: Control<CarFormValues>
   errors: FieldErrors<CarFormValues>
   disabled?: boolean
   inputSuffix?: string
@@ -36,6 +36,7 @@ export default function NumberFormField({
       name={name}
       disabled={disabled}
       render={({ field }) => {
+        const value = typeof field.value === 'boolean' ? '' : field.value;
         return (
           <FormItem>
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -54,6 +55,7 @@ export default function NumberFormField({
                     onChange={e => {
                       field.onChange(e.target.valueAsNumber)
                     }}
+                    value={value}
                   />
                 </FormControl>
               </div>
