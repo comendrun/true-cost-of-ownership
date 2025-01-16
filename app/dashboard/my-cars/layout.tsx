@@ -1,19 +1,13 @@
-import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
+import React, { ReactNode } from 'react'
 
-export default async function MyCarsPage() {
+export default async function MyCarsLayout({ children }: { children: ReactNode }) {
   const supabase = createClient()
 
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
     redirect('/login')
   }
-
-  console.log('metadata', data.user.user_metadata)
-  
-
-  return <div>
-    <p>Hello </p>
-  </div>
+  return <>{children}</>
 }

@@ -30,8 +30,8 @@ export default function AddCarPage() {
             How do you want to proceed adding a New Car Analysis?
           </p>
         </div>
-        <div className='flex w-full items-start justify-center gap-10'>
-          <Card className='flex w-full max-w-[500px] flex-col self-stretch'>
+        <div className='flex w-full flex-col-reverse items-start justify-center gap-10 lg:flex-row'>
+          <Card className='mx-auto lg:mx-0 flex w-full max-w-[500px] flex-col self-stretch'>
             <CardHeader>
               <CardTitle>Simple Form</CardTitle>
               <CardDescription>
@@ -52,7 +52,7 @@ export default function AddCarPage() {
               </Link>
             </CardContent>
           </Card>
-          <Card className='flex w-full max-w-[500px] flex-col self-stretch'>
+          <Card className='mx-auto lg:mx-0 flex w-full max-w-[500px] flex-col self-stretch'>
             <CardHeader>
               <CardTitle>Advanced Form</CardTitle>
               <CardDescription>

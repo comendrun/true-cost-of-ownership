@@ -1,8 +1,12 @@
+'use client'
 import { Button } from '@/components/ui/button'
-import { login, signup } from '../actions'
-import { Schema, z } from 'zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -13,21 +17,12 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { BaseSyntheticEvent } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
-import React from 'react'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-const registerSchema = z.object({
+export const registerationSchema = z.object({
   email: z.string().trim().email({
     message: 'Invalid Email Address.'
   }),
@@ -48,14 +43,14 @@ const registerSchema = z.object({
     )
 })
 
-export type RegisterForm = z.infer<typeof registerSchema>
+export type RegisterForm = z.infer<typeof registerationSchema>
 
 export default function RegisterTab() {
   const searchParams = useSearchParams()
   const registerMessage = searchParams.get('message')
 
   const form = useForm<RegisterForm>({
-    resolver: zodResolver(registerSchema)
+    resolver: zodResolver(registerationSchema)
   })
 
   const {

@@ -6,6 +6,7 @@ import localFont from 'next/font/local'
 import './globals.css'
 import { createClient } from '@/utils/supabase/server'
 import Providers from './providers'
+import { redirect } from 'next/navigation'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -37,7 +38,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full    antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full antialiased`}
       >
         <Providers>
           {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}

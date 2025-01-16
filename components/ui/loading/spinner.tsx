@@ -8,7 +8,7 @@ interface CircularSpinnerProps {
 
 export default function CircularSpinner({
   size = 70,
-  color = '#333'
+  color = 'bg-primary'
 }: CircularSpinnerProps) {
   const spinnerStyle = {
     width: size,
@@ -21,7 +21,7 @@ export default function CircularSpinner({
   }
 
   const circleBeforeStyle = {
-    backgroundColor: color,
+    // backgroundColor: color,
     width: size / 7,
     height: size / 7
   }
@@ -34,7 +34,7 @@ export default function CircularSpinner({
           className={`mul7circ m7c${index + 1}`}
           style={circleStyle}
         >
-          <div className='circle-before' style={circleBeforeStyle}></div>
+          <div className={`circle-before ${color}`} style={circleBeforeStyle}></div>
         </div>
       ))}
     </div>

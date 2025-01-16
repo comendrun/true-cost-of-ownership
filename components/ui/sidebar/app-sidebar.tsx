@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 
 import { NavMain } from '@/components/ui/sidebar/nav-main'
-import { NavProjects } from '@/components/ui/sidebar/nav-projects'
+import { NavRecentCars } from '@/components/ui/sidebar/nav-recent-cars'
 import { NavUser } from '@/components/ui/sidebar/nav-user'
 import { TeamSwitcher } from '@/components/ui/sidebar/team-switcher'
 import {
@@ -31,6 +31,7 @@ import Logo from './logo'
 import { User } from '@supabase/supabase-js'
 import { navItems } from './consts'
 import { UserCarsTableRow } from '@/app/dashboard/add-car/_types/types'
+import { ModeToggle } from '../providers/theme-toggle'
 
 // the page
 
@@ -183,9 +184,10 @@ export function AppSidebar({
           sectionTitle={navItems(cars).navMain.title}
           items={navItems(cars).navMain.mainItems}
         />
-        <NavProjects projects={navItems(cars).cars.mainItems || null} />
+        <NavRecentCars cars={navItems(cars).cars.mainItems || null} />
       </SidebarContent>
       <SidebarFooter>
+        <ModeToggle />
         <NavUser
           user={{ name: 'User', email: user?.email || '', avatar: '' }}
         />

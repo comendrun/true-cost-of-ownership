@@ -22,11 +22,11 @@ export const routes = (car?: UserCarsTableRow) => ({
     title: 'User Settings',
     url: '/dashboard/settings'
   },
-  'add-car-simple': {
+  simple: {
     title: 'Simple Form',
     url: '/dashboard/add-car/simple'
   },
-  'add-car-advanced': {
+  advanced: {
     title: 'Advanced Form',
     url: '/dashboard/add-car/advanced'
   },
@@ -87,7 +87,7 @@ export const navItems = (cars?: UserCarsTableRow[] | null) => ({
     title: 'Latest Analysis',
     mainItems: cars?.map(car => ({
       name: car.name,
-      url: `/dashboard/my-cars/${car.id}`,
+      url: `/dashboard/my-cars/${car.id}`
       // icon: Library
     }))
   }

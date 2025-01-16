@@ -29,7 +29,7 @@ export default async function DashboardLayout({
     .select()
     .eq('user_id', user?.id as string)
     .order('created_at', { ascending: false })
-    .limit(3)
+    .limit(3)    
 
   return (
     <>

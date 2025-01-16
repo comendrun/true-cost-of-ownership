@@ -21,10 +21,10 @@ import {
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { navItems } from './consts'
 
-export function NavProjects({
-  projects
+export function NavRecentCars({
+  cars
 }: {
-  projects:
+  cars:
     | {
         name: string
         url: string
@@ -38,8 +38,8 @@ export function NavProjects({
     <SidebarGroup className='group-data-[collapsible=icon]:hidden'>
       <SidebarGroupLabel>{navItems().cars.title}</SidebarGroupLabel>
       <SidebarMenu>
-        {projects?.map(item => (
-          <SidebarMenuItem key={item.name}>
+        {cars?.map((item, index) => (
+          <SidebarMenuItem key={`item-${item.name}-${index}-${item.url}`}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 {/* <item.icon /> */}

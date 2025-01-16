@@ -7,7 +7,8 @@ export const registerSchema = z.object({
   username: z
     .string()
     .trim()
-    .min(4, 'The username should at least be 4 characters long'),
+    .min(4, 'The username should at least be 4 characters long')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username must not contain spaces or special characters'),
   password: z
     .string()
     .trim()

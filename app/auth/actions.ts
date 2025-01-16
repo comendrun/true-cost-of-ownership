@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import { registerSchema } from './_types/types'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -19,7 +20,6 @@ export async function login(formData: FormData) {
   console.log('error message', error?.message)
   console.log('error cause', error?.cause)
   console.table(error)
-  
 
   if (error) {
     redirect(`/auth/login?message=${error.message}`)
@@ -29,28 +29,58 @@ export async function login(formData: FormData) {
   redirect('/')
 }
 
-export async function signup(formData: FormData) {
+export async function signup(submittedData: FormData) {
   const supabase = createClient()
+
+  const formData = Object.fromEntries(submittedData)
+  const parsed = registerSchema.safeParse(formData)
+
+  if (!parsed.success) {
+    return {
+      submittedData: formData,
+      message: 'The submitted fields are not correct.',
+      isFailed: true
+    }
+    // redirect(`/auth/register?message=The Submitted data is not valid`)
+  }
+
+  console.log('parsed', parsed)
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-    username: formData.get('username') as string
+    email: parsed.data.email,
+    password: parsed.data.password,
+    // username: formData.get('username') as string
+    options: {
+      data: {
+        username: parsed.data.username
+      }
+    }
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const { data: savedUser, error } = await supabase.auth.signUp(data)
 
-  console.log('error message', error?.message)
-  console.log('error cause', error?.cause)
-  console.table(error)
-  
+  console.log('saved User', savedUser)
 
   if (error) {
-    redirect(`/auth/register?message=${error.message}`)
+    console.log('error', error)
+
+    // redirect(`/auth/register?message=${error.message}`)
+    return {
+      submittedData: formData,
+      message: error.message,
+      isFailed: true
+    }
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  return {
+    submittedData: formData,
+    message: 'The Sign up Process was successful. you will be redirected soon.',
+    isFailed: false
+  }
+
+  // revalidatePath('/', 'layout')
+  // redirect('/')
 }

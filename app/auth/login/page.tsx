@@ -17,6 +17,7 @@ import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { loginSchema } from '../_types/types'
 import { LoginForm } from '../_components/login-tab'
+import CircularSpinner from '@/components/ui/loading/spinner'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -95,7 +96,11 @@ export default function LoginPage() {
         />
 
         <Button className='mt-4' disabled={isLoading}>
-          {isLoading ? 'Please wait...' : 'Login'}
+          {isLoading ? (
+            <CircularSpinner color='bg-secondary' size={20} />
+          ) : (
+            'Login'
+          )}
         </Button>
         {loginActionMessage ? (
           <div className='mt-2 text-sm text-red-600'>{loginActionMessage}</div>
