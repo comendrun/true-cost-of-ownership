@@ -56,21 +56,9 @@ export default function CarForm({
   user: User | null
   pageError: string | null
 }) {
+  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const searchParams = useSearchParams()
   const router = useRouter()
-
-  useEffect(() => {
-    if (pageError) {
-      return () => {
-        toast.error(pageError)
-        // const params = new URLSearchParams(searchParams.toString())
-        // params.delete('id')
-        router.replace('/add-car/advanced')
-      }
-    }
-  }, [router])
-
-  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
 
   const {
     data: car,
@@ -79,22 +67,20 @@ export default function CarForm({
     isLoading: isCarLoading
   } = useGetCarById(id)
 
-  // if (car && car.user_id !== user?.id) {
-  //   toast.error("You don't have access to this entity.")
-  //   // const params = new URLSearchParams(searchParams.toString())
-  //   // params.delete('id')
-  //   // router.replace('/add-car/advanced')
-  // }
+  useEffect(() => {
+    if (pageError) {
+      return () => {
+        toast.error(pageError)
+        router.replace('/dashboard/add-car/advanced')
+      }
+    }
 
-  // useEffect(() => {
-  //   if (car && car.user_id !== user?.id) {
-  //     toast.error("You don't have access to this entity.")
-  //     // Remove the search parameters and redirect
-  //     const params = new URLSearchParams(searchParams.toString())
-  //     params.delete('id')
-  //     router.replace('/add-car/advanced', undefined)
-  //   }
-  // }, [car, user, searchParams, router])
+    // if (id && !car) {
+    //   const params = new URLSearchParams(searchParams.toString())
+    //   params.delete('id')
+    //   router.replace('/add-car/advanced')
+    // }
+  }, [router])
 
   const updateState = useCarFormStore(state => state.updateState)
   const setCarFormFieldValue = useCarFormStore(
@@ -111,9 +97,19 @@ export default function CarForm({
     console.log('data', data)
     updateState(data)
 
-    const savedCar: UserCarsTableRow | null = await saveCar(data, id)
+    const { data: savedCar, error } = await saveCar(data, id)
 
-    console.log('savedCar', savedCar)
+    if (error) {
+      return toast.error(error.message)
+    }
+
+    toast.success(
+      id ? 'Car updated successfully!' : 'Car created successfully!'
+    )
+
+    if (!id) {
+      router.replace(`/dashboard/add-car/advanced?id=${savedCar?.id}`)
+    }
   }
 
   const {
@@ -139,7 +135,7 @@ export default function CarForm({
   // }
 
   return (
-    <div className='min-h-[100vh] flex-1 rounded-xl bg-muted/50 px-2 py-20 md:min-h-min w-full'>
+    <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-20 md:min-h-min'>
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -168,7 +164,11 @@ export default function CarForm({
                             key={`input-number-${index}-${formField.key}-${formField.label}`}
                             control={control}
                             errors={errors}
-                            disabled={isCarLoading || formField.infoField}
+                            disabled={
+                              isCarLoading ||
+                              formField.infoField ||
+                              formField.disabled
+                            }
                             label={formField.label}
                             inputSuffix={formField?.inputSuffix || ''}
                             name={formField.key}
@@ -213,6 +213,7 @@ export default function CarForm({
                           selectItems={formField.selectItems}
                           getValues={getValues}
                           watch={watch}
+                          setValue={setValue}
                         />
                       )
                     }
@@ -345,25 +346,18 @@ export default function CarForm({
             >
               Reset
             </Button>
+
             <Button
-              className='w-full'
               variant='outline'
-              disabled={isCarLoading}
-            >
-              Save The Car
-            </Button>
-            <Button
-              variant='default'
               className='w-full'
-              type='submit'
+              // type='submit'
               disabled={isCarLoading}
             >
-              <svg
-                className='... mr-3 h-5 w-5 animate-spin text-white'
-                viewBox='0 0 24 24'
-              />
-              <div className='mr-3 h-5 w-5 animate-spin text-white'></div>
-              Analyze the Car Costs
+              Generate the Car Analysis
+            </Button>
+
+            <Button className='w-full' type='submit' disabled={isCarLoading}>
+              Save The Car
             </Button>
           </div>
         </form>

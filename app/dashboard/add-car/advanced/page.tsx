@@ -19,10 +19,11 @@ export default async function CarsPage({
 
   if (id) {
     const { data, error: fetchError } = await getCarById(id)
-    if (fetchError)
-      return (error = 'There was an error fetching the requested entry.')
+    console.log('data', data)
+    console.log('fetchError', fetchError)
 
-    if (data?.user_id !== user?.id) {
+    if (fetchError) error = 'There was an error fetching the requested entry.'
+    else if (data?.user_id !== user?.id) {
       error =
         "You don't have access to this entity. Please start with a fresh form."
     }

@@ -441,22 +441,23 @@ export const advancedFormSteps: FormSteps[] = [
         inputSuffix: 'Euros'
       }
     ]
-  },
-  {
-    id: 'totalCostOfOwnership',
-    index: 11,
-    title: 'Total Cost of Ownership',
-    fields: [
-      {
-        key: 'tco',
-        type: 'number',
-        required: false,
-        label: 'Total Cost of Ownership',
-        component: 'input',
-        inputSuffix: 'Euros'
-      }
-    ]
   }
+  // {
+  //   id: 'totalCostOfOwnership',
+  //   index: 11,
+  //   title: 'Total Cost of Ownership',
+  //   fields: [
+  //     {
+  //       key: 'tco',
+  //       type: 'number',
+  //       required: false,
+  //       label: 'Total Cost of Ownership',
+  //       component: 'input',
+  //       inputSuffix: 'Euros',
+  //       disabled: true
+  //     }
+  //   ]
+  // }
 ]
 
 export const formStepIndexMap: Record<FormStepsIDs, number> = {

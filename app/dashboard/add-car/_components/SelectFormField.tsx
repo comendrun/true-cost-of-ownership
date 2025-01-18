@@ -10,6 +10,7 @@ import {
   Control,
   FieldErrors,
   UseFormGetValues,
+  UseFormSetValue,
   UseFormWatch
 } from 'react-hook-form'
 
@@ -21,6 +22,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { CarFormValues } from '../_types/types'
+import { useEffect, useRef } from 'react'
 
 export default function SelectFormField({
   control,
@@ -34,7 +36,8 @@ export default function SelectFormField({
   placeholder,
   selectItems,
   getValues,
-  watch
+  watch,
+  setValue
 }: {
   name: keyof CarFormValues
   label: string
@@ -51,45 +54,49 @@ export default function SelectFormField({
     | ((arg1: CarFormValues) => string[] | number[] | undefined)
   getValues: UseFormGetValues<CarFormValues>
   watch: UseFormWatch<CarFormValues>
+  setValue: UseFormSetValue<CarFormValues>
 }) {
-  if (name === 'brand' || name === 'model') {
-    const options = Array.isArray(selectItems)
-      ? selectItems
-      : selectItems(watch())
-  }
+  const isInitialMount = useRef(true) // Add useRef to track initial mount
 
   return (
     <FormField
-      //   key={`${index}-${formField.key}-${formField.label}`}
       control={control}
       name={name}
       render={({ field }) => {
+        const value = field.value !== undefined ? String(field.value) : ''
+
+        if (name === 'model') {
+          console.log('model value', field.value)
+        }
+        if (name === 'year') {
+          console.log('year value', field.value)
+        }
         return (
           <FormItem className=''>
             <div className='grid grid-cols-4 items-center gap-4'>
               <FormLabel
-                className={`${disabled ? 'required-field' : ''} col-span-1`}
+                className={`${required && !disabled ? 'required-field' : ''} col-span-1`}
               >
                 {label}
               </FormLabel>
               <div className='col-span-3 flex w-full'>
                 <FormControl>
                   <Select
-                    //   key={`select-${index}-${formField.key}-${formField.label}`}
                     {...field}
-                    value={field.value?.toString()}
-                    onValueChange={
-                      type === 'number'
-                        ? value => field.onChange(Number(value))
-                        : field.onChange
-                      // value => {
-                      //   if (type === 'number') {
-                      //     return field.onChange(Number(value))
-                      //   } else {
-                      //     return field.onChange(value)
-                      //   }
-                      // }
-                    }
+                    value={value}
+                    onValueChange={value => {
+                      if (name === 'model' || name === 'year') {
+                        if (isInitialMount) {
+                          isInitialMount.current = false
+                          return
+                        }
+                      }
+                      if (type === 'number') {
+                        return field.onChange(Number(value))
+                      } else {
+                        return field.onChange(value)
+                      }
+                    }}
                   >
                     <SelectTrigger className='w-full'>
                       <SelectValue placeholder={placeholder} />
