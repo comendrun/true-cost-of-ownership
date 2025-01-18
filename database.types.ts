@@ -38,6 +38,33 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          email: string | null
+          first_name: string | null
+          id: string
+          last_modified_date: string
+          last_name: string | null
+          username: string | null
+        }
+        Insert: {
+          email?: string | null
+          first_name?: string | null
+          id: string
+          last_modified_date?: string
+          last_name?: string | null
+          username?: string | null
+        }
+        Update: {
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_modified_date?: string
+          last_name?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
       user_cars: {
         Row: {
           average_fuel_cost: number | null
@@ -207,7 +234,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      sync_existing_users: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

@@ -30,7 +30,10 @@ import Link from 'next/link'
 import Logo from './logo'
 import { User } from '@supabase/supabase-js'
 import { navItems } from './consts'
-import { UserCarsTableRow } from '@/app/dashboard/add-car/_types/types'
+import {
+  UserCarsTableRow,
+  UserProfile
+} from '@/app/dashboard/add-car/_types/types'
 import { ModeToggle } from '../providers/theme-toggle'
 
 // the page
@@ -170,7 +173,7 @@ export function AppSidebar({
   cars,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
-  user: User | null
+  user: UserProfile | null
   cars: UserCarsTableRow[] | null
 }) {
   return (
@@ -189,7 +192,7 @@ export function AppSidebar({
       <SidebarFooter>
         <ModeToggle />
         <NavUser
-          user={{ name: 'User', email: user?.email || '', avatar: '' }}
+          user={{ name: user?.username, email: user?.email || '', avatar: '' }}
         />
       </SidebarFooter>
       <SidebarRail />

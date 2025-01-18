@@ -1,0 +1,4 @@
+- add versions to the user cars and also ai responses
+- add a button to the forms to generate the analysis
+- add the cars page as a card with information => also editing in the advanced mode
+- working on the data grid table

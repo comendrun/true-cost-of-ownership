@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
 import Breadcrumbs from '@/components/ui/sidebar/breadcrumbs'
 import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({
   children
@@ -21,20 +22,31 @@ export default async function DashboardLayout({
 }) {
   const supabase = createClient()
   const {
-    data: { user }
+    data: { user },
+    error: getUserError
   } = await supabase.auth.getUser()
+
+  if (getUserError || !user) {
+    redirect('/auth/login')
+  }
+
+  const { data: userProfile, error: getProfileError } = await supabase
+    .from('profiles')
+    .select()
+    .eq('id', user.id)
+    .single()
 
   const { data: userLatestCars, error } = await supabase
     .from('user_cars')
     .select()
     .eq('user_id', user?.id as string)
     .order('created_at', { ascending: false })
-    .limit(3)    
+    .limit(3)
 
   return (
     <>
       <SidebarProvider>
-        <AppSidebar user={user} cars={userLatestCars} />
+        <AppSidebar user={userProfile} cars={userLatestCars} />
 
         <SidebarInset>
           <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>

@@ -13,14 +13,12 @@ import { routes } from './consts'
 
 export default function Breadcrumbs() {
   const pathname = usePathname()
-  console.log('pathname', pathname)
 
   const breadCrumbItems = pathname
     .split('/')
     .filter(Boolean) // Remove empty strings
     .map(item => routes()?.[item])
 
-  console.log('bread items', breadCrumbItems)
   const currentPage = breadCrumbItems.at(-1)
 
   return (
