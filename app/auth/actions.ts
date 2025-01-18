@@ -29,7 +29,10 @@ export async function login(formData: FormData) {
   redirect('/')
 }
 
-export async function signup(submittedData: FormData) {
+export async function signup(submittedData: FormData): Promise<{
+  message: string
+  isFailed: boolean
+}> {
   const supabase = createClient()
 
   const formData = Object.fromEntries(submittedData)
@@ -37,7 +40,6 @@ export async function signup(submittedData: FormData) {
 
   if (!parsed.success) {
     return {
-      submittedData: formData,
       message: 'The submitted fields are not correct.',
       isFailed: true
     }
@@ -48,7 +50,7 @@ export async function signup(submittedData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
+  const payload = {
     email: parsed.data.email,
     password: parsed.data.password,
     // username: formData.get('username') as string
@@ -59,16 +61,11 @@ export async function signup(submittedData: FormData) {
     }
   }
 
-  const { data: savedUser, error } = await supabase.auth.signUp(data)
-
-  console.log('saved User', savedUser)
+  const { error } = await supabase.auth.signUp(payload)
 
   if (error) {
-    console.log('error', error)
-
     // redirect(`/auth/register?message=${error.message}`)
     return {
-      submittedData: formData,
       message: error.message,
       isFailed: true
     }
@@ -76,7 +73,6 @@ export async function signup(submittedData: FormData) {
 
   revalidatePath('/', 'layout')
   return {
-    submittedData: formData,
     message: 'The Sign up Process was successful. you will be redirected soon.',
     isFailed: false
   }

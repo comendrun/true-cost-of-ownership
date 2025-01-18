@@ -24,9 +24,6 @@ export default function RegistrationPageForm({
   signup
 }: {
   signup(submittedData: FormData): Promise<{
-    submittedData: {
-      [k: string]: FormDataEntryValue
-    }
     message: string
     isFailed: boolean
   }>
@@ -58,15 +55,13 @@ export default function RegistrationPageForm({
       Object.entries(data).forEach(([key, value]) =>
         formData.append(key, value)
       )
-      console.log('formData', formData)
 
-      const { isFailed, message, submittedData } = await signup(formData)
-      console.log('result', message)
+      const { isFailed, message } = await signup(formData)
       if (isFailed) {
         return toast.error(message)
       }
       toast.success(message)
-    //   revalidatePath('/', 'layout')
+      //   revalidatePath('/', 'layout')
       //   redirect('/')
       router.push('/')
     } catch (error) {

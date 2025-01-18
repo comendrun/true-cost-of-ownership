@@ -157,6 +157,8 @@ export type FormStepsIDs =
 
 export type UserCarsTableRow = Database['public']['Tables']['user_cars']['Row']
 
+export type UserProfile = Database['public']['Tables']['profiles']['Row']
+
 export type UserCarsTableInsert =
   Database['public']['Tables']['user_cars']['Insert']
 

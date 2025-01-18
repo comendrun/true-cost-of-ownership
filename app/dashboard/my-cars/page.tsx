@@ -1,6 +1,10 @@
+'use server'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
+import CarsGrid from './_components/cars-grid'
+import { UserCarsTableRow } from '../add-car/_types/types'
+import { getPaginatedUserCars } from './actions'
 
 export default async function MyCarsPage() {
   const supabase = createClient()
@@ -13,32 +17,28 @@ export default async function MyCarsPage() {
     redirect('/login')
   }
 
-  console.log('metadata', user.user_metadata)
-
-  // const numberOfUserCars = (
-  //   await supabase.from('user_cars').select().eq('user_id', user.id)
-  // ).count
-
-  const { count: numberOfUserCars } = await supabase
+  const { count: userCarsCount } = await supabase
     .from('user_cars')
     .select('*', { count: 'exact', head: true })
     .eq('user_id', user.id)
 
-  const {
-    data: paginatedCars,
-    error: userCarErrors,
-    // count: numberOfUserCars
-  } = await supabase
-    .from('user_cars')
-    .select()
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(10)
+  // const { data: paginatedCars, error: userCarErrors } = await supabase
+  //   .from('user_cars')
+  //   .select()
+  //   .eq('user_id', user.id)
+  //   .order('created_at', { ascending: false })
+  //   .range(0, 9)
+  const { data: paginatedCars, error: getPaginatedUserCarsError } =
+    await getPaginatedUserCars()
 
-  // console.log('number of user cars', numberOfUserCars)
-  console.log('paginated cars', paginatedCars)
+    console.log('paginatedCars', paginatedCars)
+    
 
   return (
-    <div className='min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min'></div>
+    <CarsGrid
+      userCarsCount={userCarsCount}
+      initialData={paginatedCars}
+      error={getPaginatedUserCarsError}
+    />
   )
 }
