@@ -5,6 +5,7 @@ import {
   AIAnalysisChatCompletionResponse,
   UserCarsTableRow
 } from '../../_types/types'
+import { ChatCompletionResponseFormat } from './analysis-response-schema'
 
 export const exampleData = {
   costAnalysis: {
@@ -145,7 +146,7 @@ export const exampleData = {
 }
 
 // Example Payload for AI Model
-const examplePayloadWithClarifications: AIAnalysisChatCompletionResponse = {
+const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
   userCar: {
     // @ts-expect-error: the _comment property doesnt exist in the userCar but we need it to give the ai some comments on what to do. ToDo: remove these _comments and add the description in the messages directly
     _comment:

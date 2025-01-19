@@ -10,7 +10,10 @@ import { createClient } from '@/utils/supabase/server'
 import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
 import { revalidatePath } from 'next/cache'
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { AIAnalysisMetricsSchema } from './analysis-response-schema'
+import {
+  AIAnalysisMetricsSchema,
+  ChatCompletionResponseFormatSchema
+} from './analysis-response-schema'
 
 export async function openAICostsAnalysisCompletion({
   userCarId
@@ -74,7 +77,10 @@ export async function openAICostsAnalysisCompletion({
     model: 'gpt-4o-mini',
     messages,
     max_tokens: 16384,
-    response_format: zodResponseFormat(AIAnalysisMetricsSchema, 'event')
+    response_format: zodResponseFormat(
+      ChatCompletionResponseFormatSchema,
+      'event'
+    )
   })
 
   let chatCompletionResponse: AIAnalysisChatCompletionResponse | null = null
