@@ -19,15 +19,11 @@ export default function Breadcrumbs({
 }) {
   const pathname = usePathname()
 
-  console.log('pathname', pathname)
   const pathnameSplit = pathname.split('/').filter(Boolean)
   const id = pathnameSplit.filter(path => Number(path)).filter(Boolean)?.[0]
-  console.log('id', id)
 
   const breadCrumbItems = pathnameSplit // Remove empty strings
     .map(item => routes({ id: Number(id) })?.[item])
-
-  console.log('bread crums items', breadCrumbItems)
 
   const currentPage = breadCrumbItems.at(-1)
 
