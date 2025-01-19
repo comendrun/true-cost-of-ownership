@@ -221,6 +221,7 @@ export function generateOpenAIAnalysisChatCompletionMessage(
 
   ### Output Format: IMPORTANT: THE output Object type definition examplePayloadWithClarifications:
   ${JSON.stringify(examplePayloadWithClarifications)}
+  - Please stick strictly to the defined format for the output as I rely on this to parse and save the data after I got a response.
 
   ### Location and Costs: if the location is not provided, assume Germany as the location for the car and the costs and all the other costs that may be there
   

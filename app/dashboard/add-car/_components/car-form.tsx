@@ -1,11 +1,4 @@
 'use client'
-// import {
-//   CarFormValues,
-//   FormFieldType,
-//   FormStepsIDs,
-//   UserCarsTableRow,
-//   carFormSchema
-// } from '@/app/add-car/_types/types'
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -27,26 +20,25 @@ import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { advancedFormSteps } from '../_consts/consts'
+import { saveCar } from '../_functions/actions'
 import {
   isChekboxField,
   isInputField,
   isSelectField,
   isTextareaField
 } from '../_functions/helper-functions'
+import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
 import useGetCarById from '../_hooks/useGetCarById'
-import { saveCar } from '../_functions/actions'
-import AdvancedFormAccordionItem from './advanced-form-accordion-item'
-import NumberFormField from './NumberFormField'
-import SelectFormField from './SelectFormField'
-import TextInputFormField from './TextInputFormField'
 import {
   carFormSchema,
   CarFormValues,
   FormFieldType,
-  FormStepsIDs,
-  UserCarsTableRow
+  FormStepsIDs
 } from '../_types/types'
-import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
+import AdvancedFormAccordionItem from './advanced-form-accordion-item'
+import NumberFormField from './NumberFormField'
+import SelectFormField from './SelectFormField'
+import TextInputFormField from './TextInputFormField'
 
 export default function CarForm({
   id,
@@ -75,12 +67,6 @@ export default function CarForm({
         router.replace('/dashboard/add-car/advanced')
       }
     }
-
-    // if (id && !car) {
-    //   const params = new URLSearchParams(searchParams.toString())
-    //   params.delete('id')
-    //   router.replace('/add-car/advanced')
-    // }
   }, [router])
 
   const updateState = useCarFormStore(state => state.updateState)
@@ -126,13 +112,25 @@ export default function CarForm({
     watch
   } = form
 
-  // if (pageError) {
-  //   toast.error(pageError)
-  //   // const params = new URLSearchParams(searchParams.toString())
-  //   // params.delete('id')
-  //   // return <CarForm id={null} user={user} pageError={null}
-  //   router.replace('/add-car/advanced')
-  // }
+  async function handleGenerateAIAnalysis(): Promise<void> {
+    if (id) {
+      try {
+        const result = await openAICostsAnalysisCompletion({
+          userCarId: id
+        })
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        console.error(
+          'There was an error while generating the AI Analysis:',
+          error?.message
+        )
+        toast.error(
+          error.message ||
+            'There was an error while trying to generate the car analysis.'
+        )
+      }
+    }
+  }
 
   return (
     <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-10 md:min-h-min'>
@@ -324,17 +322,6 @@ export default function CarForm({
           </Accordion>
 
           <div className='flex w-full items-center justify-center gap-2'>
-            {/* <Button
-              variant='destructive'
-              onClick={() => {
-                const params = new URLSearchParams(searchParams.toString())
-                params.delete('id')
-                router.replace('/add-car/advanced')
-              }}
-              disabled={isCarLoading}
-            >
-              Start Over
-            </Button> */}
             <Button
               className='w-full'
               variant='secondary'
@@ -355,28 +342,7 @@ export default function CarForm({
               className='w-full'
               type='button'
               disabled={isCarLoading || !id}
-              onClick={async () => {
-                if (id) {
-                  try {
-                    ;('use server')
-                    const result = await openAICostsAnalysisCompletion({
-                      userCarId: id
-                    })
-                    console.log('result', result)
-                    console.log('result type', typeof result)
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  } catch (error: any) {
-                    console.error(
-                      'There was an error while generating the AI Analysis:',
-                      error?.message
-                    )
-                    toast.error(
-                      error.message ||
-                        'There was an error while trying to generate the car analysis.'
-                    )
-                  }
-                }
-              }}
+              onClick={handleGenerateAIAnalysis}
             >
               Generate the Car Analysis
             </Button>
