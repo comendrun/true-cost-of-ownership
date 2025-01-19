@@ -16,11 +16,9 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({
-  children,
-  params
+  children
 }: {
   children: ReactNode
-  params: any
 }) {
   const supabase = createClient()
   const {

@@ -364,6 +364,7 @@ export default function CarForm({
                     })
                     console.log('result', result)
                     console.log('result type', typeof result)
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   } catch (error: any) {
                     console.error(
                       'There was an error while generating the AI Analysis:',

@@ -112,6 +112,7 @@ export async function openAICostsAnalysisCompletion({
 
   console.log('before removing the comment field')
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function removeComments(obj: any) {
     for (const key in obj) {
       if (key === 'comment' || key === '_comment') {
