@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import CarForm from '../_components/car-form'
-import { getCarById } from '../actions'
+import { getCarById } from '../_functions/actions'
 import { Suspense } from 'react'
 
 export default async function CarsPage({
@@ -19,8 +19,6 @@ export default async function CarsPage({
 
   if (id) {
     const { data, error: fetchError } = await getCarById(id)
-    console.log('data', data)
-    console.log('fetchError', fetchError)
 
     if (fetchError) error = 'There was an error fetching the requested entry.'
     else if (data?.user_id !== user?.id) {

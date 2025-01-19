@@ -31,9 +31,6 @@ export default async function MyCarsPage() {
   const { data: paginatedCars, error: getPaginatedUserCarsError } =
     await getPaginatedUserCars()
 
-    console.log('paginatedCars', paginatedCars)
-    
-
   return (
     <CarsGrid
       userCarsCount={userCarsCount}

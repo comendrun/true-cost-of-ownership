@@ -1,40 +1,15 @@
 import { Row } from '@tanstack/react-table'
-import React from 'react'
-import { CarFormValues } from '../../add-car/_types/types'
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable
-} from '@tanstack/react-table'
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
+import Link from 'next/link'
 import { UserCarsTableRow } from '../../add-car/_types/types'
 
 export default function CarsGridRowActions({
@@ -63,7 +38,11 @@ export default function CarsGridRowActions({
         <DropdownMenuItem>View Car Details</DropdownMenuItem>
         <DropdownMenuItem>Edit Car Details</DropdownMenuItem>
         <DropdownMenuItem>Generate new analysis</DropdownMenuItem>
-        <DropdownMenuItem>View Generated Analysis</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/my-cars/${car.id}/analysis`}>
+            View Generated Analysis
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
