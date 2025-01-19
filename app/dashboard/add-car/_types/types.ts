@@ -166,4 +166,150 @@ export type UserCarsTableKeysRow = keyof UserCarsTableRow
 
 export type UserCarsTableKeysInsert = keyof UserCarsTableInsert
 
+export type AIResponseTableRow =
+  Database['public']['Tables']['ai_responses']['Row']
+
+export type AIResponseTableInsert =
+  Database['public']['Tables']['ai_responses']['Insert']
+
+export type AIAnalysisChatCompletionResponse = AIResponseTableInsert & {
+  userCar: UserCarsTableRow
+}
+
 export type CarFormValuesKeys = keyof CarFormValues
+
+// AI Generated Types:
+export type AIAnalysisMetrics = {
+  costAnalysis: CostAnalysis
+  fuelEfficiency: FuelEfficiency
+  comparisonMetrics: ComparisonMetrics
+  loanAffordability: LoanAffordability
+  environmentalImpact: EnvironmentalImpact
+  maintenanceSchedule: MaintenanceSchedule
+  resaleValueInsights: ResaleValueInsights
+  locationSpecificCosts: LocationSpecificCosts
+}
+
+export type CostAnalysis = {
+  averageMonthlyCost: number // Average monthly cost in EUR
+  annualCostProjection: { year: number; totalCost: number }[] // Projected yearly costs
+  majorExpenseCategories: { category: string; cost: number }[] // Breakdown of major expenses
+}
+
+export type ComparisonMetrics = {
+  carModel: string
+  initialCost: number // Purchase price in EUR
+  annualRunningCost: number // Annual running costs
+  depreciationRate: number // Depreciation rate as a percentage
+  fuelEfficiency: number // Liters per 100 km or MPG
+  resaleValue: number // Projected resale value after X years
+}[]
+
+export type EnvironmentalImpact = {
+  carModel: string
+  yearlyCO2Emissions: number // in kilograms
+  fuelType: 'petrol' | 'diesel' | 'electric' | 'hybrid'
+  lifecycleImpact: { production: number; usePhase: number; recycling: number } // CO2 in kg
+}[]
+
+export type ResaleValueInsights = {
+  carModel: string
+  initialPrice: number
+  yearsToDepreciate: number // Years to lose X% of value
+  resaleValueProjections: { year: number; resaleValue: number }[] // Resale values over time
+}[]
+
+export type LoanAffordability = {
+  loanAmount: number // Amount financed in EUR
+  interestRate: number // Annual interest rate in %
+  loanTerm: number // Term in years
+  monthlyPayment: number // Monthly payment amount in EUR
+  totalInterest: number // Total interest paid over the loan
+  totalCost: number // Total cost of the car (loan + interest)
+}
+
+export type LocationSpecificCosts = {
+  country: string
+  averageFuelCost: number // Cost per liter in EUR
+  insuranceRange: { min: number; max: number } // Monthly insurance in EUR
+  maintenanceCosts: { type: string; averageCost: number }[] // Average maintenance costs
+  roadTaxes: number // Annual road tax in EUR
+}
+
+export type UsageScenarios = {
+  scenario: string // e.g., "family trips," "city driving," "off-road"
+  recommendedCars: { carModel: string; reasons: string[] }[] // Cars suitable for the scenario
+  estimatedCosts: { type: string; cost: number }[] // Costs for this use case
+}[]
+
+export type MaintenanceSchedule = {
+  carModel: string
+  schedule: { mileage: number; tasks: string[]; cost: number }[] // Maintenance tasks by mileage
+}[]
+
+export type FuelEfficiency = {
+  carModel: string
+  distanceDriven: { monthly: number; yearly: number } // in km
+  fuelEfficiency: number // Liters per 100 km
+  estimatedFuelCost: { monthly: number; yearly: number } // in EUR
+}[]
+
+export const userCarFormToTableKeyMapping: Record<
+  keyof CarFormValues,
+  keyof UserCarsTableRow
+> = {
+  name: 'name',
+  brand: 'brand',
+  model: 'model',
+  variant: 'variant',
+  year: 'year',
+  mileage: 'mileage',
+  plannedYearsOfOwnership: 'planned_years_of_ownership',
+  drivingExperienceYears: 'driving_experience_years',
+  driverAgeRange: 'driver_age_range',
+  interiorScore: 'interior_score',
+  exteriorScore: 'exterior_score',
+  purchasePrice: 'purchase_price',
+  prepayment: 'prepayment',
+  interestRate: 'interest_rate',
+  financingDuration: 'financing_duration',
+  remainingAmount: 'remaining_amount',
+  totalInterestPaid: 'total_interest_paid',
+  truePurchasePrice: 'true_purchase_price',
+  initialPrice: 'initial_price',
+  depreciationRate: 'depreciation_rate',
+  guaranteeYears: 'guarantee_years',
+  serviceCosts: 'service_costs',
+  serviceIncludes: 'service_includes',
+  tiresCosts: 'tires_costs',
+  oilChangeCosts: 'oil_change_costs',
+  offerOnExtendedWarranty: 'offer_on_extended_warranty',
+  extendedWarrantyCost: 'extended_warranty_cost',
+  totalPlannedKMs: 'total_planned_kms',
+  fuelConsumption: 'fuel_consumption',
+  fuelType: 'fuel_type',
+  averageFuelCost: 'average_fuel_cost',
+  insuranceType: 'insurance_type',
+  insuranceCost: 'insurance_cost',
+  tuvCosts: 'tuv_costs',
+  taxes: 'taxes',
+  parkingCosts: 'parking_costs',
+  estimatedResaleValue: 'estimated_resale_value',
+  resaleValueAfterYears: 'resale_value_after_years',
+  regularMaintenanceCosts: 'regular_maintenance_costs',
+  unexpectedRepairCosts: 'unexpected_repair_costs',
+  maintenanceFrequency: 'maintenance_frequency',
+  emissions: 'emissions',
+  ecoTax: 'eco_tax',
+  tco: 'tco'
+}
+
+export const userCarTableToFormKeyMapping: Record<
+  keyof UserCarsTableRow,
+  keyof CarFormValues
+> = Object.fromEntries(
+  Object.entries(userCarFormToTableKeyMapping).map(([formKey, dbKey]) => [
+    dbKey,
+    formKey
+  ])
+) as Record<keyof UserCarsTableRow, keyof CarFormValues>

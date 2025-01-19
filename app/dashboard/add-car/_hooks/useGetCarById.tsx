@@ -1,5 +1,5 @@
 import React from 'react'
-import { getCarById } from '../actions'
+import { getCarById } from '../_functions/actions'
 import { CarFormValues, UserCarsTableRow } from '../_types/types'
 
 import { useEffect, useState } from 'react'
@@ -26,11 +26,15 @@ export default function useGetCarById(id: string | number | null) {
           )
           setCarEntryFormValues(formValues)
         }
+        if (response.error) {
+          setError(response.error)
+        }
       })
       .catch(err => {
         console.error('Error while performing the postgresql fetch', err)
         setError(err)
-      }).finally(()=>{
+      })
+      .finally(() => {
         setIsLoading(false)
       })
   }, [id])

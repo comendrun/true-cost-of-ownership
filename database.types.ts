@@ -11,22 +11,46 @@ export type Database = {
     Tables: {
       ai_responses: {
         Row: {
+          analysis_metrics: Json | null
+          analysis_summary: string | null
           car_id: number | null
+          cost_saving_opportunities: string[] | null
           created_at: string | null
+          feedback: string | null
           id: number
+          recommended_insurances: string[] | null
           response: string
+          suggested_driving_tips: string[] | null
+          version: number | null
+          visualization_config: Json | null
         }
         Insert: {
+          analysis_metrics?: Json | null
+          analysis_summary?: string | null
           car_id?: number | null
+          cost_saving_opportunities?: string[] | null
           created_at?: string | null
+          feedback?: string | null
           id?: number
+          recommended_insurances?: string[] | null
           response: string
+          suggested_driving_tips?: string[] | null
+          version?: number | null
+          visualization_config?: Json | null
         }
         Update: {
+          analysis_metrics?: Json | null
+          analysis_summary?: string | null
           car_id?: number | null
+          cost_saving_opportunities?: string[] | null
           created_at?: string | null
+          feedback?: string | null
           id?: number
+          recommended_insurances?: string[] | null
           response?: string
+          suggested_driving_tips?: string[] | null
+          version?: number | null
+          visualization_config?: Json | null
         }
         Relationships: [
           {
@@ -115,6 +139,7 @@ export type Database = {
           updated_at: string | null
           user_id: string | null
           variant: string | null
+          version: number | null
           year: number
         }
         Insert: {
@@ -166,6 +191,7 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
           variant?: string | null
+          version?: number | null
           year: number
         }
         Update: {
@@ -217,6 +243,7 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
           variant?: string | null
+          version?: number | null
           year?: number
         }
         Relationships: [

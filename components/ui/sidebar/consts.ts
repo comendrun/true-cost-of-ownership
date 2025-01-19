@@ -1,11 +1,14 @@
 // the pages of the application
 
-import { UserCarsTableRow } from '@/app/dashboard/add-car/_types/types'
+import {
+  UserCarsTableInsert,
+  UserCarsTableRow
+} from '@/app/dashboard/add-car/_types/types'
 import { SquareTerminal, Library } from 'lucide-react'
 
 // dashboard, login, register, my-cars, add-cars, advanced, simple, home
 
-export const routes = (car?: UserCarsTableRow) => ({
+export const routes = (car?: { id?: number; name?: string } | null) => ({
   dashboard: {
     title: 'Dashboard',
     url: '/dashboard'
@@ -31,8 +34,13 @@ export const routes = (car?: UserCarsTableRow) => ({
     url: '/dashboard/add-car/advanced'
   },
   [`${car?.id}`]: {
-    title: `Car Analysis - (${car?.name})`,
+    title: `Car (${car?.name || car?.id})`,
     url: `/dashboard/my-cars/${car?.id}`
+  },
+  // define a new breadcrumb route which would be the `/dashboard/my-cars/${car?.id}`/analysis
+  analysis: {
+    title: `Car Analysis (${car?.name || car?.id})`,
+    url: `/dashboard/my-cars/${car?.id}/analysis`
   }
 })
 
@@ -84,10 +92,13 @@ export const navItems = (cars?: UserCarsTableRow[] | null) => ({
     ]
   },
   cars: {
-    title: 'Latest Analysis',
+    title: 'Recent Saved Cars',
     mainItems: cars?.map(car => ({
       name: car.name,
-      url: `/dashboard/my-cars/${car.id}`
+      url: `/dashboard/my-cars/${car.id}`,
+      brand: car.brand,
+      model: car.model,
+      year: car.year
       // icon: Library
     }))
   }

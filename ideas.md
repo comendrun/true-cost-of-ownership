@@ -2,3 +2,10 @@
 - add a button to the forms to generate the analysis
 - add the cars page as a card with information => also editing in the advanced mode
 - working on the data grid table
+- defining a proper range for the fields that we have in the advanced form and others
+- adding a new table for the analysis to be filled with usefull information about the car
+- in the first stage i will try to ask ai to do most of the heavy lifting, but after a while I will have to just get some properties that i need and then calculate everthing myself, and also maybe as for another car in the same price range and compare them
+- fix the issue with the model and year fields that behave weirdly in case we are in a fresh form
+- incrementing the version of the user car each time that there is an update operation
+- I added a function and trigger to update the last_ai_response_id field of the user_cars to be the latest possible item from ai_responses with the car_id equal to the user_car.id
+- 

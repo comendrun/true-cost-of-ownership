@@ -8,16 +8,26 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { routes } from './consts'
+import { UserCarsTableInsert } from '@/app/dashboard/add-car/_types/types'
 
-export default function Breadcrumbs() {
+export default function Breadcrumbs({
+  car
+}: {
+  car?: { id: number; name: string } | null
+}) {
   const pathname = usePathname()
 
-  const breadCrumbItems = pathname
-    .split('/')
-    .filter(Boolean) // Remove empty strings
-    .map(item => routes()?.[item])
+  console.log('pathname', pathname)
+  const pathnameSplit = pathname.split('/').filter(Boolean)
+  const id = pathnameSplit.filter(path => Number(path)).filter(Boolean)?.[0]
+  console.log('id', id)
+
+  const breadCrumbItems = pathnameSplit // Remove empty strings
+    .map(item => routes({ id: Number(id) })?.[item])
+
+  console.log('bread crums items', breadCrumbItems)
 
   const currentPage = breadCrumbItems.at(-1)
 

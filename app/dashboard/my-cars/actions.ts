@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function getPaginatedUserCars(
   pageNum: number = 1,
-  pageSize: number = 5
+  pageSize: number = 10
 ) {
   const supabase = createClient()
 
@@ -28,7 +28,6 @@ export async function getPaginatedUserCars(
   }
 
   console.log('range', range)
-  
 
   const { data, error } = await supabase
     .from('user_cars')
@@ -40,7 +39,5 @@ export async function getPaginatedUserCars(
     return { data: [], error }
   }
 
-  console.log('data', data)
-  
   return { data, error: null }
 }

@@ -73,7 +73,9 @@ export default function AdvancedFormAccordionItem({
     onNextStep(id, index, setStep)
   }
 
-  async function formStepsLabelOnClickHandler(event: MouseEvent<HTMLButtonElement>) {
+  async function formStepsLabelOnClickHandler(
+    event: MouseEvent<HTMLButtonElement>
+  ) {
     event.preventDefault()
     const isValid = await trigger(stepKeys)
 
@@ -113,7 +115,9 @@ export default function AdvancedFormAccordionItem({
         {title}
       </AccordionTrigger>
       <AccordionContent>
-        <div className='flex h-full w-full flex-col xl:grid xl:grid-cols-2 xl:gap-x-20 gap-8 '>{children}</div>
+        <div className='flex h-full w-full flex-col gap-8 xl:grid xl:grid-cols-2 xl:gap-x-20'>
+          {children}
+        </div>
 
         <div className='mb-0 mt-6 flex w-full items-center justify-between'>
           <Button
@@ -124,7 +128,7 @@ export default function AdvancedFormAccordionItem({
             Previous Step
           </Button>
 
-          {index !== 11 ? (
+          {index < advancedFormSteps.length - 1 ? (
             <Button className='ml-auto' onClick={handleFormNextStep}>
               Next Step
             </Button>

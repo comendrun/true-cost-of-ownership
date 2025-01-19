@@ -28,6 +28,9 @@ export function NavRecentCars({
     | {
         name: string
         url: string
+        brand: string
+        model: string
+        year: number
         icon?: LucideIcon | string
       }[]
     | null
@@ -43,7 +46,9 @@ export function NavRecentCars({
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 {/* <item.icon /> */}
-                <span>{item.name}</span>
+                <span>
+                  {item.name || `${item.brand}-${item.model}-${item.year}`}
+                </span>
               </a>
             </SidebarMenuButton>
             {/* <DropdownMenu>
@@ -75,12 +80,12 @@ export function NavRecentCars({
             </DropdownMenu> */}
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
+        {/* <SidebarMenuItem>
           <SidebarMenuButton className='text-sidebar-foreground/70'>
             <DotsHorizontalIcon className='text-sidebar-foreground/70' />
             <span>More</span>
           </SidebarMenuButton>
-        </SidebarMenuItem>
+        </SidebarMenuItem> */}
       </SidebarMenu>
     </SidebarGroup>
   )
