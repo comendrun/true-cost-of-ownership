@@ -37,7 +37,8 @@ export default function SelectFormField({
   selectItems,
   getValues,
   watch,
-  setValue
+  setValue,
+  carId
 }: {
   name: keyof CarFormValues
   label: string
@@ -55,6 +56,7 @@ export default function SelectFormField({
   getValues: UseFormGetValues<CarFormValues>
   watch: UseFormWatch<CarFormValues>
   setValue: UseFormSetValue<CarFormValues>
+  carId: string | number | null
 }) {
   const isInitialMount = useRef(true) // Add useRef to track initial mount
 
@@ -64,13 +66,6 @@ export default function SelectFormField({
       name={name}
       render={({ field }) => {
         const value = field.value !== undefined ? String(field.value) : ''
-
-        if (name === 'model') {
-          console.log('model value', field.value)
-        }
-        if (name === 'year') {
-          console.log('year value', field.value)
-        }
         return (
           <FormItem className=''>
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -86,9 +81,9 @@ export default function SelectFormField({
                     value={value}
                     onValueChange={value => {
                       if (name === 'model' || name === 'year') {
-                        if (isInitialMount) {
+                        if (isInitialMount.current) {
                           isInitialMount.current = false
-                          return
+                          if (carId) return
                         }
                       }
                       if (type === 'number') {

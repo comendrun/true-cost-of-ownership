@@ -1,5 +1,5 @@
 import React from 'react'
-import { getCarById } from '../actions'
+import { getCarById } from '../_functions/actions'
 import { CarFormValues, UserCarsTableRow } from '../_types/types'
 
 import { useEffect, useState } from 'react'
