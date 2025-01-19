@@ -147,7 +147,7 @@ export const exampleData = {
 // Example Payload for AI Model
 const examplePayloadWithClarifications: AIAnalysisChatCompletionResponse = {
   userCar: {
-    // @ts-expect-error
+    // @ts-expect-error: the _comment property doesnt exist in the userCar but we need it to give the ai some comments on what to do. ToDo: remove these _comments and add the description in the messages directly
     _comment:
       'Here we will have all the car fields including the ones that were empty and now filled by AI.'
   },
