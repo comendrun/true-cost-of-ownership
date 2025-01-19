@@ -16,9 +16,11 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardLayout({
-  children
+  children,
+  params
 }: {
   children: ReactNode
+  params: any
 }) {
   const supabase = createClient()
   const {
@@ -42,6 +44,29 @@ export default async function DashboardLayout({
     .eq('user_id', user?.id as string)
     .order('created_at', { ascending: false })
     .limit(3)
+
+  // let breadCrumbUserCar = null
+  // let breadCrumbUserCarError = null
+
+  // if (params?.id !== undefined) {
+  //   const { data, error } = await supabase
+  //     .from('user_cars')
+  //     .select('id, name')
+  //     .eq('id', params.id)
+  //     .single()
+  //   breadCrumbUserCar = data
+  //   breadCrumbUserCarError = error
+  // }
+
+  // if (breadCrumbUserCarError || error || getProfileError) {
+  //   console.error('Error fetching data:', {
+  //     breadCrumbUserCarError,
+  //     error,
+  //     getProfileError
+  //   })
+  // }
+
+  // console.log('breadCrumbcar', breadCrumbUserCar)
 
   return (
     <>

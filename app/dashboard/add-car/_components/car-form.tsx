@@ -34,7 +34,7 @@ import {
   isTextareaField
 } from '../_functions/helper-functions'
 import useGetCarById from '../_hooks/useGetCarById'
-import { saveCar } from '../actions'
+import { saveCar } from '../_functions/actions'
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import NumberFormField from './NumberFormField'
 import SelectFormField from './SelectFormField'
@@ -46,6 +46,7 @@ import {
   FormStepsIDs,
   UserCarsTableRow
 } from '../_types/types'
+import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
 
 export default function CarForm({
   id,
@@ -94,7 +95,6 @@ export default function CarForm({
   })
 
   const onSubmit: SubmitHandler<CarFormValues> = async data => {
-    console.log('data', data)
     updateState(data)
 
     const { data: savedCar, error } = await saveCar(data, id)
@@ -135,189 +135,192 @@ export default function CarForm({
   // }
 
   return (
-    <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-20 md:min-h-min'>
+    <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-10 md:min-h-min'>
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='m-auto mt-5 flex w-full flex-col gap-8 p-5'
         >
           <Accordion value={step} type='single' collapsible className='w-full'>
-            {advancedFormSteps.map(({ id, title, fields, index }) => {
-              return (
-                <AdvancedFormAccordionItem
-                  id={id}
-                  title={title}
-                  index={index}
-                  setStep={setStep}
-                  trigger={trigger}
-                  errors={errors}
-                  currentStep={step}
-                  key={`${index}-${id}`}
-                  clearErrors={clearErrors}
-                  getFieldState={getFieldState}
-                >
-                  {fields.map((formField: FormFieldType) => {
-                    if (isInputField(formField)) {
-                      if (formField.type === 'number') {
+            {advancedFormSteps.map(
+              ({ id: advancedFormStepId, title, fields, index }) => {
+                return (
+                  <AdvancedFormAccordionItem
+                    id={advancedFormStepId}
+                    title={title}
+                    index={index}
+                    setStep={setStep}
+                    trigger={trigger}
+                    errors={errors}
+                    currentStep={step}
+                    key={`${index}-${advancedFormStepId}`}
+                    clearErrors={clearErrors}
+                    getFieldState={getFieldState}
+                  >
+                    {fields.map((formField: FormFieldType) => {
+                      if (isInputField(formField)) {
+                        if (formField.type === 'number') {
+                          return (
+                            <NumberFormField
+                              key={`input-number-${index}-${formField.key}-${formField.label}`}
+                              control={control}
+                              errors={errors}
+                              disabled={
+                                isCarLoading ||
+                                formField.infoField ||
+                                formField.disabled
+                              }
+                              label={formField.label}
+                              inputSuffix={formField?.inputSuffix || ''}
+                              name={formField.key}
+                              formDescription={formField.formDescription}
+                              required={formField.required}
+                            />
+                          )
+                        }
+
+                        if (formField.type === 'string') {
+                          return (
+                            <TextInputFormField
+                              key={`input-number-${index}-${formField.key}-${formField.label}`}
+                              control={control}
+                              errors={errors}
+                              disabled={isCarLoading || formField?.infoField}
+                              label={formField.label}
+                              inputSuffix={formField?.inputSuffix}
+                              name={formField.key}
+                              formDescription={formField.formDescription}
+                              required={formField.required}
+                              placeholder={formField?.placeholder}
+                              fullWidth={formField?.fullWidth}
+                            />
+                          )
+                        }
+                      }
+
+                      if (isSelectField(formField)) {
                         return (
-                          <NumberFormField
-                            key={`input-number-${index}-${formField.key}-${formField.label}`}
+                          <SelectFormField
+                            key={`${index}-${formField.key}-${formField.label}`}
                             control={control}
                             errors={errors}
-                            disabled={
-                              isCarLoading ||
-                              formField.infoField ||
-                              formField.disabled
-                            }
+                            disabled={isCarLoading || formField.disabled}
                             label={formField.label}
-                            inputSuffix={formField?.inputSuffix || ''}
                             name={formField.key}
                             formDescription={formField.formDescription}
                             required={formField.required}
+                            type={formField.type}
+                            placeholder={formField.placeholder}
+                            selectItems={formField.selectItems}
+                            getValues={getValues}
+                            watch={watch}
+                            setValue={setValue}
+                            carId={id}
                           />
                         )
                       }
 
-                      if (formField.type === 'string') {
+                      if (isChekboxField(formField)) {
                         return (
-                          <TextInputFormField
-                            key={`input-number-${index}-${formField.key}-${formField.label}`}
+                          <FormField
+                            key={`${index}-${formField.key}-${formField.label}`}
                             control={control}
-                            errors={errors}
-                            disabled={isCarLoading || formField?.infoField}
-                            label={formField.label}
-                            inputSuffix={formField?.inputSuffix}
                             name={formField.key}
-                            formDescription={formField.formDescription}
-                            required={formField.required}
-                            placeholder={formField?.placeholder}
-                            fullWidth={formField?.fullWidth}
+                            render={({ field }) => {
+                              return (
+                                <FormItem>
+                                  <div className='grid grid-cols-4 items-center gap-4'>
+                                    <FormLabel
+                                      className={`${formField.required ? 'required-field' : ''}`}
+                                    >
+                                      {formField.label}
+                                    </FormLabel>
+                                    <div className='col-span-3 flex w-full items-center gap-2'>
+                                      <FormControl>
+                                        <Checkbox
+                                          key={`checkbox-${index}-${formField.key}-${formField.label}`}
+                                          type='button'
+                                          checked={field.value as boolean}
+                                          onCheckedChange={value => {
+                                            if (!value)
+                                              setValue(
+                                                `${formField.key}`,
+                                                undefined
+                                              )
+                                            field.onChange(value)
+                                          }}
+                                          {...fields}
+                                          disabled={isCarLoading}
+                                        />
+                                      </FormControl>
+                                    </div>
+                                  </div>
+                                  <FormDescription>
+                                    {formField.formDescription}
+                                  </FormDescription>
+                                  <FormMessage>
+                                    {errors?.[formField?.key]?.message}
+                                  </FormMessage>
+                                </FormItem>
+                              )
+                            }}
                           />
                         )
                       }
-                    }
 
-                    if (isSelectField(formField)) {
-                      return (
-                        <SelectFormField
-                          key={`${index}-${formField.key}-${formField.label}`}
-                          control={control}
-                          errors={errors}
-                          disabled={isCarLoading || formField.disabled}
-                          label={formField.label}
-                          name={formField.key}
-                          formDescription={formField.formDescription}
-                          required={formField.required}
-                          type={formField.type}
-                          placeholder={formField.placeholder}
-                          selectItems={formField.selectItems}
-                          getValues={getValues}
-                          watch={watch}
-                          setValue={setValue}
-                        />
-                      )
-                    }
-
-                    if (isChekboxField(formField)) {
-                      return (
-                        <FormField
-                          key={`${index}-${formField.key}-${formField.label}`}
-                          control={control}
-                          name={formField.key}
-                          render={({ field }) => {
-                            return (
-                              <FormItem>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                  <FormLabel
-                                    className={`${formField.required ? 'required-field' : ''}`}
-                                  >
-                                    {formField.label}
-                                  </FormLabel>
-                                  <div className='col-span-3 flex w-full items-center gap-2'>
-                                    <FormControl>
-                                      <Checkbox
-                                        key={`checkbox-${index}-${formField.key}-${formField.label}`}
-                                        type='button'
-                                        checked={field.value as boolean}
-                                        onCheckedChange={value => {
-                                          if (!value)
-                                            setValue(
-                                              `${formField.key}`,
-                                              undefined
-                                            )
-                                          field.onChange(value)
-                                        }}
-                                        {...fields}
-                                        disabled={isCarLoading}
-                                      />
-                                    </FormControl>
+                      if (isTextareaField(formField)) {
+                        return (
+                          <FormField
+                            key={`${index}-${formField.key}-${formField.label}`}
+                            control={control}
+                            name={formField.key}
+                            render={({ field }) => {
+                              return (
+                                <FormItem>
+                                  <div className='mt-4 grid grid-cols-4 items-start gap-4'>
+                                    <FormLabel
+                                      className={`${formField.required ? 'required-field' : ''} mt-2`}
+                                    >
+                                      {formField.label}
+                                    </FormLabel>
+                                    <div className='col-span-3 flex w-full items-center gap-2'>
+                                      <FormControl>
+                                        <Textarea
+                                          key={`textarea-${index}-${formField.key}-${formField.label}`}
+                                          rows={4}
+                                          placeholder={formField.placeholder}
+                                          disabled={
+                                            isCarLoading || field.disabled
+                                          }
+                                          {...field}
+                                          value={
+                                            field.value as
+                                              | string
+                                              | number
+                                              | readonly string[]
+                                              | undefined
+                                          }
+                                        />
+                                      </FormControl>
+                                    </div>
                                   </div>
-                                </div>
-                                <FormDescription>
-                                  {formField.formDescription}
-                                </FormDescription>
-                                <FormMessage>
-                                  {errors?.[formField?.key]?.message}
-                                </FormMessage>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      )
-                    }
-
-                    if (isTextareaField(formField)) {
-                      return (
-                        <FormField
-                          key={`${index}-${formField.key}-${formField.label}`}
-                          control={control}
-                          name={formField.key}
-                          render={({ field }) => {
-                            return (
-                              <FormItem>
-                                <div className='mt-4 grid grid-cols-4 items-start gap-4'>
-                                  <FormLabel
-                                    className={`${formField.required ? 'required-field' : ''} mt-2`}
-                                  >
-                                    {formField.label}
-                                  </FormLabel>
-                                  <div className='col-span-3 flex w-full items-center gap-2'>
-                                    <FormControl>
-                                      <Textarea
-                                        key={`textarea-${index}-${formField.key}-${formField.label}`}
-                                        rows={4}
-                                        placeholder={formField.placeholder}
-                                        disabled={
-                                          isCarLoading || field.disabled
-                                        }
-                                        {...field}
-                                        value={
-                                          field.value as
-                                            | string
-                                            | number
-                                            | readonly string[]
-                                            | undefined
-                                        }
-                                      />
-                                    </FormControl>
-                                  </div>
-                                </div>
-                                <FormDescription>
-                                  {formField?.formDescription}
-                                </FormDescription>
-                                <FormMessage>
-                                  {errors?.[formField.key]?.message}
-                                </FormMessage>
-                              </FormItem>
-                            )
-                          }}
-                        />
-                      )
-                    }
-                  })}
-                </AdvancedFormAccordionItem>
-              )
-            })}
+                                  <FormDescription>
+                                    {formField?.formDescription}
+                                  </FormDescription>
+                                  <FormMessage>
+                                    {errors?.[formField.key]?.message}
+                                  </FormMessage>
+                                </FormItem>
+                              )
+                            }}
+                          />
+                        )
+                      }
+                    })}
+                  </AdvancedFormAccordionItem>
+                )
+              }
+            )}
           </Accordion>
 
           <div className='flex w-full items-center justify-center gap-2'>
@@ -350,8 +353,29 @@ export default function CarForm({
             <Button
               variant='outline'
               className='w-full'
-              // type='submit'
-              disabled={isCarLoading}
+              type='button'
+              disabled={isCarLoading || !id}
+              onClick={async () => {
+                if (id) {
+                  try {
+                    ;('use server')
+                    const result = await openAICostsAnalysisCompletion({
+                      userCarId: id
+                    })
+                    console.log('result', result)
+                    console.log('result type', typeof result)
+                  } catch (error: any) {
+                    console.error(
+                      'There was an error while generating the AI Analysis:',
+                      error?.message
+                    )
+                    toast.error(
+                      error.message ||
+                        'There was an error while trying to generate the car analysis.'
+                    )
+                  }
+                }
+              }}
             >
               Generate the Car Analysis
             </Button>
