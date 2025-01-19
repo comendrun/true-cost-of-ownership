@@ -1,11 +1,10 @@
+import { carFormDefaultValues } from '@/data/consts'
 import { User } from '@supabase/supabase-js'
+import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import {
   AIAnalysisChatCompletionResponse,
-  AIResponseTableRow,
   UserCarsTableRow
 } from '../../_types/types'
-import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-import { carFormDefaultValues } from '@/data/consts'
 
 export const exampleData = {
   costAnalysis: {
@@ -148,7 +147,7 @@ export const exampleData = {
 // Example Payload for AI Model
 const examplePayloadWithClarifications: AIAnalysisChatCompletionResponse = {
   userCar: {
-    // @ts-ignore
+    // @ts-expect-error
     _comment:
       'Here we will have all the car fields including the ones that were empty and now filled by AI.'
   },
