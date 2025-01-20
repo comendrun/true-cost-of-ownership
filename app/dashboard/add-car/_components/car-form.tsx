@@ -39,6 +39,7 @@ import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import NumberFormField from './NumberFormField'
 import SelectFormField from './SelectFormField'
 import TextInputFormField from './TextInputFormField'
+import { LoadingDialogWithSpinner } from '../../../../components/ui/loading/LoadingDialogWithSpinner'
 
 export default function CarForm({
   id,
@@ -50,6 +51,7 @@ export default function CarForm({
   pageError: string | null
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
+  const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -114,6 +116,7 @@ export default function CarForm({
 
   async function handleGenerateAIAnalysis(): Promise<void> {
     if (id) {
+      setIsAnalysisGenerating(true)
       try {
         const result = await openAICostsAnalysisCompletion({
           userCarId: id
@@ -128,12 +131,14 @@ export default function CarForm({
           error.message ||
             'There was an error while trying to generate the car analysis.'
         )
+      } finally {
+        setIsAnalysisGenerating(false)
       }
     }
   }
 
   return (
-    <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-10 md:min-h-min'>
+    <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-5 md:min-h-min'>
       <Form {...form}>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -353,6 +358,17 @@ export default function CarForm({
           </div>
         </form>
       </Form>
+      {isAnalysisGenerating ? (
+        <LoadingDialogWithSpinner
+          open={isAnalysisGenerating}
+          setIsOpen={setIsAnalysisGenerating}
+          title='Please wait...'
+          description='Please wait until the Analysis is generated.'
+          withCloseButton={false}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

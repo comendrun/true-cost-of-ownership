@@ -196,7 +196,7 @@ export function generateOpenAIAnalysisChatCompletionMessage(
   1. **Fill Empty Fields:** Complete missing fields like \`name\` (e.g., "Toyota Corolla 2020") and calculate derived values (e.g., \`remainingAmount\`, \`totalInterestPaid\`).
   2. **Validate Inputs:** Identify potential inconsistencies in user inputs and include them in the feedback section without modifying original data.
   3. **Generate Analysis:** Provide:
-     - Cost Analysis: Calculate average monthly costs, yearly projections, and major expense categories.
+     - Cost Analysis: Calculate average monthly costs, yearly projections, and major expense categories. This should be realistic and comply with the rest of the categories and costs, especially to the overal tco that is going to be stored in the userCar, and will be the total amount of costs for the car for the duration of the ownership.
      - Depreciation Insights: Predict resale value and depreciation over time.
      - Environmental Impact: Analyze emissions and lifecycle CO2.
      - Maintenance Schedule: Recommend tasks based on mileage.
