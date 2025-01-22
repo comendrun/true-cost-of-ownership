@@ -8,4 +8,6 @@
 - fix the issue with the model and year fields that behave weirdly in case we are in a fresh form
 - incrementing the version of the user car each time that there is an update operation
 - I added a function and trigger to update the last_ai_response_id field of the user_cars to be the latest possible item from ai_responses with the car_id equal to the user_car.id
-- 
+- to add a new field to the user_cars table to make sure that they are not trying to make multiple saves and rerquests to the ai and we wont get charged mcuh.
+- to separate the filling of the user_cars table and the analysis calls, so that by the time that we want to generate the analysis, we already have the user_cars info
+- instead of immidiately saving all information that we get from the open ai completion, i should show a message on frontend that would show the values that are recieved and if the usre is fine with them, and if so, then we save them again or they choose to update it.
