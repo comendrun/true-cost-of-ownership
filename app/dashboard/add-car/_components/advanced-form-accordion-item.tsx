@@ -6,7 +6,7 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { CarFormValues, FormStepsIDs } from '../_types/types'
+import { CarFormFields, FormStepsIDs } from '../_types/types'
 import { onNextStep, onPreviousStep } from './helper-functions'
 import {
   FieldErrors,
@@ -37,13 +37,13 @@ export default function AdvancedFormAccordionItem({
   title: string
   id: FormStepsIDs
   index: number
-  errors: FieldErrors<CarFormValues>
+  errors: FieldErrors<CarFormFields>
   setStep: React.Dispatch<React.SetStateAction<FormStepsIDs>>
-  trigger: UseFormTrigger<CarFormValues>
+  trigger: UseFormTrigger<CarFormFields>
   currentStep: FormStepsIDs
   children: ReactNode
-  clearErrors: UseFormClearErrors<CarFormValues>
-  getFieldState: UseFormGetFieldState<CarFormValues>
+  clearErrors: UseFormClearErrors<CarFormFields>
+  getFieldState: UseFormGetFieldState<CarFormFields>
 }) {
   const stepKeys = getStepFieldKeys(currentStep)
   const otherKeys = getKeysOutsideStep(currentStep)
@@ -59,7 +59,7 @@ export default function AdvancedFormAccordionItem({
       const fieldState = getFieldState(key)
       if (fieldState.error) acc[key] = fieldState.error
       return acc
-    }, {} as FieldErrors<CarFormValues>)
+    }, {} as FieldErrors<CarFormFields>)
 
     if (!isValid || Object.entries(updatedErrors).length > 0) {
       const errorFieldsLabels = extractErrorFieldsLabels(updatedErrors)
@@ -83,7 +83,7 @@ export default function AdvancedFormAccordionItem({
       const fieldState = getFieldState(key)
       if (fieldState.error) acc[key] = fieldState.error
       return acc
-    }, {} as FieldErrors<CarFormValues>)
+    }, {} as FieldErrors<CarFormFields>)
 
     if (!isValid || Object.entries(errors).length > 0) {
       const errorFieldsLabels = extractErrorFieldsLabels(updatedErrors)

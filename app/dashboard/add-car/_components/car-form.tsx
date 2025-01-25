@@ -22,7 +22,7 @@ import {
 } from '../_types/types'
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
-import SavedCarAIResponseDialog from './openai/saved-car-ai-response-dialog'
+import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
 
 export default function CarForm({
   id,
@@ -35,9 +35,9 @@ export default function CarForm({
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
-  const [aiFilledFields, setAIFilledFields] =
-    useState<CarFormOptionalFields | null>(null)
+  // const [isSaving, setIsSaving] = useState(false)
+  // const [aiFilledFields, setAIFilledFields] =
+  //   useState<CarFormOptionalFields | null>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -57,25 +57,29 @@ export default function CarForm({
     }
   }, [router])
 
-  const updateState = useCarFormStore(state => state.updateState)
-  const setCarFormFieldValue = useCarFormStore(
-    state => state.setCarFormFieldValue
-  )
-  const stateValues = useCarFormStore(state => state.carFormValues)
+  const {
+    updateCarFormValues,
+    setCarFormFieldValue,
+    carFormValues: stateValues,
+    clearStorage,
+    isSavingCarInProgress,
+    setIsSavingCarInProgress,
+    updateOptionalCarFormValues,
+    optionalCarFormValues
+  } = useCarFormStore()
 
   const form = useForm<CarFormFields>({
     resolver: zodResolver(CarFormSchema),
-    values: carEntryFormValues ?? undefined,
+    values: carEntryFormValues ?? stateValues ?? undefined,
     mode: 'onTouched'
   })
 
   console.log('statevalues', stateValues)
-  
 
   const onSubmit: SubmitHandler<CarFormFields> = async data => {
-    setIsSaving(true)
-    setAIFilledFields(null)
-    updateState(data)
+    setIsSavingCarInProgress(true)
+    updateOptionalCarFormValues(null)
+    updateCarFormValues(data)
 
     let carFormOptionalFields: CarFormOptionalFields | null = null
     let submitError: { message: string } | undefined
@@ -92,7 +96,7 @@ export default function CarForm({
     }
 
     if (submitError) {
-      setIsSaving(false)
+      setIsSavingCarInProgress(false)
       console.log('submitError', submitError)
 
       return toast.error(submitError.message)
@@ -103,7 +107,7 @@ export default function CarForm({
     toast.success(
       id ? 'Car updated successfully!' : 'Car created successfully!'
     )
-    setAIFilledFields(carFormOptionalFields)
+    updateOptionalCarFormValues(carFormOptionalFields)
 
     if (!id && savedCarId) {
       router.replace(`/dashboard/add-car/advanced?id=${savedCarId}`)
@@ -238,14 +242,21 @@ export default function CarForm({
           <></>
         )}
       </div>
-      {isSaving && (
-        <SavedCarAIResponseDialog
-          optionalCarFormValues={aiFilledFields}
-          isSaving={isSaving}
-          setIsSaving={setIsSaving}
-          setAIFilledFields={setAIFilledFields}
-          id={id}
-        />
+      <div>
+        <Button onClick={() => clearStorage()}>Clear cache</Button>
+      </div>
+      {isSavingCarInProgress && (
+        <div className='flex h-full w-full items-center justify-center'>
+          <SavedCarAIResponseDialog
+            optionalCarFormValues={optionalCarFormValues}
+            isSavingCarInProgress={isSavingCarInProgress}
+            setIsSavingCarInProgress={setIsSavingCarInProgress}
+            updateOptionalCarFormValues={updateOptionalCarFormValues}
+            carFormValues={stateValues}
+            updateCarFormValues={updateCarFormValues}
+            id={id}
+          />
+        </div>
       )}
     </>
   )
