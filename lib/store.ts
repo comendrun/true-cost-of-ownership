@@ -1,19 +1,19 @@
-import { CarFormValues } from '@/app/dashboard/add-car/_types/types'
+import { CarFormFields } from '@/app/dashboard/add-car/_types/types'
 import { carFormDefaultValues } from '@/data/consts'
 import { create } from 'zustand'
 
 export type State = {
-  carFormValues: CarFormValues
+  carFormValues: CarFormFields
 }
 
 export type Actions = {
-  updateState: (values: CarFormValues) => void
+  updateState: (values: CarFormFields) => void
   setCarFormFieldValue: (field: string, value: string | number) => void
 }
 
 export const useCarFormStore = create<State & Actions>()(set => ({
   carFormValues: carFormDefaultValues,
-  updateState: (values: CarFormValues) =>
+  updateState: (values: CarFormFields) =>
     set(() => ({
       carFormValues: values
     })),

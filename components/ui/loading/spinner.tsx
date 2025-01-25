@@ -27,7 +27,7 @@ export default function CircularSpinner({
   }
 
   return (
-    <div className='mul7' style={spinnerStyle}>
+    <div className='mul7 mx-auto' style={spinnerStyle}>
       {[...Array(12)].map((_, index) => (
         <div
           key={index}

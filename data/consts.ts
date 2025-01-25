@@ -1,6 +1,6 @@
-import { CarFormValues } from "@/app/dashboard/add-car/_types/types";
+import { CarFormFields } from "@/app/dashboard/add-car/_types/types";
 
-export const carFormDefaultValues: CarFormValues = {
+export const carFormDefaultValues: CarFormFields = {
   name: undefined,
   brand: '', // Initially empty; a brand must be selected
   model: '', // Initially empty; a model must be selected
