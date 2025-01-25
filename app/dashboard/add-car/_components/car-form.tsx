@@ -69,6 +69,9 @@ export default function CarForm({
     mode: 'onTouched'
   })
 
+  console.log('statevalues', stateValues)
+  
+
   const onSubmit: SubmitHandler<CarFormFields> = async data => {
     setIsSaving(true)
     setAIFilledFields(null)
@@ -143,9 +146,6 @@ export default function CarForm({
       }
     }
   }
-
-  const formContext = useFormContext()
-  console.log('formContext', formContext)
 
   return (
     <>

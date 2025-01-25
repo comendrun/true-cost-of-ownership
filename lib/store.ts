@@ -1,32 +1,56 @@
-import { CarFormFields } from '@/app/dashboard/add-car/_types/types'
+import {
+  CarFormFields,
+  CarFormOptionalFields,
+  CarFormValuesKeys
+} from '@/app/dashboard/add-car/_types/types'
 import { carFormDefaultValues } from '@/data/consts'
 import { create } from 'zustand'
 
 export type State = {
-  carFormValues: CarFormFields
+  carFormValues: CarFormFields | null
+  optionalCarFormValues: CarFormOptionalFields | null
+  isSavingCarInProgress: boolean
 }
 
 export type Actions = {
-  updateState: (values: CarFormFields) => void
-  setCarFormFieldValue: (field: string, value: string | number) => void
+  updateCarFormValues: (values: CarFormFields) => void
+  updateOptionalCarFormValues: (values: CarFormOptionalFields) => void
+  setCarFormFieldValue: (
+    field: CarFormValuesKeys,
+    value: string | number
+  ) => void
+  setIsSavingCarInProgress: (boolValue: boolean) => void
 }
 
 export const useCarFormStore = create<State & Actions>()(set => ({
-  carFormValues: carFormDefaultValues,
-  updateState: (values: CarFormFields) =>
+  carFormValues: null,
+  optionalCarFormValues: null,
+  updateCarFormValues: (values: CarFormFields) =>
     set(() => ({
       carFormValues: values
     })),
-  setCarFormFieldValue: (field: string, value: string | number) => {
+  updateOptionalCarFormValues: (values: CarFormOptionalFields) =>
+    set(() => ({
+      optionalCarFormValues: values
+    })),
+  setCarFormFieldValue: (field: CarFormValuesKeys, value: string | number) => {
     return set(prevValues => {
-      console.log('prevValues', prevValues)
+      if (!prevValues.carFormValues) {
+        return prevValues
+      }
       return {
         ...prevValues,
         carFormValues: {
           ...prevValues.carFormValues,
-          [field]: value
+          [field]: value ?? ''
         }
       }
     })
-  }
+  },
+  isSavingCarInProgress: false,
+  setIsSavingCarInProgress: (boolValue: boolean) =>
+    set(prevValues => ({
+      ...prevValues,
+      isSavingCarInProgress: boolValue
+    }))
 }))
