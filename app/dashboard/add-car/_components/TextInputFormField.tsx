@@ -7,10 +7,9 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Control, FieldErrors } from 'react-hook-form'
-import { CarFormValues } from '../_types/types'
+import { Control, FieldErrors, FieldValues, Path } from 'react-hook-form'
 
-export default function TextInputFormField({
+export default function TextInputFormField<TFieldValues extends FieldValues>({
   control,
   errors,
   disabled,
@@ -22,10 +21,10 @@ export default function TextInputFormField({
   required = false,
   fullWidth
 }: {
-  name: keyof CarFormValues
+  name: Path<TFieldValues>
   label: string
-  control: Control<CarFormValues>
-  errors: FieldErrors<CarFormValues>
+  control: Control<TFieldValues>
+  errors: FieldErrors<TFieldValues>
   disabled?: boolean
   inputSuffix?: string
   formDescription?: string
@@ -39,6 +38,7 @@ export default function TextInputFormField({
       name={name}
       render={({ field }) => {
         const value = typeof field.value === 'boolean' ? '' : field.value
+        const errorMessage = errors?.[name]?.message as string | undefined
         return (
           <FormItem className={`${fullWidth ? 'col-span-2' : ''}`}>
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -60,7 +60,7 @@ export default function TextInputFormField({
               </div>
             </div>
             <FormDescription>{formDescription}</FormDescription>
-            <FormMessage>{errors?.[name]?.message}</FormMessage>
+            <FormMessage>{errorMessage}</FormMessage>
           </FormItem>
         )
       }}

@@ -9,6 +9,8 @@ import {
 import {
   Control,
   FieldErrors,
+  FieldValues,
+  Path,
   UseFormGetValues,
   UseFormSetValue,
   UseFormWatch
@@ -21,10 +23,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { CarFormValues } from '../_types/types'
+import { CarFormFields } from '../_types/types'
 import { useEffect, useRef } from 'react'
 
-export default function SelectFormField({
+export default function SelectFormField<TFieldValues extends FieldValues>({
   control,
   errors,
   disabled,
@@ -40,10 +42,10 @@ export default function SelectFormField({
   setValue,
   carId
 }: {
-  name: keyof CarFormValues
+  name: Path<TFieldValues>
   label: string
-  control: Control<CarFormValues>
-  errors: FieldErrors<CarFormValues>
+  control: Control<TFieldValues>
+  errors: FieldErrors<TFieldValues>
   disabled?: boolean
   inputSuffix?: string
   formDescription?: string
@@ -52,10 +54,10 @@ export default function SelectFormField({
   placeholder?: string
   selectItems:
     | string[]
-    | ((arg1: CarFormValues) => string[] | number[] | undefined)
-  getValues: UseFormGetValues<CarFormValues>
-  watch: UseFormWatch<CarFormValues>
-  setValue: UseFormSetValue<CarFormValues>
+    | ((arg1: TFieldValues) => string[] | number[] | undefined)
+  getValues: UseFormGetValues<TFieldValues>
+  watch: UseFormWatch<TFieldValues>
+  setValue: UseFormSetValue<TFieldValues>
   carId: string | number | null
 }) {
   const isInitialMount = useRef(true) // Add useRef to track initial mount
@@ -66,6 +68,8 @@ export default function SelectFormField({
       name={name}
       render={({ field }) => {
         const value = field.value !== undefined ? String(field.value) : ''
+        const errorMessage = errors?.[name]?.message as string | undefined
+
         return (
           <FormItem className=''>
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -117,7 +121,7 @@ export default function SelectFormField({
               </div>
             </div>
             <FormDescription>{formDescription}</FormDescription>
-            <FormMessage>{errors?.[name]?.message}</FormMessage>
+            <FormMessage>{errorMessage}</FormMessage>
           </FormItem>
         )
       }}

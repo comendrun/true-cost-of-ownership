@@ -7,10 +7,9 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Control, FieldErrors } from 'react-hook-form'
-import { CarFormValues } from '../_types/types'
+import { Control, FieldErrors, FieldValues, Path } from 'react-hook-form'
 
-export default function NumberFormField({
+export default function NumberFormField<TFieldValues extends FieldValues>({
   control,
   errors,
   disabled,
@@ -20,22 +19,23 @@ export default function NumberFormField({
   formDescription,
   required = false
 }: {
-  name: keyof CarFormValues
+  name: Path<TFieldValues>
   label: string
-  control: Control<CarFormValues>
-  errors: FieldErrors<CarFormValues>
+  control: Control<TFieldValues>
+  errors: FieldErrors<TFieldValues>
   disabled?: boolean
   inputSuffix?: string
   formDescription?: string
-  required: boolean
+  required?: boolean
 }) {
   return (
     <FormField
       control={control}
       name={name}
-      disabled={disabled}
       render={({ field }) => {
         const value = typeof field.value === 'boolean' ? '' : field.value
+        const errorMessage = errors?.[name]?.message as string | undefined // Safely extract the error message
+
         return (
           <FormItem>
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -58,9 +58,12 @@ export default function NumberFormField({
                   />
                 </FormControl>
               </div>
+              <div className='col-span-4'>HEllo</div>
             </div>
-            <FormDescription>{formDescription}</FormDescription>
-            <FormMessage>{errors?.[name]?.message}</FormMessage>
+            {formDescription && (
+              <FormDescription>{formDescription}</FormDescription>
+            )}
+            {errorMessage && <FormMessage>{errorMessage}</FormMessage>}
           </FormItem>
         )
       }}
