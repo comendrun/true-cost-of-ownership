@@ -92,7 +92,7 @@ export const navItems = (cars?: UserCarsTableRow[] | null) => ({
     ]
   },
   cars: {
-    title: 'Recent Saved Cars',
+    title: 'Recently Saved Cars',
     mainItems: cars?.map(car => ({
       name: car.name,
       url: `/dashboard/my-cars/${car.id}`,
