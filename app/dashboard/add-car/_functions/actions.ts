@@ -172,6 +172,14 @@ export async function updateCar<TFormValues extends FieldValues>(
 
   console.log('Updated values to be saved:', updatedValues)
 
+  if (Object.entries(updatedValues).length === 0) {
+    console.log('No changes detected, nothing to update.')
+    return {
+      data: data,
+      error: { message: 'No changes detected, nothing to update.' }
+    }
+  }
+
   const { data: updatedCar, error: updateError } = await supabase
     .from('user_cars')
     .update({ ...updatedValues, version: Number(data.version) + 1 })
