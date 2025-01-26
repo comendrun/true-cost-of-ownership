@@ -35,7 +35,7 @@ export default function CarForm({
 }: {
   id: string | number | null
   user: User | null
-  pageError: string | null
+  pageError?: string | null
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
@@ -52,17 +52,22 @@ export default function CarForm({
     triggerFetch
   } = useGetCarById(id)
 
+  console.log('error', error)
+
   useEffect(() => {
-    if (pageError) {
+    if (pageError || error?.message) {
       return () => {
-        toast.error(pageError)
+        toast.error(
+          error?.message ||
+            "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+        )
         router.replace('/dashboard/add-car/advanced')
         // new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
         //   window.location.replace('/dashboard/add-car/advanced')
         // })
       }
     }
-  }, [router])
+  }, [router, error, error?.message])
 
   const {
     updateCarFormValues,
@@ -152,7 +157,6 @@ export default function CarForm({
     watch,
     setError
   } = form
-  console.log('formState', formState)
 
   const { errors, isLoading } = formState
 

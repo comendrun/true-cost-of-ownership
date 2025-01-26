@@ -289,6 +289,12 @@ export async function getCarById(id: string | number): Promise<{
   } catch (err: any) {
     console.log('[getCarById], error:', err.message)
 
-    return { error: { message: err.message }, data: null }
+    return {
+      error: {
+        message:
+          "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+      },
+      data: null
+    }
   }
 }
