@@ -39,9 +39,6 @@ export default function CarForm({
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
-  // const [isSaving, setIsSaving] = useState(false)
-  // const [aiFilledFields, setAIFilledFields] =
-  //   useState<CarFormOptionalFields | null>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -58,6 +55,9 @@ export default function CarForm({
       return () => {
         toast.error(pageError)
         router.replace('/dashboard/add-car/advanced')
+        new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+          window.location.replace('/dashboard/add-car/advanced')
+        })
       }
     }
   }, [router])
@@ -79,8 +79,6 @@ export default function CarForm({
     mode: 'onTouched'
     // defaultValues: undefined
   })
-
-  console.log('statevalues', stateValues)
 
   const onSubmit: SubmitHandler<CarFormFields> = async data => {
     setIsSavingCarInProgress(true)
