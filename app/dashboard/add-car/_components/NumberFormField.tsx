@@ -33,7 +33,8 @@ export default function NumberFormField<TFieldValues extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => {
-        const value = typeof field.value === 'boolean' ? '' : field.value
+        const value =
+          field.value === null || field.value === undefined ? '' : field.value
         const errorMessage = errors?.[name]?.message as string | undefined // Safely extract the error message
 
         return (
@@ -52,7 +53,9 @@ export default function NumberFormField<TFieldValues extends FieldValues>({
                     disabled={disabled}
                     {...field}
                     onChange={e => {
-                      field.onChange(e.target.valueAsNumber)
+                      const value = e.target.value
+                      // If the input is empty, set the value to null (or empty string)
+                      field.onChange(value === '' ? null : parseFloat(value))
                     }}
                     value={value}
                   />
