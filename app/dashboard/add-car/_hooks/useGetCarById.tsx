@@ -1,19 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { getCarById } from '../_functions/actions'
-import { CarFormValues, UserCarsTableRow } from '../_types/types'
-
-import { useEffect, useState } from 'react'
+import { CarFormFields, UserCarsTableRow } from '../_types/types'
 import { PostgrestError } from '@supabase/supabase-js'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
 
 export default function useGetCarById(id: string | number | null) {
   const [data, setData] = useState<UserCarsTableRow | null>(null)
   const [carEntryFormValues, setCarEntryFormValues] =
-    useState<CarFormValues | null>(null)
+    useState<CarFormFields | null>(null)
   const [error, setError] = useState<PostgrestError | string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
+  const triggerFetch = () => {
     setIsLoading(true)
     if (!id) return setIsLoading(false)
 
@@ -37,7 +35,11 @@ export default function useGetCarById(id: string | number | null) {
       .finally(() => {
         setIsLoading(false)
       })
+  }
+
+  useEffect(() => {
+    triggerFetch()
   }, [id])
 
-  return { data, error, carEntryFormValues, isLoading }
+  return { data, error, carEntryFormValues, isLoading, triggerFetch }
 }

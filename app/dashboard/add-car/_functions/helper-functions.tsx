@@ -1,6 +1,6 @@
 import { FieldErrors } from 'react-hook-form'
 import {
-  CarFormValues,
+  CarFormFields,
   CheckboxField,
   FormFieldType,
   FormStepsIDs,
@@ -29,18 +29,19 @@ export const calculateEstimatedResaleValue = ({
   purchasePrice,
   depreciationRate = 15,
   plannedYearsOfOwnership
-}: CarFormValues) =>
-  purchasePrice * Math.pow(1 - depreciationRate / 100, plannedYearsOfOwnership)
+}: CarFormFields) =>
+  purchasePrice *
+  Math.pow(1 - Number(depreciationRate) / 100, plannedYearsOfOwnership)
 
 export const calculateTotalFuelCost = ({
   totalPlannedKMs,
   fuelConsumption = 1,
   averageFuelCost = 1,
   plannedYearsOfOwnership
-}: CarFormValues) =>
+}: CarFormFields) =>
   (totalPlannedKMs / 100) *
-  fuelConsumption *
-  averageFuelCost *
+  Number(fuelConsumption) *
+  Number(averageFuelCost) *
   plannedYearsOfOwnership
 
 export const calculateTotalMaintenanceCost = ({
@@ -49,12 +50,15 @@ export const calculateTotalMaintenanceCost = ({
   tiresCosts = 0,
   tuvCosts = 1,
   plannedYearsOfOwnership
-}: CarFormValues) =>
-  (serviceCosts + oilChangeCosts + tiresCosts + tuvCosts) *
+}: CarFormFields) =>
+  (Number(serviceCosts) +
+    Number(oilChangeCosts) +
+    Number(tiresCosts) +
+    Number(tuvCosts)) *
   plannedYearsOfOwnership
 
 export const extractErrorFieldsLabels = (
-  errors: FieldErrors<CarFormValues>
+  errors: FieldErrors<CarFormFields>
 ) => {
   if (Object.keys(errors).length > 0) {
     const errorKeys = Object.keys(errors)
@@ -83,7 +87,8 @@ export const getStepFormFields = (stepId: FormStepsIDs) =>
 
 export const getStepFieldKeys = (stepId: FormStepsIDs) => {
   const step = getStepFormFields(stepId)
-  return step.fields.map(stepField => stepField.key)
+
+  return step?.fields?.map(stepField => stepField.key)
 }
 
 export const getAllFormFieldKeys = () => {
@@ -101,20 +106,24 @@ export const getKeysOutsideStep = (stepId: FormStepsIDs) => {
   return otherKeys
 }
 
-export const isInputField = (field: FormFieldType): field is InputField =>
-  field.component === 'input'
+export const isInputField = <TFieldValues,>(
+  field: FormFieldType<TFieldValues>
+): field is InputField<TFieldValues> => field.component === 'input'
 
-export const isSelectField = (field: FormFieldType): field is SelectField =>
-  field.component === 'select'
+export const isSelectField = <TFieldValues,>(
+  field: FormFieldType<TFieldValues>
+): field is SelectField<TFieldValues> => field.component === 'select'
 
-export const isTextareaField = (field: FormFieldType): field is TextareaField =>
-  field.component === 'textarea'
+export const isTextareaField = <TFieldValues,>(
+  field: FormFieldType<TFieldValues>
+): field is TextareaField<TFieldValues> => field.component === 'textarea'
 
-export const isChekboxField = (field: FormFieldType): field is CheckboxField =>
-  field.component === 'checkbox'
+export const isChekboxField = <TFieldValues,>(
+  field: FormFieldType<TFieldValues>
+): field is CheckboxField<TFieldValues> => field.component === 'checkbox'
 
 export function convertAdvancedFormValuesToUserCarsTableInsert(
-  formValues: CarFormValues,
+  formValues: CarFormFields,
   userId: string
 ) {
   const data: UserCarsTableInsert = {
@@ -172,12 +181,12 @@ export function convertAdvancedFormValuesToUserCarsTableInsert(
 }
 export function convertUserCarsTableInsertToAdvancedFormValues(
   userCar: UserCarsTableRow
-): CarFormValues {
-  const formValues: CarFormValues = {
+): CarFormFields {
+  const formValues: CarFormFields = {
     averageFuelCost: userCar.average_fuel_cost ?? undefined,
     brand: userCar.brand,
     depreciationRate: userCar.depreciation_rate ?? undefined,
-    driverAgeRange: userCar.driver_age_range as CarFormValues['driverAgeRange'],
+    driverAgeRange: userCar.driver_age_range as CarFormFields['driverAgeRange'],
     drivingExperienceYears: userCar.driving_experience_years,
     ecoTax: userCar.eco_tax ?? undefined,
     emissions: userCar.emissions ?? undefined,
@@ -186,11 +195,11 @@ export function convertUserCarsTableInsertToAdvancedFormValues(
     exteriorScore: userCar.exterior_score ?? undefined,
     financingDuration: userCar.financing_duration ?? undefined,
     fuelConsumption: userCar.fuel_consumption ?? undefined,
-    fuelType: userCar.fuel_type as CarFormValues['fuelType'],
+    fuelType: userCar.fuel_type as CarFormFields['fuelType'],
     guaranteeYears: userCar.guarantee_years ?? undefined,
     initialPrice: userCar.initial_price ?? undefined,
     insuranceCost: userCar.insurance_cost ?? undefined,
-    insuranceType: userCar.insurance_type as CarFormValues['insuranceType'],
+    insuranceType: userCar.insurance_type as CarFormFields['insuranceType'],
     interestRate: userCar.interest_rate ?? undefined,
     interiorScore: userCar.interior_score ?? undefined,
     maintenanceFrequency: userCar.maintenance_frequency ?? undefined,

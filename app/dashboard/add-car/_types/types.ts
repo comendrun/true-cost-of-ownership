@@ -1,16 +1,26 @@
 import { Database } from '@/database.types'
+import {
+  Control,
+  FieldErrors,
+  UseFormSetValue,
+  UseFormGetValues,
+  UseFormWatch,
+  FieldValues,
+  Path,
+  ControllerRenderProps
+} from 'react-hook-form'
 import { z } from 'zod'
 
-export const carFormSchema = z.object({
+export const CarFormSchema = z.object({
   // General Information
-  name: z.string().optional(),
+  name: z.string().nullable().optional(),
   brand: z
     .string()
     .min(1, { message: 'Please select a car brand from the list.' }),
   model: z
     .string()
     .min(1, { message: 'Please select a car model from the list.' }),
-  variant: z.string().optional(),
+  variant: z.string().nullable().optional(),
   year: z.number(),
   mileage: z.number(), // KM
   plannedYearsOfOwnership: z.number().min(1),
@@ -23,40 +33,43 @@ export const carFormSchema = z.object({
     .number()
     .min(-5, 'Value must be at least -5')
     .max(5, 'Value must be at most 5')
+    .nullable()
     .optional(),
   exteriorScore: z
     .number()
     .min(-5, 'Value must be at least -5')
     .max(5, 'Value must be at most 5')
+    .nullable()
     .optional(),
   // Finances
   purchasePrice: z.number(), // euros
   prepayment: z.number(), // euros
-  interestRate: z.number().optional(), // percentage
-  financingDuration: z.number().max(10).optional(), // years
-  remainingAmount: z.number().optional(), // euros
-  totalInterestPaid: z.number().optional(),
-  truePurchasePrice: z.number().optional(),
+  interestRate: z.number().nullable().optional(), // percentage
+  financingDuration: z.number().max(10).nullable().optional(), // years
+  remainingAmount: z.number().nullable().optional(), // euros
+  totalInterestPaid: z.number().nullable().optional(),
+  truePurchasePrice: z.number().nullable().optional(),
 
   // Depreciation
-  initialPrice: z.number().optional(), // euros // the initial price of the vehicle when it was first sold as new
-  depreciationRate: z.number().optional(), // percentage
+  initialPrice: z.number().nullable().optional(), // euros // the initial price of the vehicle when it was first sold as new
+  depreciationRate: z.number().nullable().optional(), // percentage
 
   // Warranty and Service
   guaranteeYears: z
     .number()
     .min(0, { message: "The Guaranteed years can't be less than 0" })
+    .nullable()
     .optional(), // years
-  serviceCosts: z.number().optional(), // euros - this is done annually and regardless of any repairs are due to be paid.
-  serviceIncludes: z.string().optional(), // list of the services
-  tiresCosts: z.number().optional(), // euros, probably similar for different cars
-  oilChangeCosts: z.number().optional(), // euros, as an example of the costs associated to the car
-  offerOnExtendedWarranty: z.boolean().optional(),
-  extendedWarrantyCost: z.number().optional(),
+  serviceCosts: z.number().nullable().optional(), // euros - this is done annually and regardless of any repairs are due to be paid.
+  serviceIncludes: z.string().nullable().optional(), // list of the services
+  tiresCosts: z.number().nullable().optional(), // euros, probably similar for different cars
+  oilChangeCosts: z.number().nullable().optional(), // euros, as an example of the costs associated to the car
+  offerOnExtendedWarranty: z.boolean().nullable().optional(),
+  extendedWarrantyCost: z.number().nullable().optional(),
 
   // Efficiency
   totalPlannedKMs: z.number(), // KMs, total number of KMs planned to drive the car yearly
-  fuelConsumption: z.number().optional(), // liters per 100KM
+  fuelConsumption: z.number().nullable().optional(), // liters per 100KM
   fuelType: z.enum([
     'Diesel',
     'Petrol',
@@ -64,39 +77,78 @@ export const carFormSchema = z.object({
     'Hybrid/Petrol',
     'Electric'
   ]),
-  averageFuelCost: z.number().optional(),
+  averageFuelCost: z.number().nullable().optional(),
 
   // Insurance
   insuranceType: z.enum(['Minimum', 'Partial', 'Full']),
-  insuranceCost: z.number().optional(), // euros, depends on the car
+  insuranceCost: z.number().nullable().optional(), // euros, depends on the car
 
   // Other Costs
-  tuvCosts: z.number().optional(), // euros, probably similar for different cars
-  taxes: z.number().optional(), // yearly
-  parkingCosts: z.number().optional(),
+  tuvCosts: z.number().nullable().optional(), // euros, probably similar for different cars
+  taxes: z.number().nullable().optional(), // yearly
+  parkingCosts: z.number().nullable().optional(),
 
   // Resale Value
-  estimatedResaleValue: z.number().optional(),
-  resaleValueAfterYears: z.number().optional(),
+  estimatedResaleValue: z.number().nullable().optional(),
+  resaleValueAfterYears: z.number().nullable().optional(),
 
   // Maintenance
-  regularMaintenanceCosts: z.number().optional(),
-  unexpectedRepairCosts: z.number().optional(),
-  maintenanceFrequency: z.string().optional(),
+  regularMaintenanceCosts: z.number().nullable().optional(),
+  unexpectedRepairCosts: z.number().nullable().optional(),
+  maintenanceFrequency: z.string().nullable().optional(),
 
   // Environmental Impact
-  emissions: z.number().optional(),
-  ecoTax: z.number().optional(),
+  emissions: z.number().nullable().optional(),
+  ecoTax: z.number().nullable().optional(),
 
   // Total Cost of Ownership
-  tco: z.number().optional()
+  tco: z.number().nullable().optional()
 })
 
-export type CarFormValues = z.infer<typeof carFormSchema>
+export type CarFormFields = z.infer<typeof CarFormSchema>
 
-type BaseField = {
-  key: keyof CarFormValues
-  type: 'string' | 'number' | 'boolean' // type of the returned value
+export const CarFormSchemaOptional = CarFormSchema.partial()
+
+export type OptionalAllCarFormFields = z.infer<typeof CarFormSchemaOptional>
+
+export const CarFormOptionalFieldsSchema = CarFormSchema.pick({
+  name: true,
+  interestRate: true,
+  financingDuration: true,
+  remainingAmount: true,
+  totalInterestPaid: true,
+  truePurchasePrice: true,
+  initialPrice: true,
+  depreciationRate: true,
+  // guaranteeYears: true,
+  serviceCosts: true,
+  serviceIncludes: true,
+  tiresCosts: true,
+  oilChangeCosts: true,
+  fuelConsumption: true,
+  averageFuelCost: true,
+  insuranceCost: true,
+  tuvCosts: true,
+  taxes: true,
+  parkingCosts: true,
+  estimatedResaleValue: true,
+  // resaleValueAfterYears: true,
+  regularMaintenanceCosts: true,
+  unexpectedRepairCosts: true,
+  maintenanceFrequency: true,
+  emissions: true,
+  ecoTax: true,
+  tco: true
+}).extend({
+  financingDuration: z.number().optional()
+  // guaranteeYears: z.number().optional()
+})
+
+export type CarFormOptionalFields = z.infer<typeof CarFormOptionalFieldsSchema>
+
+type BaseField<TFieldValues> = {
+  key: Path<TFieldValues> // Keys of the provided form fields type
+  type: 'string' | 'number' | 'boolean' // Type of the returned value
   required: boolean
   label: string
   disabled?: boolean
@@ -106,39 +158,39 @@ type BaseField = {
   fullWidth?: boolean
 }
 
-export type InputField = BaseField & {
+export type InputField<TFieldValues> = BaseField<TFieldValues> & {
   component: 'input'
   inputSuffix?: string
 }
 
-export type SelectField = BaseField & {
+export type SelectField<TFieldValues> = BaseField<TFieldValues> & {
   component: 'select'
   placeholder?: string
   selectItems:
     | string[]
-    | ((arg1: CarFormValues) => string[] | number[] | undefined)
+    | ((arg1: TFieldValues) => string[] | number[] | undefined)
 }
 
-export type TextareaField = BaseField & {
+export type TextareaField<TFieldValues> = BaseField<TFieldValues> & {
   component: 'textarea'
   placeholder?: string
 }
 
-export type CheckboxField = BaseField & {
+export type CheckboxField<TFieldValues> = BaseField<TFieldValues> & {
   component: 'checkbox'
 }
 
-export type FormFieldType =
-  | InputField
-  | SelectField
-  | TextareaField
-  | CheckboxField
+export type FormFieldType<TFieldValues> =
+  | InputField<TFieldValues>
+  | SelectField<TFieldValues>
+  | TextareaField<TFieldValues>
+  | CheckboxField<TFieldValues>
 
-export type FormSteps = {
+export type FormSteps<TFieldValues> = {
   id: FormStepsIDs
   index: number
   title: string
-  fields: FormFieldType[]
+  fields: FormFieldType<TFieldValues>[]
 }
 
 export type FormStepsIDs =
@@ -176,7 +228,7 @@ export type AIAnalysisChatCompletionResponse = AIResponseTableInsert & {
   userCar: UserCarsTableRow
 }
 
-export type CarFormValuesKeys = keyof CarFormValues
+export type CarFormValuesKeys = keyof CarFormFields
 
 // AI Generated Types:
 export type AIAnalysisMetrics = {
@@ -255,7 +307,7 @@ export type FuelEfficiency = {
 }[]
 
 export const userCarFormToTableKeyMapping: Record<
-  keyof CarFormValues,
+  keyof CarFormFields,
   keyof UserCarsTableRow
 > = {
   name: 'name',
@@ -306,10 +358,45 @@ export const userCarFormToTableKeyMapping: Record<
 
 export const userCarTableToFormKeyMapping: Record<
   keyof UserCarsTableRow,
-  keyof CarFormValues
+  keyof CarFormFields
 > = Object.fromEntries(
   Object.entries(userCarFormToTableKeyMapping).map(([formKey, dbKey]) => [
     dbKey,
     formKey
   ])
-) as Record<keyof UserCarsTableRow, keyof CarFormValues>
+) as Record<keyof UserCarsTableRow, keyof CarFormFields>
+
+export type FormFieldComponentsProps<TFieldValues extends FieldValues> = {
+  index: number
+  isCarLoading: boolean
+  fields: FormFieldType<TFieldValues>[]
+  control: Control<TFieldValues>
+  errors: FieldErrors<TFieldValues>
+  setValue: UseFormSetValue<TFieldValues>
+  getValues: UseFormGetValues<TFieldValues>
+  id: string | number | null
+  watch: UseFormWatch<TFieldValues>
+}
+
+export type SavedCarAIResponseComponentsProps = {
+  optionalCarFormValues: CarFormOptionalFields | null
+  isSavingCarInProgress: boolean
+  setIsSavingCarInProgress?: (boolValue: boolean) => void
+  updateOptionalCarFormValues: (values: CarFormOptionalFields | null) => void
+  id: string | number
+  updateCarFormValues: (values: CarFormFields) => void
+  carFormValues: CarFormFields | null
+  triggerFetch: () => void
+}
+
+export type AIResponseFormFieldProps = {
+  formField: FormFieldType<CarFormOptionalFields>
+  control: Control<CarFormOptionalFields>
+  errors: FieldErrors
+  watch: UseFormWatch<CarFormOptionalFields>
+}
+
+export type AIResponseFormFieldInputProps = Pick<
+  AIResponseFormFieldProps,
+  'formField' | 'control' | 'errors' | 'watch'
+> & { field: ControllerRenderProps<CarFormOptionalFields>; isEditting: boolean }

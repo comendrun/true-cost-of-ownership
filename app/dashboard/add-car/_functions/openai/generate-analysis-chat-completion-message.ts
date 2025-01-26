@@ -1,4 +1,3 @@
-import { carFormDefaultValues } from '@/data/consts'
 import { User } from '@supabase/supabase-js'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import {
@@ -6,6 +5,7 @@ import {
   UserCarsTableRow
 } from '../../_types/types'
 import { ChatCompletionResponseFormat } from './analysis-response-schema'
+import { defaultCarFormValues } from '@/data/consts'
 
 export const exampleData = {
   costAnalysis: {
@@ -216,7 +216,7 @@ export function generateOpenAIAnalysisChatCompletionMessage(
   This was an example, overall i want you to be smart and generate these values as a package that are all connected together
   
   ### Guidelines
-  - Adhere to the schemas provided in \`${carFormDefaultValues}\`.
+  - Adhere to the schemas provided in \`${defaultCarFormValues}\`.
   - Only calculate and suggest; do not alter user-provided inputs. Highlight discrepancies in the feedback section.
   - Return data in JSON format with relevant sections.
 
