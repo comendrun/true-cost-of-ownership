@@ -65,6 +65,7 @@ export default function CarForm({
         // new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
         //   window.location.replace('/dashboard/add-car/advanced')
         // })
+        window.location.replace('/dashboard/add-car/advanced')
       }
     }
   }, [router, error, error?.message])
