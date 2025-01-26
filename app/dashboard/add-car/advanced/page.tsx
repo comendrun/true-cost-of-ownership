@@ -20,14 +20,17 @@ export default async function CarsPage({
   if (id) {
     const { data, error: fetchError } = await getCarById(id)
 
-    if (fetchError || data?.user_id !== user?.id)
+    if (fetchError || data?.user_id !== user?.id) {
+      console.log(fetchError)
       error =
         "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-    // else if (data?.user_id !== user?.id) {
+    } // else if (data?.user_id !== user?.id) {
     //   error =
     //     "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
     // }
   }
+
+  console.log('error in the advanced form page', error)
 
   return (
     <div className='flex flex-col items-center justify-center gap-5'>

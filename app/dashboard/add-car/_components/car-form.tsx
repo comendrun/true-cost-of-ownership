@@ -42,6 +42,8 @@ export default function CarForm({
   const searchParams = useSearchParams()
   const router = useRouter()
 
+  console.log('error', pageError)
+
   const {
     data: car,
     error,
@@ -133,7 +135,6 @@ export default function CarForm({
       }
     )
     window.location.replace('/dashboard/add-car/advanced')
-    console.log('form state', formState)
     toast.success('Form and URL have been reset successfully.')
   }
 
