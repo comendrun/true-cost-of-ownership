@@ -70,7 +70,7 @@ export default function AdvancedFormAccordionItem({
       })
       return
     }
-    onNextStep(id, index, setStep)
+    onNextStep(id, index, setStep, advancedFormSteps)
   }
 
   async function formStepsLabelOnClickHandler(
