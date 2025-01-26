@@ -35,8 +35,14 @@ export default function CarsGridRowActions({
             Copy payment ID
           </DropdownMenuItem>
           <DropdownMenuSeparator /> */}
-        <DropdownMenuItem>View Car Details</DropdownMenuItem>
-        <DropdownMenuItem>Edit Car Details</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/my-cars/${car.id}`}>View Car Details</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/dashboard/add-car/advanced?id=${car.id}`}>
+            Edit Car Details
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Generate new analysis</DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href={`/dashboard/my-cars/${car.id}/analysis`}>
