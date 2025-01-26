@@ -11,7 +11,10 @@ import { SubmitHandler, useForm, useFormContext } from 'react-hook-form'
 import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../components/ui/loading/LoadingDialogWithSpinner'
 import { advancedFormSteps } from '../_consts/consts'
-import { saveCar, updateCar } from '../_functions/actions'
+import {
+  saveCarAndGetRecommendations,
+  updateCarAndGetRecommendations
+} from '../_functions/actions'
 import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
 import useGetCarById from '../_hooks/useGetCarById'
 import {
@@ -23,6 +26,7 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
+import { defaultCarFormValues } from '@/data/consts'
 
 export default function CarForm({
   id,
@@ -45,7 +49,8 @@ export default function CarForm({
     data: car,
     error,
     carEntryFormValues,
-    isLoading: isCarLoading
+    isLoading: isCarLoading,
+    triggerFetch
   } = useGetCarById(id)
 
   useEffect(() => {
@@ -70,8 +75,9 @@ export default function CarForm({
 
   const form = useForm<CarFormFields>({
     resolver: zodResolver(CarFormSchema),
-    values: carEntryFormValues ?? stateValues ?? undefined,
+    values: id ? (carEntryFormValues ?? stateValues ?? undefined) : undefined,
     mode: 'onTouched'
+    // defaultValues: undefined
   })
 
   console.log('statevalues', stateValues)
@@ -82,17 +88,21 @@ export default function CarForm({
     updateCarFormValues(data)
 
     let carFormOptionalFields: CarFormOptionalFields | null = null
-    let submitError: { message: string } | undefined
-    let savedCarId: number | undefined
+    let submitError: { message: string } | null
+    let savedCarId: number
     if (id) {
-      const result = await updateCar(data, id)
+      const result = await updateCarAndGetRecommendations<CarFormFields>(
+        data,
+        id
+      )
       carFormOptionalFields = result.carFormOptionalFields
       submitError = result.error
+      savedCarId = id as number
     } else {
-      const result = await saveCar(data)
+      const result = await saveCarAndGetRecommendations(data)
       carFormOptionalFields = result.carFormOptionalFields
       submitError = result.error
-      savedCarId = result?.id
+      savedCarId = result?.id as number
     }
 
     if (submitError) {
@@ -114,9 +124,24 @@ export default function CarForm({
     }
   }
 
+  async function handleReset() {
+    clearStorage()
+    reset(
+      {},
+      {
+        keepDefaultValues: false,
+        keepValues: false,
+        keepErrors: false
+      }
+    )
+    window.location.replace('/dashboard/add-car/advanced')
+    console.log('form state', formState)
+    toast.success('Form and URL have been reset successfully.')
+  }
+
   const {
     handleSubmit,
-    formState: { errors, isLoading },
+    formState,
     control,
     getValues,
     setValue,
@@ -125,8 +150,12 @@ export default function CarForm({
     setFocus,
     clearErrors,
     reset,
-    watch
+    watch,
+    setError
   } = form
+  console.log('formState', formState)
+
+  const { errors, isLoading } = formState
 
   async function handleGenerateAIAnalysis(): Promise<void> {
     if (id) {
@@ -203,12 +232,7 @@ export default function CarForm({
                 className='w-full'
                 variant='secondary'
                 type='reset'
-                onClick={() => {
-                  reset()
-                  toast.info(
-                    'The fields has been reset. Feel free to start over.'
-                  )
-                }}
+                onClick={handleReset}
                 disabled={isCarLoading}
               >
                 Reset
@@ -242,9 +266,6 @@ export default function CarForm({
           <></>
         )}
       </div>
-      <div>
-        <Button onClick={() => clearStorage()}>Clear cache</Button>
-      </div>
       {isSavingCarInProgress && (
         <div className='flex h-full w-full items-center justify-center'>
           <SavedCarAIResponseDialog
@@ -254,7 +275,8 @@ export default function CarForm({
             updateOptionalCarFormValues={updateOptionalCarFormValues}
             carFormValues={stateValues}
             updateCarFormValues={updateCarFormValues}
-            id={id}
+            id={id as string | number}
+            triggerFetch={triggerFetch}
           />
         </div>
       )}
