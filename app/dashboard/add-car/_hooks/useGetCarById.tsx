@@ -8,33 +8,50 @@ export default function useGetCarById(id: string | number | null) {
   const [data, setData] = useState<UserCarsTableRow | null>(null)
   const [carEntryFormValues, setCarEntryFormValues] =
     useState<CarFormFields | null>(null)
-  const [error, setError] = useState<PostgrestError | string | null>(null)
+  const [error, setError] = useState<{ message: string } | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const triggerFetch = () => {
+  const triggerFetch = async () => {
     setIsLoading(true)
     if (!id) return setIsLoading(false)
 
-    getCarById(id)
-      .then(response => {
-        setData(response.data)
-        if (response.data) {
-          const formValues = convertUserCarsTableInsertToAdvancedFormValues(
-            response.data
-          )
-          setCarEntryFormValues(formValues)
+    // getCarById(id)
+    //   .then(response => {
+    //     setData(response.data)
+    //     if (response.data) {
+    //       const formValues = convertUserCarsTableInsertToAdvancedFormValues(
+    //         response.data
+    //       )
+    //       setCarEntryFormValues(formValues)
+    //     }
+    //     if (response?.error) {
+    //       setError(response?.error)
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.error('Error while performing the postgresql fetch', err)
+    //     setError(err)
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false)
+    //   })
+
+    const { data, error } = await getCarById(id)
+
+    if (error || !data) {
+      setError(
+        error || {
+          message: `There was an error while trying to fetch the car with id: ${id}`
         }
-        if (response.error) {
-          setError(response.error)
-        }
-      })
-      .catch(err => {
-        console.error('Error while performing the postgresql fetch', err)
-        setError(err)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+      )
+      setIsLoading(false)
+      return
+    }
+
+    const formValues = convertUserCarsTableInsertToAdvancedFormValues(data)
+    setCarEntryFormValues(formValues)
+
+    setIsLoading(false)
   }
 
   useEffect(() => {

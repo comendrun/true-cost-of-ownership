@@ -55,9 +55,9 @@ export default function CarForm({
       return () => {
         toast.error(pageError)
         router.replace('/dashboard/add-car/advanced')
-        new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-          window.location.replace('/dashboard/add-car/advanced')
-        })
+        // new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+        //   window.location.replace('/dashboard/add-car/advanced')
+        // })
       }
     }
   }, [router])

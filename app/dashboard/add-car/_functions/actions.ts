@@ -242,40 +242,53 @@ export async function updateCarAndGetRecommendations<
 
 export async function getCarById(id: string | number): Promise<{
   data: UserCarsTableRow | null
-  error: PostgrestError | string | null
+  error: { message: string } | null
 }> {
-  if (!id)
-    return {
-      data: null,
-      error: 'No id for the operation was provided'
+  try {
+    if (!id) throw new Error('No id for the operation was provided')
+    // return {
+    //   data: null,
+    //   error: {message: 'No id for the operation was provided'}
+    // }
+    const supabase = createClient()
+
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+      console.error('No user identified when trying to fetch the car instance.')
+      // return {
+      //   data: null,
+      //   error: 'No user identified when trying to fetch the car instance.'
+      // }
+      throw new Error(
+        'No user identified when trying to fetch the car instance.'
+      )
     }
-  const supabase = createClient()
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+    const { data, error } = await supabase
+      .from('user_cars')
+      .select()
+      .eq('id', id)
+      .eq('user_id', user.id)
+      .single()
 
-  if (!user) {
-    console.error('No user identified when trying to fetch the car instance.')
-    return {
-      data: null,
-      error: 'No user identified when trying to fetch the car instance.'
+    if (error || !data) {
+      console.error(
+        '[getCarById] - Error fetching car data or no data found:',
+        error
+      )
+      throw new Error(
+        error.message || 'Error fetching car data or no data found'
+      )
     }
+
+    return { error, data }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    console.log('[getCarById], error:', err.message)
+
+    return { error: { message: err.message }, data: null }
   }
-
-  const { data, error } = await supabase
-    .from('user_cars')
-    .select()
-    .eq('id', id)
-    .eq('user_id', user.id)
-    .single()
-
-  if (error || !data) {
-    console.error(
-      '[getCarById] - Error fetching car data or no data found:',
-      error
-    )
-  }
-
-  return { error, data }
 }

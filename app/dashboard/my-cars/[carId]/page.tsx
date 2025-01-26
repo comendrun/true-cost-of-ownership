@@ -165,7 +165,7 @@ export default async function UserCarPage({
           <CardHeader>
             <CardTitle>Total Cost of Ownership</CardTitle>
             <CardDescription>
-              Comprehensive overview of the car's ownership costs
+              Comprehensive overview of the Car&apos;s ownership costs
             </CardDescription>
           </CardHeader>
           <CardContent>
