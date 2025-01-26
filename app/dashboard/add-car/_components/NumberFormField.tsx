@@ -58,7 +58,6 @@ export default function NumberFormField<TFieldValues extends FieldValues>({
                   />
                 </FormControl>
               </div>
-              <div className='col-span-4'>HEllo</div>
             </div>
             {formDescription && (
               <FormDescription>{formDescription}</FormDescription>
