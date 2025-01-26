@@ -124,6 +124,7 @@ export default function SavedCarAIResponseForm({
             {formFields.map(formField => {
               return (
                 <AIResponseFormField
+                  key={formField.key}
                   formField={formField}
                   control={control}
                   errors={errors}

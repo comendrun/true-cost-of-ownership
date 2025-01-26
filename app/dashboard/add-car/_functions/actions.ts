@@ -99,6 +99,7 @@ export async function saveCarAndGetRecommendations(
       error: null,
       id: data.id
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return {
       carFormOptionalFields: null,
@@ -162,6 +163,7 @@ export async function updateCar<TFormValues extends FieldValues>(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       acc[dbKey] = formFieldValue as any // I'm using 'any' here to bypass type mismatch
       if (dbKey === 'planned_years_of_ownership') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         acc['resale_value_after_years'] = formFieldValue as any
       }
     }
@@ -226,6 +228,7 @@ export async function updateCarAndGetRecommendations<
       carFormOptionalFields: aiFilledOptionalFields, // ToDo: Update
       error: null
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return {
       carFormOptionalFields: null,

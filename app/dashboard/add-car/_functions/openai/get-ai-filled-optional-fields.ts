@@ -42,6 +42,7 @@ export async function getAIFilledOptionalFields(
     console.log('type of aiResponse', typeof aiResponse)
 
     return aiResponse
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(
       error.message ||
