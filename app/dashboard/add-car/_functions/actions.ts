@@ -274,7 +274,7 @@ export async function getCarById(id: string | number): Promise<{
         'No user identified when trying to fetch the car instance.'
       )
     }
-
+    console.log('Starting to fetch the car info from supabase with the id of', id)
     const { data, error } = await supabase
       .from('user_cars')
       .select()
@@ -287,6 +287,10 @@ export async function getCarById(id: string | number): Promise<{
         '[getCarById] - Error fetching car data or no data found:',
         error
       )
+      console.log(
+        '[getCarById] - Error fetching car data or no data found:',
+        error
+      )
       throw new Error(
         error.message || 'Error fetching car data or no data found'
       )
@@ -296,6 +300,7 @@ export async function getCarById(id: string | number): Promise<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     console.log('[getCarById], error:', err.message)
+    console.error('[getCarById], error:', err.message)
 
     return {
       error: {

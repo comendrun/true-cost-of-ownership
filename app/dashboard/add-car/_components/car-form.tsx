@@ -42,7 +42,7 @@ export default function CarForm({
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  console.log('error', pageError)
+  console.log('pageError', pageError)
 
   const {
     data: car,
@@ -52,7 +52,7 @@ export default function CarForm({
     triggerFetch
   } = useGetCarById(id)
 
-  console.log('error', error)
+  console.log('fetch error', error)
 
   useEffect(() => {
     if (pageError || error?.message) {
@@ -65,7 +65,7 @@ export default function CarForm({
         // new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
         //   window.location.replace('/dashboard/add-car/advanced')
         // })
-        window.location.replace('/dashboard/add-car/advanced')
+        // window.location.replace('/dashboard/add-car/advanced')
       }
     }
   }, [router, error, error?.message])
