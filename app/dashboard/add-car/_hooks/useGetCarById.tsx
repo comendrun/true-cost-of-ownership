@@ -13,7 +13,10 @@ export default function useGetCarById(id: string | number | null) {
 
   const triggerFetch = async () => {
     setIsLoading(true)
-    if (!id) return setIsLoading(false)
+    if (!id) {
+      console.log('the is is not present in the useGetCarById')
+      return setIsLoading(false)
+    }
 
     // getCarById(id)
     //   .then(response => {

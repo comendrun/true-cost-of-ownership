@@ -62,9 +62,12 @@ export default function CarForm({
     )
 
     if (pageError || error?.message) {
+      console.log('in the if statement in the useeffect')
+      
       return () => {
         toast.error(
           error?.message ||
+            pageError ||
             "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
         )
         router.replace('/dashboard/add-car/advanced')
