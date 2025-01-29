@@ -37,6 +37,8 @@ export default function useGetCarById(id: string | number | null) {
     //   })
 
     const { data, error } = await getCarById(id)
+    console.log('The data in the useGetCarById', data)
+    console.log('The error in the useGetCarById', error)
 
     if (error || !data) {
       setError(

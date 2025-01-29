@@ -52,9 +52,15 @@ export default function CarForm({
     triggerFetch
   } = useGetCarById(id)
 
-  console.log('fetch error', error)
+  console.log('fetch error in the car form hook', error)
 
   useEffect(() => {
+    console.log(
+      'There was an error in the car form use effect, error and then pageError',
+      error,
+      pageError
+    )
+
     if (pageError || error?.message) {
       return () => {
         toast.error(

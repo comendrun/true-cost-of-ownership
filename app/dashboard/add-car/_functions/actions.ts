@@ -274,13 +274,19 @@ export async function getCarById(id: string | number): Promise<{
         'No user identified when trying to fetch the car instance.'
       )
     }
-    console.log('Starting to fetch the car info from supabase with the id of', id)
+    console.log(
+      'Starting to fetch the car info from supabase with the id of',
+      id
+    )
     const { data, error } = await supabase
       .from('user_cars')
       .select()
       .eq('id', id)
       .eq('user_id', user.id)
       .single()
+
+    console.log('The data in the getCarById Server Action', data)
+    console.log('The error in the getCarById Server Action', error)
 
     if (error || !data) {
       console.error(
