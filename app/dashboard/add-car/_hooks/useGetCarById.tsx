@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getCarById } from '../_functions/actions'
+import { getCarByIdWithCookieError } from '../_functions/actions'
 import { CarFormFields, UserCarsTableRow } from '../_types/types'
 import { PostgrestError } from '@supabase/supabase-js'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
@@ -14,32 +14,11 @@ export default function useGetCarById(id: string | number | null) {
   const triggerFetch = async () => {
     setIsLoading(true)
     if (!id) {
-      console.log('the is is not present in the useGetCarById')
+      console.log('the id is not present in the useGetCarById')
       return setIsLoading(false)
     }
 
-    // getCarById(id)
-    //   .then(response => {
-    //     setData(response.data)
-    //     if (response.data) {
-    //       const formValues = convertUserCarsTableInsertToAdvancedFormValues(
-    //         response.data
-    //       )
-    //       setCarEntryFormValues(formValues)
-    //     }
-    //     if (response?.error) {
-    //       setError(response?.error)
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.error('Error while performing the postgresql fetch', err)
-    //     setError(err)
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false)
-    //   })
-
-    const { data, error } = await getCarById(id)
+    const { data, error } = await getCarByIdWithCookieError(id)
     console.log('The data in the useGetCarById', data)
     console.log('The error in the useGetCarById', error)
 
@@ -53,6 +32,7 @@ export default function useGetCarById(id: string | number | null) {
       return
     }
 
+    setData(data)
     const formValues = convertUserCarsTableInsertToAdvancedFormValues(data)
     setCarEntryFormValues(formValues)
 
