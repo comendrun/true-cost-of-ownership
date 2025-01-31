@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../components/ui/loading/LoadingDialogWithSpinner'
-import { advancedFormSteps } from '../_consts/consts'
+import { advancedFormSteps, FORM_ERROR_MESSAGE_KEY } from '../_consts/consts'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
@@ -26,22 +26,19 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
+import useCookie from '../_hooks/useCookies'
 
 export default function CarForm({
   id,
-  user,
-  pageError
+  user
 }: {
   id: string | number | null
   user: User | null
-  pageError?: string | null
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
-
-  console.log('pageError', pageError)
 
   const {
     data: car,
@@ -51,25 +48,31 @@ export default function CarForm({
     triggerFetch
   } = useGetCarById(id)
 
-  useEffect(() => {
-    console.log(
-      'There was an error in the car form use effect, error and then pageError',
-      error,
-      pageError
-    )
+  const { deleteCookieWithKey, cookie } = useCookie(FORM_ERROR_MESSAGE_KEY)
 
-    if (pageError || error) {
+  console.log('getCookie', cookie)
+
+  useEffect(() => {
+    if (error) {
       console.log('in the if statement in the useeffect')
       return () => {
         toast.error(
           error?.message ||
-            pageError ||
             "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
         )
-        router.replace('/dashboard/add-car/advanced')
+        // router.replace('/dashboard/add-car/advanced')
       }
     }
-  }, [router, error, error?.message])
+
+    if (cookie) {
+      toast.error(
+        cookie.value ||
+          "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+      )
+
+      deleteCookieWithKey()
+    }
+  }, [router, error, error?.message, cookie])
 
   const {
     updateCarFormValues,

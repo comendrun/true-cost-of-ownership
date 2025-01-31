@@ -1,6 +1,8 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { PostgrestError } from '@supabase/supabase-js'
+import { FieldValues } from 'react-hook-form'
 import {
   CarFormFields,
   CarFormOptionalFields,
@@ -11,9 +13,12 @@ import {
   convertAdvancedFormValuesToUserCarsTableInsert,
   convertUserCarsTableInsertToAdvancedFormValues
 } from './helper-functions'
-import { PostgrestError } from '@supabase/supabase-js'
 import { getAIFilledOptionalFields } from './openai/get-ai-filled-optional-fields'
-import { FieldValues } from 'react-hook-form'
+import { cookies } from 'next/headers'
+import { FORM_ERROR_MESSAGE_KEY, FORM_ERROR_MESSAGE } from '../_consts/consts'
+import { redirect } from 'next/navigation'
+
+const cookieStore = await cookies()
 
 export async function saveCar(formValues: CarFormFields): Promise<{
   data: UserCarsTableRow | null
@@ -259,7 +264,6 @@ export async function getCarByIdWithCookieError(id: string | number): Promise<{
     //   error: {message: 'No id for the operation was provided'}
     // }
     const supabase = createClient()
-
     const {
       data: { user }
     } = await supabase.auth.getUser()
@@ -308,6 +312,10 @@ export async function getCarByIdWithCookieError(id: string | number): Promise<{
     console.log('[getCarById], error:', err.message)
     console.error('[getCarById], error:', err.message)
 
+    await cookieStore.set(FORM_ERROR_MESSAGE_KEY, FORM_ERROR_MESSAGE)
+
+    redirect('/dashboard/add-car/advanced')
+
     return {
       error: {
         message:
@@ -316,4 +324,18 @@ export async function getCarByIdWithCookieError(id: string | number): Promise<{
       data: null
     }
   }
+}
+
+export async function getCookie(cookieKey: string) {
+  return await cookieStore.get(cookieKey)
+}
+
+export async function deleteCookie(cookieKey: string) {
+  console.log('deleting cookie with the key', cookieKey)
+
+  return await cookieStore.delete(cookieKey)
+}
+
+export async function getCookies() {
+  return await cookieStore.getAll()
 }
