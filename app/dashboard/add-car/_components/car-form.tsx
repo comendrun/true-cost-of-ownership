@@ -36,7 +36,7 @@ export default function CarForm({
   user: User | null
   pageError?: string | null
 }) {
-  const [step, setStep] = useState<FormStepsIDs>('requiredInfo')
+  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
