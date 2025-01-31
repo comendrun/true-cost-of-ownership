@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { SubmitHandler, useForm, useFormContext } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../components/ui/loading/LoadingDialogWithSpinner'
 import { advancedFormSteps } from '../_consts/consts'
@@ -26,7 +26,6 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
-import { defaultCarFormValues } from '@/data/consts'
 
 export default function CarForm({
   id,
@@ -37,7 +36,7 @@ export default function CarForm({
   user: User | null
   pageError?: string | null
 }) {
-  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
+  const [step, setStep] = useState<FormStepsIDs>('requiredInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -52,8 +51,6 @@ export default function CarForm({
     triggerFetch
   } = useGetCarById(id)
 
-  console.log('fetch error in the car form hook', error)
-
   useEffect(() => {
     console.log(
       'There was an error in the car form use effect, error and then pageError',
@@ -61,9 +58,8 @@ export default function CarForm({
       pageError
     )
 
-    if (pageError || error?.message) {
+    if (pageError || error) {
       console.log('in the if statement in the useeffect')
-      
       return () => {
         toast.error(
           error?.message ||
@@ -71,10 +67,6 @@ export default function CarForm({
             "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
         )
         router.replace('/dashboard/add-car/advanced')
-        // new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-        //   window.location.replace('/dashboard/add-car/advanced')
-        // })
-        // window.location.replace('/dashboard/add-car/advanced')
       }
     }
   }, [router, error, error?.message])
@@ -98,6 +90,8 @@ export default function CarForm({
   })
 
   const onSubmit: SubmitHandler<CarFormFields> = async data => {
+    console.log('submitting')
+
     setIsSavingCarInProgress(true)
     updateOptionalCarFormValues(null)
     updateCarFormValues(data)

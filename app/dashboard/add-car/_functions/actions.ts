@@ -248,7 +248,7 @@ export async function updateCarAndGetRecommendations<
   }
 }
 
-export async function getCarById(id: string | number): Promise<{
+export async function getCarByIdWithCookieError(id: string | number): Promise<{
   data: UserCarsTableRow | null
   error: { message: string } | null
 }> {
