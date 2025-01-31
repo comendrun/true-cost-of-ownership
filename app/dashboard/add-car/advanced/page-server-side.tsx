@@ -35,7 +35,7 @@ export default async function CarsPage({
   return (
     <div className='flex flex-col items-center justify-center gap-5'>
       <Suspense fallback={<div>Loading...</div>}>
-        <CarForm id={error ? null : id} user={user} pageError={error} />
+        <CarForm id={error ? null : id} user={user} />
       </Suspense>
     </div>
   )
