@@ -13,6 +13,11 @@ import {
 
 export const FORM_VALUES_STORED_KEY = 'car-form-store'
 
+export const FORM_ERROR_MESSAGE_KEY = 'car-form-error-message'
+
+export const FORM_ERROR_MESSAGE =
+  "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+
 export const aiResponseFormFields: FormFieldType<CarFormOptionalFields>[] = [
   {
     key: 'name',
