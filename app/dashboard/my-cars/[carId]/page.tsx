@@ -193,7 +193,7 @@ export default async function UserCarPage({
 
       {/* Edit Button */}
       <div className='mt-6'>
-        <Link href={`/dashboard/add-car/advanced?id=${carId}`} passHref>
+        <Link href={`/dashboard/my-cars/${carId}/edit`} passHref>
           <Button className='w-full md:w-auto'>Edit Car Details</Button>
         </Link>
       </div>

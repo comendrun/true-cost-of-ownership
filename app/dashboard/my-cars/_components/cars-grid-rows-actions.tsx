@@ -39,7 +39,7 @@ export default function CarsGridRowActions({
           <Link href={`/dashboard/my-cars/${car.id}`}>View Car Details</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={`/dashboard/add-car/advanced?id=${car.id}`}>
+          <Link href={`/dashboard/my-cars/${car.id}/edit`}>
             Edit Car Details
           </Link>
         </DropdownMenuItem>

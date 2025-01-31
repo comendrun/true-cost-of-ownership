@@ -187,5 +187,5 @@ export async function openAICostsAnalysisCompletion({
     throw new Error('There was an error while saving the AI response.')
   }
 
-  revalidatePath(`/dashboard/add-car/advanced-form?id=${userCarId}`)
+  revalidatePath(`/dashboard/my-cars/${userCarId}/edit`)
 }

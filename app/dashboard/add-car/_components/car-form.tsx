@@ -132,7 +132,7 @@ export default function CarForm({
     updateOptionalCarFormValues(carFormOptionalFields)
 
     if (!id && savedCarId) {
-      router.replace(`/dashboard/add-car/advanced?id=${savedCarId}`)
+      router.replace(`/dashboard/my-car/${savedCarId}/edit`)
     }
   }
 
