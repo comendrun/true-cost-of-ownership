@@ -27,6 +27,7 @@ import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
 import useCookie from '../_hooks/useCookies'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function CarForm({
   id,
@@ -50,7 +51,7 @@ export default function CarForm({
 
   const { deleteCookieWithKey, cookie } = useCookie(FORM_ERROR_MESSAGE_KEY)
 
-  console.log('getCookie', cookie)
+  console.log('getCookie', cookie?.value)
 
   useEffect(() => {
     if (error) {
@@ -192,104 +193,110 @@ export default function CarForm({
 
   return (
     <>
-      <div className='min-h-[100vh] w-full flex-1 rounded-xl bg-muted/50 px-2 py-5 md:min-h-min'>
-        <Form {...form}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className='m-auto mt-5 flex w-full flex-col gap-8 p-5'
-          >
-            <Accordion
-              value={step}
-              type='single'
-              collapsible
-              className='w-full'
+      <ScrollArea className='max-h-[90vh] max-w-full rounded-md'>
+        <div className='max-h-[100vh] w-full flex-1 overflow-y-scroll rounded-xl bg-muted/50 px-2 py-5 md:min-h-min'>
+          <Form {...form}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className='m-auto mt-5 flex w-full flex-col gap-8 p-5'
             >
-              {advancedFormSteps.map(
-                ({ id: advancedFormStepId, title, fields, index }) => {
-                  return (
-                    <AdvancedFormAccordionItem
-                      id={advancedFormStepId}
-                      title={title}
-                      index={index}
-                      setStep={setStep}
-                      trigger={trigger}
-                      errors={errors}
-                      currentStep={step}
-                      key={`${index}-${advancedFormStepId}`}
-                      clearErrors={clearErrors}
-                      getFieldState={getFieldState}
-                    >
-                      <AdvancedFormFieldComponents
-                        fields={fields}
-                        key={`form-field-components-step-${title}-index-${index}`}
-                        control={control}
-                        errors={errors}
-                        isCarLoading={isCarLoading}
+              <Accordion
+                value={step}
+                type='single'
+                collapsible
+                className='w-full'
+              >
+                {advancedFormSteps.map(
+                  ({ id: advancedFormStepId, title, fields, index }) => {
+                    return (
+                      <AdvancedFormAccordionItem
+                        id={advancedFormStepId}
+                        title={title}
                         index={index}
-                        setValue={setValue}
-                        getValues={getValues}
-                        id={id}
-                        watch={watch}
-                      />
-                    </AdvancedFormAccordionItem>
-                  )
-                }
-              )}
-            </Accordion>
+                        setStep={setStep}
+                        trigger={trigger}
+                        errors={errors}
+                        currentStep={step}
+                        key={`${index}-${advancedFormStepId}`}
+                        clearErrors={clearErrors}
+                        getFieldState={getFieldState}
+                      >
+                        <AdvancedFormFieldComponents
+                          fields={fields}
+                          key={`form-field-components-step-${title}-index-${index}`}
+                          control={control}
+                          errors={errors}
+                          isCarLoading={isCarLoading}
+                          index={index}
+                          setValue={setValue}
+                          getValues={getValues}
+                          id={id}
+                          watch={watch}
+                        />
+                      </AdvancedFormAccordionItem>
+                    )
+                  }
+                )}
+              </Accordion>
 
-            <div className='flex w-full items-center justify-center gap-2'>
-              <Button
-                className='w-full'
-                variant='secondary'
-                type='reset'
-                onClick={handleReset}
-                disabled={isCarLoading}
-              >
-                Reset
-              </Button>
+              <div className='flex w-full items-center justify-center gap-2'>
+                <Button
+                  className='w-full'
+                  variant='secondary'
+                  type='reset'
+                  onClick={handleReset}
+                  disabled={isCarLoading}
+                >
+                  Reset
+                </Button>
 
-              <Button
-                variant='outline'
-                className='w-full'
-                type='button'
-                disabled={isCarLoading || !id}
-                onClick={handleGenerateAIAnalysis}
-              >
-                Generate the Car Analysis
-              </Button>
+                <Button
+                  variant='outline'
+                  className='w-full'
+                  type='button'
+                  disabled={isCarLoading || !id}
+                  onClick={handleGenerateAIAnalysis}
+                >
+                  Generate the Car Analysis
+                </Button>
 
-              <Button className='w-full' type='submit' disabled={isCarLoading}>
-                Save The Car
-              </Button>
-            </div>
-          </form>
-        </Form>
-        {isAnalysisGenerating ? (
-          <LoadingDialogWithSpinner
-            open={isAnalysisGenerating}
-            setIsOpen={setIsAnalysisGenerating}
-            title='Please wait...'
-            description='Please wait until the Analysis is generated.'
-            withCloseButton={false}
-          />
-        ) : (
-          <></>
-        )}
-      </div>
-      {isSavingCarInProgress && (
-        <div className='flex h-full w-full items-center justify-center'>
-          <SavedCarAIResponseDialog
-            optionalCarFormValues={optionalCarFormValues}
-            isSavingCarInProgress={isSavingCarInProgress}
-            setIsSavingCarInProgress={setIsSavingCarInProgress}
-            updateOptionalCarFormValues={updateOptionalCarFormValues}
-            carFormValues={stateValues}
-            updateCarFormValues={updateCarFormValues}
-            id={id as string | number}
-            triggerFetch={triggerFetch}
-          />
+                <Button
+                  className='w-full'
+                  type='submit'
+                  disabled={isCarLoading}
+                >
+                  Save The Car
+                </Button>
+              </div>
+            </form>
+          </Form>
+          {isAnalysisGenerating ? (
+            <LoadingDialogWithSpinner
+              open={isAnalysisGenerating}
+              setIsOpen={setIsAnalysisGenerating}
+              title='Please wait...'
+              description='Please wait until the Analysis is generated.'
+              withCloseButton={false}
+            />
+          ) : (
+            <></>
+          )}
         </div>
-      )}
+        {isSavingCarInProgress && (
+          <div className='flex h-full w-full items-center justify-center'>
+            <SavedCarAIResponseDialog
+              optionalCarFormValues={optionalCarFormValues}
+              isSavingCarInProgress={isSavingCarInProgress}
+              setIsSavingCarInProgress={setIsSavingCarInProgress}
+              updateOptionalCarFormValues={updateOptionalCarFormValues}
+              carFormValues={stateValues}
+              updateCarFormValues={updateCarFormValues}
+              id={id as string | number}
+              triggerFetch={triggerFetch}
+            />
+          </div>
+        )}
+      </ScrollArea>
     </>
   )
 }
