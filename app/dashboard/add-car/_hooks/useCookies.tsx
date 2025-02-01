@@ -9,7 +9,6 @@ export default function useCookie(cookieKey: string) {
 
   const deleteCookieWithKey = async () => {
     await deleteCookie(cookieKey)
-    // Update the state after deleting the cookie
     setCookie(undefined)
     const updatedCookies = await getCookies()
     setCookies(updatedCookies)

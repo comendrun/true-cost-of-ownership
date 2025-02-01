@@ -51,7 +51,8 @@ export default function CarForm({
 
   const { deleteCookieWithKey, cookie } = useCookie(FORM_ERROR_MESSAGE_KEY)
 
-  console.log('getCookie', cookie?.value)
+  console.log('getCookie value', cookie?.value)
+  console.log('getCookie', cookie)
 
   useEffect(() => {
     if (error) {
@@ -65,13 +66,16 @@ export default function CarForm({
       }
     }
 
-    if (cookie) {
-      toast.error(
-        cookie.value ||
-          "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-      )
+    if (cookie?.value) {
+      const parsedCookie = JSON.parse(cookie?.value)
+      if (parsedCookie?.id == id) {
+        toast.error(
+          parsedCookie?.message ||
+            "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+        )
 
-      deleteCookieWithKey()
+        deleteCookieWithKey()
+      }
     }
   }, [router, error, error?.message, cookie])
 
