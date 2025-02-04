@@ -11,7 +11,7 @@ import {
   Sun,
   MonitorCog
 } from 'lucide-react'
-import { logUserOut } from '@/app/actions'
+import { logUserOut } from '@/app/log-user-out-server-action'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenuGroup,

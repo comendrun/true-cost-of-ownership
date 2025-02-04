@@ -92,7 +92,7 @@ export default async function DashboardLayout({
               <Breadcrumbs />
             </div>
           </header>
-          <div className='flex max-w-[100vw] flex-1 flex-col gap-4 pt-0'>
+          <div className='flex max-w-[100vw] flex-1 flex-col gap-4 p-2'>
             {/* <div className='grid auto-rows-min gap-4 md:grid-cols-3'>
               <div className='aspect-video rounded-xl bg-muted/50' />
               <div className='aspect-video rounded-xl bg-muted/50' />

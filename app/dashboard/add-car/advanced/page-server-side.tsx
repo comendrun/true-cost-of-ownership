@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import CarForm from '../_components/car-form'
-import { getCarByIdWithCookieError } from '../_functions/save-car-server-functions'
+import { getCarById } from '../_functions/save-car-server-functions'
 import { Suspense } from 'react'
 
 export default async function CarsPage({
@@ -18,7 +18,7 @@ export default async function CarsPage({
   let error: string | null = null
 
   if (id) {
-    const { data, error: fetchError } = await getCarByIdWithCookieError(id)
+    const { data, error: fetchError } = await getCarById(id)
 
     if (fetchError || data?.user_id !== user?.id) {
       console.log(fetchError)

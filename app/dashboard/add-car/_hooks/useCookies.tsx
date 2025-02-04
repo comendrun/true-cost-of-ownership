@@ -1,7 +1,11 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { getCookies, getCookie, deleteCookie } from '../_functions/save-car-server-functions'
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
+import { useEffect, useState } from 'react'
+import {
+  deleteCookie,
+  getCookie,
+  getCookies
+} from '../_functions/cookies.actions'
 
 export default function useCookie(cookieKey: string) {
   const [cookies, setCookies] = useState<RequestCookie[] | null>(null)

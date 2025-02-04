@@ -18,7 +18,7 @@ import { cookies } from 'next/headers'
 import { FORM_ERROR_MESSAGE_KEY, FORM_ERROR_MESSAGE } from '../_consts/consts'
 import { redirect } from 'next/navigation'
 
-const cookieStore = await cookies()
+// const cookieStore = await cookies()
 
 export async function saveCar(formValues: CarFormFields): Promise<{
   data: UserCarsTableRow | null
@@ -253,12 +253,12 @@ export async function updateCarAndGetRecommendations<
   }
 }
 
-export async function getCarByIdWithCookieError(id: string | number): Promise<{
+export async function getCarById(id: string | number): Promise<{
   data: UserCarsTableRow | null
   error: { message: string } | null
 }> {
   console.log('deleting the cookie if exists')
-  await cookieStore.delete(FORM_ERROR_MESSAGE_KEY)
+  // await cookieStore.delete(FORM_ERROR_MESSAGE_KEY)
   try {
     if (!id) throw new Error('No id for the operation was provided')
     // return {
@@ -314,12 +314,12 @@ export async function getCarByIdWithCookieError(id: string | number): Promise<{
     console.log('[getCarById], error:', err.message)
     console.error('[getCarById], error:', err.message)
     console.log('setting the cookie for the error message')
-    await cookieStore.set(
-      FORM_ERROR_MESSAGE_KEY,
-      JSON.stringify({ message: FORM_ERROR_MESSAGE, id })
-    )
+    // await cookieStore.set(
+    //   FORM_ERROR_MESSAGE_KEY,
+    //   JSON.stringify({ message: FORM_ERROR_MESSAGE, id })
+    // )
 
-    redirect('/dashboard/add-car/advanced')
+    // redirect('/dashboard/add-car/advanced')
 
     return {
       error: {
@@ -331,16 +331,3 @@ export async function getCarByIdWithCookieError(id: string | number): Promise<{
   }
 }
 
-export async function getCookie(cookieKey: string) {
-  return await cookieStore.get(cookieKey)
-}
-
-export async function deleteCookie(cookieKey: string) {
-  console.log('deleting cookie with the key', cookieKey)
-
-  return await cookieStore.delete(cookieKey)
-}
-
-export async function getCookies() {
-  return await cookieStore.getAll()
-}

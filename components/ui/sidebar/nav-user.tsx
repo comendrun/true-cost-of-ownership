@@ -18,7 +18,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { CaretSortIcon, ComponentPlaceholderIcon } from '@radix-ui/react-icons'
-import { logUserOut } from '@/app/actions'
+import { logUserOut } from '@/app/log-user-out-server-action'
 import LogoutButton from '@/components/navbar/logout-button'
 import { LogoutButtonWithDialog } from '@/app/auth/_components/logout-button-with-spinner'
 

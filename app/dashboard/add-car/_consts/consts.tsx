@@ -245,6 +245,241 @@ export const aiResponseFormFields: FormFieldType<CarFormOptionalFields>[] = [
   }
 ]
 
+// export const advancedFormSteps: FormSteps<CarFormFields>[] = [
+//   {
+//     id: 'requiredInfo',
+//     index: 0,
+//     title: 'Required Information',
+//     fields: [
+//       {
+//         key: 'name',
+//         type: 'string',
+//         required: false,
+//         label: 'Name',
+//         component: 'input',
+//         placeholder: 'Name',
+//         fullWidth: true
+//       },
+//       {
+//         key: 'brand',
+//         type: 'string',
+//         required: true,
+//         label: 'Car Brand',
+//         component: 'select',
+//         selectItems: getAllBrands()
+//       },
+//       {
+//         key: 'model',
+//         type: 'string',
+//         required: true,
+//         label: 'Car Model',
+//         component: 'select',
+//         selectItems: values => getModelsByBrand(values.brand) || []
+//       },
+//       {
+//         key: 'variant',
+//         type: 'string',
+//         required: false,
+//         label: 'Variant',
+//         component: 'input',
+//         placeholder: 'Variant'
+//       },
+//       {
+//         key: 'year',
+//         type: 'number',
+//         required: true,
+//         label: 'First Registration Year',
+//         component: 'select',
+//         selectItems: values =>
+//           getYearsByBrandAndModel(values.brand, values.model) || []
+//       },
+//       {
+//         key: 'mileage',
+//         type: 'number',
+//         required: true,
+//         label: 'Mileage',
+//         component: 'input',
+//         inputSuffix: 'Kilometers'
+//       },
+//       {
+//         key: 'plannedYearsOfOwnership',
+//         type: 'number',
+//         required: true,
+//         label: 'Planned Ownership in Years',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'drivingExperienceYears',
+//         type: 'number',
+//         required: true,
+//         label: 'Driving Experience in Years',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'driverAgeRange',
+//         type: 'string',
+//         required: true,
+//         label: "Driver's Age",
+//         component: 'select',
+//         selectItems: ['18-25', '25-35', '35-55', '55+']
+//       },
+//       {
+//         key: 'purchasePrice',
+//         type: 'number',
+//         required: true,
+//         label: 'Price',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'prepayment',
+//         type: 'number',
+//         required: true,
+//         label: 'Prepayment',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       }
+//     ]
+//   },
+//   // {
+//   //   id: 'generalInfo',
+//   //   index: 1,
+//   //   title: 'General Information',
+//   //   fields: [
+
+//   //   ]
+//   // },
+//   {
+//     id: 'financing',
+//     index: 2,
+//     title: 'Financing',
+//     fields: [
+//       {
+//         key: 'financingDuration',
+//         type: 'number',
+//         required: false,
+//         label: 'Financing Duration',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'interestRate',
+//         type: 'number',
+//         required: false,
+//         label: 'Interest Rate',
+//         component: 'input',
+//         inputSuffix: 'Percentage'
+//       },
+//       {
+//         key: 'remainingAmount',
+//         type: 'number',
+//         required: false,
+//         label: 'Remaining Amount',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       },
+//       {
+//         key: 'totalInterestPaid',
+//         type: 'number',
+//         required: false,
+//         label: 'Total Interest Paid',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       },
+//       {
+//         key: 'truePurchasePrice',
+//         type: 'number',
+//         required: false,
+//         label: 'True Purchase Price',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       }
+//     ]
+//   },
+//   {
+//     id: 'depreciation',
+//     index: 3,
+//     title: 'Depreciation',
+//     fields: [
+//       {
+//         key: 'initialPrice',
+//         type: 'number',
+//         required: false,
+//         label: 'Original Initial Price',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'depreciationRate',
+//         type: 'number',
+//         required: false,
+//         label: 'Depreciation Rate',
+//         component: 'input',
+//         inputSuffix: 'Percentage',
+//         infoField: true
+//       }
+//     ]
+//   },
+//   {
+//     id: 'warrantyAndService',
+//     index: 4,
+//     title: 'Warranty and Service',
+//     fields: [
+//       {
+//         key: 'guaranteeYears',
+//         type: 'number',
+//         required: false,
+//         label: 'Warranty Duration',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'serviceCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'Service Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'serviceIncludes',
+//         type: 'string',
+//         required: false,
+//         label: 'Included Services',
+//         component: 'textarea'
+//       },
+//       {
+//         key: 'tiresCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'Tires Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros/Year'
+//       },
+//       {
+//         key: 'oilChangeCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'Oil Change Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'offerOnExtendedWarranty',
+//         type: 'boolean',
+//         required: false,
+//         label: 'Extended Warranty Available?',
+//         component: 'checkbox'
+//       }
+//     ]
+//   }
+// ]
+
 export const advancedFormSteps: FormSteps<CarFormFields>[] = [
   {
     id: 'generalInfo',
@@ -683,6 +918,292 @@ export const advancedFormSteps: FormSteps<CarFormFields>[] = [
     ]
   }
 ]
+
+// export const advancedFormSteps: FormSteps<CarFormFields>[] = [
+//   {
+//     id: 'requiredInfo',
+//     index: 0,
+//     title: 'Required Information',
+//     fields: [
+//       {
+//         key: 'brand',
+//         type: 'string',
+//         required: true,
+//         label: 'Car Brand',
+//         component: 'select',
+//         selectItems: getAllBrands()
+//       },
+//       {
+//         key: 'model',
+//         type: 'string',
+//         required: true,
+//         label: 'Car Model',
+//         component: 'select',
+//         selectItems: values => getModelsByBrand(values.brand) || []
+//       },
+//       {
+//         key: 'year',
+//         type: 'number',
+//         required: true,
+//         label: 'First Registration Year',
+//         component: 'select',
+//         selectItems: values =>
+//           getYearsByBrandAndModel(values.brand, values.model) || []
+//       },
+//       {
+//         key: 'mileage',
+//         type: 'number',
+//         required: true,
+//         label: 'Mileage',
+//         component: 'input',
+//         inputSuffix: 'Kilometers'
+//       },
+//       {
+//         key: 'plannedYearsOfOwnership',
+//         type: 'number',
+//         required: true,
+//         label: 'Planned Ownership in Years',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'drivingExperienceYears',
+//         type: 'number',
+//         required: true,
+//         label: 'Driving Experience in Years',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'driverAgeRange',
+//         type: 'string',
+//         required: true,
+//         label: "Driver's Age",
+//         component: 'select',
+//         selectItems: ['18-25', '25-35', '35-55', '55+']
+//       },
+//       {
+//         key: 'purchasePrice',
+//         type: 'number',
+//         required: true,
+//         label: 'Price',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'prepayment',
+//         type: 'number',
+//         required: true,
+//         label: 'Prepayment',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'totalPlannedKMs',
+//         type: 'number',
+//         required: true,
+//         label: 'Planned traveling distance per year?',
+//         component: 'input',
+//         inputSuffix: 'Kilometers/Year'
+//       },
+//       {
+//         key: 'fuelType',
+//         type: 'string',
+//         required: true,
+//         label: 'Fuel Type',
+//         component: 'select',
+//         selectItems: [
+//           'Diesel',
+//           'Petrol',
+//           'Hybrid/Diesel',
+//           'Hybrid/Petrol',
+//           'Electric'
+//         ]
+//       },
+//       {
+//         key: 'insuranceType',
+//         type: 'string',
+//         required: true,
+//         label: 'Insurance Type',
+//         component: 'select',
+//         selectItems: ['Minimum', 'Partial', 'Full']
+//       }
+//     ]
+//   },
+//   {
+//     id: 'additionalCarInfo',
+//     index: 1,
+//     title: 'Additional Car Information',
+//     fields: [
+//       {
+//         key: 'name',
+//         type: 'string',
+//         required: false,
+//         label: 'Name',
+//         component: 'input',
+//         placeholder: 'Name'
+//       },
+//       {
+//         key: 'variant',
+//         type: 'string',
+//         required: false,
+//         label: 'Variant',
+//         component: 'input',
+//         placeholder: 'Variant'
+//       }
+//     ]
+//   },
+//   {
+//     id: 'financing',
+//     index: 2,
+//     title: 'Financing Details',
+//     fields: [
+//       {
+//         key: 'financingDuration',
+//         type: 'number',
+//         required: false,
+//         label: 'Financing Duration',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'interestRate',
+//         type: 'number',
+//         required: false,
+//         label: 'Interest Rate',
+//         component: 'input',
+//         inputSuffix: 'Percentage'
+//       },
+//       {
+//         key: 'remainingAmount',
+//         type: 'number',
+//         required: false,
+//         label: 'Remaining amount',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       },
+//       {
+//         key: 'totalInterestPaid',
+//         type: 'number',
+//         required: false,
+//         label: 'Total Interest Paid',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       },
+//       {
+//         key: 'truePurchasePrice',
+//         type: 'number',
+//         required: false,
+//         label: 'True Purchase Price',
+//         component: 'input',
+//         inputSuffix: 'Euros',
+//         infoField: true
+//       }
+//     ]
+//   },
+//   {
+//     id: 'efficiency',
+//     index: 3,
+//     title: 'Efficiency & Costs',
+//     fields: [
+//       {
+//         key: 'fuelConsumption',
+//         type: 'number',
+//         required: false,
+//         label: 'Fuel per 100KM?',
+//         component: 'input',
+//         inputSuffix: 'Liters'
+//       },
+//       {
+//         key: 'averageFuelCost',
+//         type: 'number',
+//         required: false,
+//         label: 'Average Fuel cost?',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'insuranceCost',
+//         type: 'number',
+//         required: false,
+//         label: 'Insurance Cost',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'tuvCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'TÜV Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'taxes',
+//         type: 'number',
+//         required: false,
+//         label: 'Taxes',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'parkingCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'Parking Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       }
+//     ]
+//   },
+//   {
+//     id: 'warrantyAndService',
+//     index: 4,
+//     title: 'Warranty and Service',
+//     fields: [
+//       {
+//         key: 'guaranteeYears',
+//         type: 'number',
+//         required: false,
+//         label: 'Warranty Years',
+//         component: 'input',
+//         inputSuffix: 'Years'
+//       },
+//       {
+//         key: 'serviceCosts',
+//         type: 'number',
+//         required: false,
+//         label: 'Service Costs',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       },
+//       {
+//         key: 'serviceIncludes',
+//         type: 'string',
+//         required: false,
+//         label: 'Service Inclusions',
+//         component: 'textarea'
+//       },
+//       {
+//         key: 'offerOnExtendedWarranty',
+//         type: 'boolean',
+//         required: false,
+//         label: 'Extended Warranty?',
+//         component: 'checkbox'
+//       },
+//       {
+//         key: 'extendedWarrantyCost',
+//         type: 'number',
+//         required: false,
+//         label: 'Extended Warranty Cost',
+//         component: 'input',
+//         inputSuffix: 'Euros'
+//       }
+//     ]
+//   }
+// ]
 
 export const formStepIndexMap = advancedFormSteps.reduce(
   (map, step, index) => {

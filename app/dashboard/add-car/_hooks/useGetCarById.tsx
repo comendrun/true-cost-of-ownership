@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getCarByIdWithCookieError } from '../_functions/save-car-server-functions'
+import { getCarById } from '../_functions/save-car-server-functions'
 import { CarFormFields, UserCarsTableRow } from '../_types/types'
 import { PostgrestError } from '@supabase/supabase-js'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
@@ -18,7 +18,7 @@ export default function useGetCarById(id: string | number | null) {
       return setIsLoading(false)
     }
 
-    const { data, error } = await getCarByIdWithCookieError(id)
+    const { data, error } = await getCarById(id)
     console.log('The data in the useGetCarById', data)
     console.log('The error in the useGetCarById', error)
 
