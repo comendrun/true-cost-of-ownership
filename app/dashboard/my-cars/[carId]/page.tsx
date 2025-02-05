@@ -1,3 +1,4 @@
+'use server'
 import React from 'react'
 import Link from 'next/link'
 import { createClient } from '@/utils/supabase/server'
@@ -17,6 +18,8 @@ import {
   TableCell,
   TableHead
 } from '@/components/ui/table'
+import ErrorPage from '@/components/ui/page-components/error-page-component'
+import { getUserCarWithId } from '@/server-actions/user-car-actions'
 
 export default async function UserCarPage({
   params
@@ -26,15 +29,25 @@ export default async function UserCarPage({
   const { carId } = params
   const supabase = createClient()
 
-  const { data: userCar, error: userCarError } = await supabase
-    .from('user_cars')
-    .select()
-    .eq('id', carId)
-    .single()
+  const { data: userCar, error: userCarErrerroror } =
+    await getUserCarWithId(carId)
 
-  if (userCarError || !userCar) {
-    return <div>Error loading data. Please try again later.</div>
+  if (userCarErrerroror || !userCar) {
+    console.log('the user cant see the page')
+
+    // return <div>Error loading data. Please try again later.</div>
+    return (
+      <ErrorPage
+        title='Oops'
+        description='You dont have access to this entity.'
+        bounce={false}
+        buttonTitle='Login'
+        href='/login'
+      />
+    )
   }
+
+  console.log('userCar', userCar)
 
   const {
     brand,
