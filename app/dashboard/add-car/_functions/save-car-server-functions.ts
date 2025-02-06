@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { PostgrestError } from '@supabase/supabase-js'
+import { revalidatePath } from 'next/cache'
 import { FieldValues } from 'react-hook-form'
 import {
   CarFormFields,
@@ -14,12 +15,6 @@ import {
   convertUserCarsTableInsertToAdvancedFormValues
 } from './helper-functions'
 import { getAIFilledOptionalFields } from './openai/get-ai-filled-optional-fields'
-import { cookies } from 'next/headers'
-import { FORM_ERROR_MESSAGE_KEY, FORM_ERROR_MESSAGE } from '../_consts/consts'
-import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
-
-// const cookieStore = await cookies()
 
 export async function saveCar(formValues: CarFormFields): Promise<{
   data: UserCarsTableRow | null

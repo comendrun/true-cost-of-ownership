@@ -2,21 +2,22 @@
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useCarFormStore } from '@/lib/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../components/ui/loading/LoadingDialogWithSpinner'
-import { advancedFormSteps, FORM_ERROR_MESSAGE_KEY } from '../_consts/consts'
+import { advancedFormSteps } from '../_consts/consts'
+import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
+import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
 } from '../_functions/save-car-server-functions'
-import { openAICostsAnalysisCompletion } from '../_functions/openai/analysis-chat-completion'
-import useGetCarById from '../_hooks/useGetCarById'
 import {
   CarFormFields,
   CarFormOptionalFields,
@@ -27,9 +28,6 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
-import useCookie from '../_hooks/useCookies'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
 
 export default function CarForm({
   id,
