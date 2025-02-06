@@ -200,7 +200,7 @@ export default function CarForm({
 
   return (
     <>
-      <ScrollArea className='max-h-[90vh] max-w-full rounded-md'>
+      <ScrollArea className='max-h-[90vh] max-w-full rounded-md w-full'>
         <div className='max-h-[100vh] w-full flex-1 overflow-y-scroll rounded-xl bg-muted/50 px-2 py-5 md:min-h-min'>
           <Form {...form}>
             <form

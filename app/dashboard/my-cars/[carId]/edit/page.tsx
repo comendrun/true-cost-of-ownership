@@ -31,7 +31,7 @@ export default async function CarEditPage({
   }
 
   return (
-    <div className='flex flex-col items-center justify-center gap-5'>
+    <div className='flex flex-col items-center justify-center gap-5 w-full'>
       <Suspense fallback={<div>Loading...</div>}>
         <CarForm id={carId} user={user} carData={data} />
       </Suspense>
