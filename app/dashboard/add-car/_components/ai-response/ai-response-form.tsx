@@ -65,7 +65,7 @@ export default function SavedCarAIResponseForm({
     updateOptionalCarFormValues(null)
     toast.success('The recommended values saved successfully.')
     clearLocalStorage()
-    triggerFetch()
+    triggerFetch?.()
   }
 
   function handleDecline() {

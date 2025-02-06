@@ -17,6 +17,7 @@ import { getAIFilledOptionalFields } from './openai/get-ai-filled-optional-field
 import { cookies } from 'next/headers'
 import { FORM_ERROR_MESSAGE_KEY, FORM_ERROR_MESSAGE } from '../_consts/consts'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 // const cookieStore = await cookies()
 
@@ -55,6 +56,9 @@ export async function saveCar(formValues: CarFormFields): Promise<{
     .select()
     .single()
 
+  revalidatePath(`/dashboard/my-cars/${data?.id}/`, 'page')
+  revalidatePath(`/dashboard/my-cars/${data?.id}/edit`, 'page')
+
   return { data, error }
 }
 
@@ -90,8 +94,9 @@ export async function saveCarAndGetRecommendations(
       )
     }
 
-    const updatedFormValues =
-      convertUserCarsTableInsertToAdvancedFormValues(data)
+    const updatedFormValues = convertUserCarsTableInsertToAdvancedFormValues(
+      data
+    ) as CarFormFields
 
     console.log('Successfully updated car data:', data)
     const aiFilledOptionalFields =
@@ -192,6 +197,9 @@ export async function updateCar<TFormValues extends FieldValues>(
     .select()
     .single()
 
+  revalidatePath(`/dashboard/my-cars/${id}/`, 'page')
+  revalidatePath(`/dashboard/my-cars/${id}/edit`, 'page')
+
   return { data: updatedCar, error: updateError }
 }
 
@@ -228,8 +236,9 @@ export async function updateCarAndGetRecommendations<
       throw new Error(updateError?.message)
     }
 
-    const updatedFormValues =
-      convertUserCarsTableInsertToAdvancedFormValues(updatedCar)
+    const updatedFormValues = convertUserCarsTableInsertToAdvancedFormValues(
+      updatedCar
+    ) as CarFormFields
 
     console.log('Successfully updated car data:', updatedCar)
     const aiFilledOptionalFields =
@@ -330,4 +339,3 @@ export async function getCarById(id: string | number): Promise<{
     }
   }
 }
-

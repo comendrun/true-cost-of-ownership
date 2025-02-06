@@ -180,8 +180,9 @@ export function convertAdvancedFormValuesToUserCarsTableInsert(
   return data
 }
 export function convertUserCarsTableInsertToAdvancedFormValues(
-  userCar: UserCarsTableRow
-): CarFormFields {
+  userCar?: UserCarsTableRow
+): CarFormFields | null {
+  if (!userCar) return null
   const formValues: CarFormFields = {
     averageFuelCost: userCar.average_fuel_cost ?? undefined,
     brand: userCar.brand,

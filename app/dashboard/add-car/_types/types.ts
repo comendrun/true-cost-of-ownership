@@ -386,7 +386,7 @@ export type SavedCarAIResponseComponentsProps = {
   id: string | number
   updateCarFormValues: (values: CarFormFields) => void
   carFormValues: CarFormFields | null
-  triggerFetch: () => void
+  triggerFetch?: () => void
 }
 
 export type AIResponseFormFieldProps = {

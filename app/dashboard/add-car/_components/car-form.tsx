@@ -21,63 +21,68 @@ import {
   CarFormFields,
   CarFormOptionalFields,
   CarFormSchema,
-  FormStepsIDs
+  FormStepsIDs,
+  UserCarsTableRow
 } from '../_types/types'
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
 import useCookie from '../_hooks/useCookies'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { convertUserCarsTableInsertToAdvancedFormValues } from '../_functions/helper-functions'
 
 export default function CarForm({
   id,
-  user
+  user,
+  carData
 }: {
   id: string | number | null
   user: User | null
+  carData?: UserCarsTableRow
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const {
-    data: car,
-    error,
-    carEntryFormValues,
-    isLoading: isCarLoading,
-    triggerFetch
-  } = useGetCarById(id)
+  // const {
+  //   data: car,
+  //   error,
+  //   carEntryFormValues,
+  //   isLoading: isCarLoading,
+  //   triggerFetch
+  // } = useGetCarById(id)
+  const carEntryFormValues = convertUserCarsTableInsertToAdvancedFormValues(carData)
 
   // const { deleteCookieWithKey, cookie } = useCookie(FORM_ERROR_MESSAGE_KEY)
 
   // console.log('getCookie value', cookie?.value)
   // console.log('getCookie', cookie)
 
-  useEffect(() => {
-    if (error) {
-      console.log('in the if statement in the useeffect')
-      return () => {
-        toast.error(
-          error?.message ||
-            "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-        )
-        // router.replace('/dashboard/add-car/advanced')
-      }
-    }
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log('in the if statement in the useeffect')
+  //     return () => {
+  //       toast.error(
+  //         error?.message ||
+  //           "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+  //       )
+  //       // router.replace('/dashboard/add-car/advanced')
+  //     }
+  //   }
 
-    // if (cookie?.value) {
-    //   const parsedCookie = JSON.parse(cookie?.value)
-    //   if (parsedCookie?.id == id) {
-    //     toast.error(
-    //       parsedCookie?.message ||
-    //         "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-    //     )
+  //   // if (cookie?.value) {
+  //   //   const parsedCookie = JSON.parse(cookie?.value)
+  //   //   if (parsedCookie?.id == id) {
+  //   //     toast.error(
+  //   //       parsedCookie?.message ||
+  //   //         "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+  //   //     )
 
-    //     deleteCookieWithKey()
-    //   }
-    // }
-  }, [router, error, error?.message])
+  //   //     deleteCookieWithKey()
+  //   //   }
+  //   // }
+  // }, [router, error, error?.message])
 
   const {
     updateCarFormValues,
@@ -230,7 +235,7 @@ export default function CarForm({
                           key={`form-field-components-step-${title}-index-${index}`}
                           control={control}
                           errors={errors}
-                          isCarLoading={isCarLoading}
+                          isCarLoading={isLoading}
                           index={index}
                           setValue={setValue}
                           getValues={getValues}
@@ -249,7 +254,7 @@ export default function CarForm({
                   variant='secondary'
                   type='reset'
                   onClick={handleReset}
-                  disabled={isCarLoading}
+                  disabled={isLoading}
                 >
                   Reset
                 </Button>
@@ -258,7 +263,7 @@ export default function CarForm({
                   variant='outline'
                   className='w-full'
                   type='button'
-                  disabled={isCarLoading || !id}
+                  disabled={isLoading || !id}
                   onClick={handleGenerateAIAnalysis}
                 >
                   Generate the Car Analysis
@@ -267,7 +272,7 @@ export default function CarForm({
                 <Button
                   className='w-full'
                   type='submit'
-                  disabled={isCarLoading}
+                  disabled={isLoading}
                 >
                   Save The Car
                 </Button>
@@ -296,7 +301,7 @@ export default function CarForm({
               carFormValues={stateValues}
               updateCarFormValues={updateCarFormValues}
               id={id as string | number}
-              triggerFetch={triggerFetch}
+              // triggerFetch={triggerFetch}
             />
           </div>
         )}
