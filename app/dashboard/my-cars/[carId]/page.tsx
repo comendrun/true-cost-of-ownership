@@ -27,7 +27,6 @@ export default async function UserCarPage({
   params: { carId: number }
 }) {
   const { carId } = params
-  const supabase = createClient()
 
   const { data: userCar, error: userCarErrerroror } =
     await getUserCarWithId(carId)

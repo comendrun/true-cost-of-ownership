@@ -23,8 +23,6 @@ export async function saveCar(formValues: CarFormFields): Promise<{
   console.log('Starting saveCarAndGetRecommendations function')
   const supabase = createClient()
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000))
-
   const {
     data: { user }
   } = await supabase.auth.getUser()
@@ -261,8 +259,6 @@ export async function getCarById(id: string | number): Promise<{
   data: UserCarsTableRow | null
   error: { message: string } | null
 }> {
-  console.log('deleting the cookie if exists')
-  // await cookieStore.delete(FORM_ERROR_MESSAGE_KEY)
   try {
     if (!id) throw new Error('No id for the operation was provided')
     // return {
@@ -317,11 +313,6 @@ export async function getCarById(id: string | number): Promise<{
   } catch (err: any) {
     console.log('[getCarById], error:', err.message)
     console.error('[getCarById], error:', err.message)
-    console.log('setting the cookie for the error message')
-    // await cookieStore.set(
-    //   FORM_ERROR_MESSAGE_KEY,
-    //   JSON.stringify({ message: FORM_ERROR_MESSAGE, id })
-    // )
 
     // redirect('/dashboard/add-car/advanced')
 

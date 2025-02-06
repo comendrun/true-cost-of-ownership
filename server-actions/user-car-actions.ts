@@ -4,16 +4,15 @@ import { UserCarsTableRow } from '@/app/dashboard/add-car/_types/types'
 import { createClient } from '@/utils/supabase/server'
 import { PostgrestError } from '@supabase/supabase-js'
 
-const supabase = createClient()
-
-const {
-  data: { user }
-} = await supabase.auth.getUser()
-
 export async function getUserCarWithId(carId: number): Promise<{
   data: UserCarsTableRow | null
   error: PostgrestError | string | null
 }> {
+  const supabase = createClient()
+
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
   if (!user) return { error: 'The User is not authenticated.', data: null }
   const { data, error } = await supabase
     .from('user_cars')
