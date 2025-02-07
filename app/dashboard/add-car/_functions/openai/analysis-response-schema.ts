@@ -1,4 +1,3 @@
-import { zodResponseFormat } from 'openai/helpers/zod.mjs'
 import { z } from 'zod'
 
 // Define the UserCarsTableRow structure
@@ -82,18 +81,6 @@ export const AIAnalysisMetricsSchema = z.object({
       resaleValue: z.number()
     })
   ),
-  environmentalImpact: z.array(
-    z.object({
-      carModel: z.string(),
-      yearlyCO2Emissions: z.number(),
-      fuelType: z.enum(['petrol', 'diesel', 'electric', 'hybrid']),
-      lifecycleImpact: z.object({
-        production: z.number(),
-        usePhase: z.number(),
-        recycling: z.number()
-      })
-    })
-  ),
   resaleValueInsights: z.array(
     z.object({
       carModel: z.string(),
@@ -164,12 +151,12 @@ export type AIAnalysisMetrics = z.infer<typeof AIAnalysisMetricsSchema>
 
 export const ChatCompletionResponseFormatSchema = z
   .object({
-    userCar: UserCarsTableRowSchema,
+    // userCar: UserCarsTableRowSchema,
     analysis_metrics: AIAnalysisMetricsSchema.or(z.string()), // Allow serialized JSON string
     analysis_summary: z.string(),
     cost_saving_opportunities: z.array(z.string()),
     feedback: z.string(),
-    recommended_insurances: z.array(z.string()),
+    recommended_insurances: z.string(),
     response: z.string(),
     suggested_driving_tips: z.array(z.string())
   })

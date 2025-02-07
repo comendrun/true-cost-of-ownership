@@ -147,11 +147,11 @@ export const exampleData = {
 
 // Example Payload for AI Model
 const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
-  userCar: {
-    // @ts-expect-error: the _comment property doesnt exist in the userCar but we need it to give the ai some comments on what to do. ToDo: remove these _comments and add the description in the messages directly
-    _comment:
-      'Here we will have all the car fields including the ones that were empty and now filled by AI.'
-  },
+  // userCar: {
+  //   // @ts-expect-error: the _comment property doesnt exist in the userCar but we need it to give the ai some comments on what to do. ToDo: remove these _comments and add the description in the messages directly
+  //   _comment:
+  //     'Here we will have all the car fields including the ones that were empty and now filled by AI.'
+  // },
   analysis_metrics: JSON.stringify(exampleData), // this is the place
   analysis_summary:
     'This car is highly fuel-efficient and cost-effective for urban usage but may not perform well for long-distance travel due to limited space.',
@@ -160,8 +160,8 @@ const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
     'Perform regular maintenance to avoid unexpected repair costs'
   ],
   feedback:
-    'The response matches user preferences but lacks detailed insurance suggestions.',
-  recommended_insurances: ['Full coverage', 'Roadside assistance'],
+    'The overall specs and the performance ratio of the car look above medium, But there can be better options in the same price range like: VW Golf',
+  recommended_insurances: "We recommend a full coverage as it's very important for a 3 years old car to have full coverage to prevent any mass loss of value.",
   response:
     'Based on your preferences, we recommend the Toyota Corolla Hybrid for its excellent fuel efficiency and low maintenance costs.',
   suggested_driving_tips: [
@@ -220,7 +220,7 @@ export function generateOpenAIAnalysisChatCompletionMessage(
   - Only calculate and suggest; do not alter user-provided inputs. Highlight discrepancies in the feedback section.
   - Return data in JSON format with relevant sections.
 
-  ### Output Format: IMPORTANT: THE output Object type definition examplePayloadWithClarifications:
+  ### Output Format: IMPORTANT: THE output Object format type definition examplePayloadWithClarifications:
   ${JSON.stringify(examplePayloadWithClarifications)}
   - Please stick strictly to the defined format for the output as I rely on this to parse and save the data after I got a response.
 

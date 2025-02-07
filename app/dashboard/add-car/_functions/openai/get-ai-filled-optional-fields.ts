@@ -562,7 +562,7 @@ function generateGetAIFilledOptionalFieldsMessages(
             },
             "initialPrice": {
             "type": "number",
-            "description": "Initial price of the vehicle when it was first sold as new. This is an optional field, and the value should be in Euros."
+            "description": "Initial price of the vehicle when it was first sold as brand new back in the manufactured year. This is an optional field, and the value should be in Euros."
             },
             "depreciationRate": {
             "type": "number",

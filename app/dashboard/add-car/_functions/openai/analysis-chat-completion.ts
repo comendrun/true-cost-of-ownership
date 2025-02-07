@@ -1,19 +1,15 @@
 'use server'
-import OpenAI from 'openai'
-import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-import {
-  AIAnalysisChatCompletionResponse,
-  AIResponseTableRow,
-  UserCarsTableRow
-} from '../../_types/types'
 import { createClient } from '@/utils/supabase/server'
-import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
 import { revalidatePath } from 'next/cache'
+import OpenAI from 'openai'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import {
-  AIAnalysisMetricsSchema,
+  AIAnalysisChatCompletionResponse
+} from '../../_types/types'
+import {
   ChatCompletionResponseFormatSchema
 } from './analysis-response-schema'
+import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
 
 export async function openAICostsAnalysisCompletion({
   userCarId

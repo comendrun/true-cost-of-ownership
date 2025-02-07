@@ -1,42 +1,27 @@
-import React, { useState } from 'react'
-import {
-  AIResponseFormFieldInputProps,
-  AIResponseFormFieldProps,
-  CarFormOptionalFields,
-  FormFieldType
-} from '../../_types/types'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Label } from '@/components/ui/label'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
-import { Control } from 'react-hook-form'
 import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { TableCell, TableRow } from '@/components/ui/table'
+import { Textarea } from '@/components/ui/textarea'
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from '@radix-ui/react-select'
-import { watch } from 'fs'
+import { useState } from 'react'
 import { isSelectField } from '../../_functions/helper-functions'
-import { Textarea } from '@/components/ui/textarea'
+import {
+  AIResponseFormFieldInputProps,
+  AIResponseFormFieldProps
+} from '../../_types/types'
 
 export default function AIResponseFormField({
   formField,
