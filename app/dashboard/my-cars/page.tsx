@@ -3,8 +3,7 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 import CarsGrid from './_components/cars-grid'
-import { UserCarsTableRow } from '../add-car/_types/types'
-import { getPaginatedUserCars } from './get-paginated-user-cars'
+import { getPaginatedUserCars } from '../../../components/pages/dashboard/my-cars/components/server-actions/get-paginated-user-cars'
 
 export default async function MyCarsPage() {
   const supabase = createClient()

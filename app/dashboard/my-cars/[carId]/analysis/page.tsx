@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import UserCarAnalysis from './_component/user-car-analysis'
+import UserCarAnalysis from '../../../../../components/pages/dashboard/my-cars/components/analysis/component/user-car-analysis'
 
 export default async function UserCarAnalysisPage({
   params

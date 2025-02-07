@@ -1,5 +1,5 @@
-import CarForm from '@/app/dashboard/add-car/_components/car-form'
-import { getCarById } from '@/app/dashboard/add-car/_functions/save-car-server-functions'
+import CarForm from '@/components/pages/dashboard/add-car/components/car-form'
+import { getCarById } from '@/components/pages/dashboard/add-car/functions/save-car-server-functions'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
 import { createClient } from '@/utils/supabase/server'
 import { Suspense } from 'react'

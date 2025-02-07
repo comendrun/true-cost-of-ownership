@@ -1,25 +1,21 @@
 'use server'
-import React from 'react'
-import Link from 'next/link'
-import { createClient } from '@/utils/supabase/server'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent
-} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableHead
-} from '@/components/ui/table'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow
+} from '@/components/ui/table'
 import { getUserCarWithId } from '@/server-actions/user-car-actions'
+import Link from 'next/link'
 
 export default async function UserCarPage({
   params

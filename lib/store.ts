@@ -1,9 +1,9 @@
-import { FORM_VALUES_STORED_KEY } from '@/app/dashboard/add-car/_consts/consts'
+import { FORM_VALUES_STORED_KEY } from '@/components/pages/dashboard/add-car/consts/consts'
 import {
   CarFormFields,
   CarFormOptionalFields,
   CarFormValuesKeys
-} from '@/app/dashboard/add-car/_types/types'
+} from '@/components/pages/dashboard/add-car/types/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 

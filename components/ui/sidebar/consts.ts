@@ -3,7 +3,7 @@
 import {
   UserCarsTableInsert,
   UserCarsTableRow
-} from '@/app/dashboard/add-car/_types/types'
+} from '@/components/pages/dashboard/add-car/types/types'
 import { SquareTerminal, Library } from 'lucide-react'
 
 // dashboard, login, register, my-cars, add-cars, advanced, simple, home

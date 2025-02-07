@@ -1,19 +1,10 @@
-import { AppSidebar } from '@/components/ui/sidebar/app-sidebar'
-import { SidebarProvider } from '@/components/ui/sidebar'
-import React, { ReactNode } from 'react'
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/ui/sidebar/app-sidebar'
 import Breadcrumbs from '@/components/ui/sidebar/breadcrumbs'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { ReactNode } from 'react'
 
 export default async function DashboardLayout({
   children

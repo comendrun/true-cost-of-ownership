@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { usePathname, useRouter } from 'next/navigation'
 import { routes } from './consts'
-import { UserCarsTableInsert } from '@/app/dashboard/add-car/_types/types'
+import { UserCarsTableInsert } from '@/components/pages/dashboard/add-car/types/types'
 
 export default function Breadcrumbs({
   car
