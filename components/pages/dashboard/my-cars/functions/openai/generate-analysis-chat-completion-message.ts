@@ -1,11 +1,9 @@
 import { User } from '@supabase/supabase-js'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-import {
-  AIAnalysisChatCompletionResponse,
-  UserCarsTableRow
-} from '../../types/types'
-import { ChatCompletionResponseFormat } from './analysis-response-schema'
+
 import { defaultCarFormValues } from '@/data/consts'
+import { UserCarsTableRow } from '../../../add-car/types/types'
+import { ChatCompletionResponseFormat } from './analysis-response-schema'
 
 export const exampleData = {
   costAnalysis: {
@@ -161,7 +159,8 @@ const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
   ],
   feedback:
     'The overall specs and the performance ratio of the car look above medium, But there can be better options in the same price range like: VW Golf',
-  recommended_insurances: "We recommend a full coverage as it's very important for a 3 years old car to have full coverage to prevent any mass loss of value.",
+  recommended_insurances:
+    "We recommend a full coverage as it's very important for a 3 years old car to have full coverage to prevent any mass loss of value.",
   response:
     'Based on your preferences, we recommend the Toyota Corolla Hybrid for its excellent fuel efficiency and low maintenance costs.',
   suggested_driving_tips: [

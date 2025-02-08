@@ -3,12 +3,8 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import OpenAI from 'openai'
 import { zodResponseFormat } from 'openai/helpers/zod'
-import {
-  AIAnalysisChatCompletionResponse
-} from '../../types/types'
-import {
-  ChatCompletionResponseFormatSchema
-} from './analysis-response-schema'
+import { AIAnalysisChatCompletionResponse } from '../../../add-car/types/types'
+import { ChatCompletionResponseFormatSchema } from './analysis-response-schema'
 import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
 
 export async function openAICostsAnalysisCompletion({

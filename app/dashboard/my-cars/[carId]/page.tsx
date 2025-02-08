@@ -8,12 +8,7 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow
-} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getUserCarWithId } from '@/server-actions/user-car-actions'
 import Link from 'next/link'
 
@@ -200,10 +195,12 @@ export default async function UserCarPage({
       </div>
 
       {/* Edit Button */}
-      <div className='mt-6'>
+      <div className='mt-6 flex flex-row gap-4'>
         <Link href={`/dashboard/my-cars/${carId}/edit`} passHref>
           <Button className='w-full md:w-auto'>Edit Car Details</Button>
         </Link>
+
+        <Button>Generate Analysis</Button>
       </div>
     </div>
   )

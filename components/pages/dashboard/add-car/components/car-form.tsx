@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../ui/loading/LoadingDialogWithSpinner'
 import { advancedFormSteps } from '../consts/consts'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
-import { openAICostsAnalysisCompletion } from '../functions/openai/analysis-chat-completion'
+import { openAICostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
