@@ -13,7 +13,7 @@ import { toast } from 'sonner'
 import { LoadingDialogWithSpinner } from '../../../../ui/loading/LoadingDialogWithSpinner'
 import { advancedFormSteps } from '../consts/consts'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
-import { openAICostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
+import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
@@ -179,7 +179,7 @@ export default function CarForm({
     if (id) {
       setIsAnalysisGenerating(true)
       try {
-        const result = await openAICostsAnalysisCompletion({
+        const result = await openaiCostsAnalysisCompletion({
           userCarId: id
         })
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
