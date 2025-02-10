@@ -12,3 +12,4 @@
 - to separate the filling of the user_cars table and the analysis calls, so that by the time that we want to generate the analysis, we already have the user_cars info
 - instead of immidiately saving all information that we get from the open ai completion, i should show a message on frontend that would show the values that are recieved and if the usre is fine with them, and if so, then we save them again or they choose to update it.
 - find a way to make the AI suggestions more consistent. (Probably not possible due to the nature of the AI)
+- add the manual or automatic part to the car details
