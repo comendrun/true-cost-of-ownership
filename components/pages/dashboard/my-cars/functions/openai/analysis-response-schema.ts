@@ -146,13 +146,11 @@ export const AIAnalysisMetricsSchema = z.object({
   )
 })
 
-// TypeScript type from the schema
 export type AIAnalysisMetrics = z.infer<typeof AIAnalysisMetricsSchema>
 
 export const ChatCompletionResponseFormatSchema = z
   .object({
-    // userCar: UserCarsTableRowSchema,
-    analysis_metrics: AIAnalysisMetricsSchema.or(z.string()), // Allow serialized JSON string
+    analysis_metrics: AIAnalysisMetricsSchema.or(z.string()),
     analysis_summary: z.string(),
     cost_saving_opportunities: z.array(z.string()),
     feedback: z.string(),
