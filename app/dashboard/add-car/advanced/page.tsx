@@ -1,6 +1,6 @@
+import CarForm from '@/components/pages/dashboard/add-car/components/car-form'
 import { createClient } from '@/utils/supabase/server'
 import { Suspense } from 'react'
-import CarForm from '../../../../components/pages/dashboard/add-car/components/car-form'
 
 export default async function CarsPage() {
   const supabase = createClient()
