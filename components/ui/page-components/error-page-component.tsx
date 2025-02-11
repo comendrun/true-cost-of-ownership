@@ -3,22 +3,17 @@
  * @see https://v0.dev/t/FhHJTdJDd5T
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
+import { ErrorPageProps } from '@/components/types'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
 export default function ErrorPage({
   title,
   description,
-  bounce,
+  bounce = false,
   buttonTitle,
   href
-}: {
-  title: ReactNode | string
-  description: ReactNode | string
-  bounce: boolean
-  buttonTitle: string
-  href: string
-}) {
+}: ErrorPageProps) {
   return (
     <div className='flex min-h-screen items-center px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16'>
       <div className='w-full space-y-6 text-center'>
