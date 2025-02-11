@@ -2,10 +2,11 @@
 import {
   AIAnalysisMetrics,
   AIResponseTableRow,
+  CostAnalysis,
   UserCarsTableRow
 } from '@/components/pages/dashboard/add-car/types/types'
 import React from 'react'
-import { CostAnalysisLinearChart } from './cost-analysis/major-costs-linear-chart'
+import { AnnualCostLinearChart } from './cost-analysis/annual-costs-linear-chart'
 
 export default function UserCarAnalysis({
   car,
@@ -15,14 +16,23 @@ export default function UserCarAnalysis({
   aiResponse: AIResponseTableRow
 }) {
   const { analysis_metrics } = aiResponse
-  const { costAnalysis } = analysis_metrics as AIAnalysisMetrics
-  console.log('analysis', costAnalysis)
+
+  let costAnalysis: CostAnalysis | null = null
+
+  const parsedMetrics =
+    typeof analysis_metrics === 'string'
+      ? (JSON.parse(analysis_metrics) as AIAnalysisMetrics)
+      : null
+  costAnalysis = parsedMetrics?.costAnalysis || null
+
+  console.log('parsed Metrics', parsedMetrics)
+  
 
   return (
     <>
       <div className='3xl:grid-cols-3 grid auto-rows-min gap-4 xl:grid-cols-2'>
         <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
-          <CostAnalysisLinearChart car={car} costAnalysis={costAnalysis} />
+          <AnnualCostLinearChart car={car} costAnalysis={costAnalysis} />
         </div>
         <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'></div>
         <div className='aspect-video rounded-xl bg-muted/50' />

@@ -38,12 +38,12 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export function CostAnalysisLinearChart({
+export function AnnualCostLinearChart({
   car,
   costAnalysis
 }: {
   car: UserCarsTableRow
-  costAnalysis: CostAnalysis
+  costAnalysis: CostAnalysis | null
 }) {
   const chartData = costAnalysis?.annualCostProjection?.map(yearProjection => ({
     ...yearProjection
@@ -92,11 +92,13 @@ export function CostAnalysisLinearChart({
       </CardContent>
       <CardFooter className='flex-col items-start gap-2 text-sm'>
         <div className='flex gap-2 font-medium leading-none'>
-          Trending up by 5.2% this month <TrendingUp className='h-4 w-4' />
+          On Average, {car.brand} - {car.model} - ({car.year}) will have a
+          monthly cost of: {costAnalysis?.averageMonthlyCost} Euros
+          <TrendingUp className='h-4 w-4' />
         </div>
-        <div className='leading-none text-muted-foreground'>
+        {/* <div className='leading-none text-muted-foreground'>
           Showing total visitors for the last 6 months
-        </div>
+        </div> */}
       </CardFooter>
     </Card>
   )
