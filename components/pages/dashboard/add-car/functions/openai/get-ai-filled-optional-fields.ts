@@ -54,10 +54,12 @@ export async function getAIFilledOptionalFields(
 function generateGetAIFilledOptionalFieldsMessages(
   car: CarFormFields
 ): ChatCompletionMessageParam[] {
+  const promptCountry = 'Germany'
   const messages: ChatCompletionMessageParam[] = [
     {
       role: 'system',
       content: `
+        The overall prompt is based in the following country: (${promptCountry}). Please consider the country when estimating the prices and the making calculations. 
         You are an expert in calculating the Total Cost of Ownership (TCO) for private car owners, with specialized knowledge in car-related expenses in Germany. Your role is to:
             1. Suggest logical, data-driven values for optional fields based on the user's inputs, ensuring consistency and accuracy.
             2. Dynamically update dependent fields (e.g., remainingAmount, totalInterestPaid) when relevant inputs (e.g., purchasePrice, prepayment, interestRate) are provided or updated.

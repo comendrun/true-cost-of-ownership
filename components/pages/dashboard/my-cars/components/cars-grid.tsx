@@ -9,7 +9,7 @@ import {
 
 import { DataTable } from '@/components/ui/data-table/data-table'
 import { columns } from './cars-grid-columns'
-import { CarsDataTableProps } from './types/types'
+import { CarsDataTableProps } from '../types/types'
 
 export default function CarsGrid({
   userCarsCount,
@@ -30,24 +30,24 @@ export default function CarsGrid({
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-//   const table = useReactTable({
-//     data: initialData || [],
-//     columns,
-//     onSortingChange: setSorting,
-//     onColumnFiltersChange: setColumnFilters,
-//     getCoreRowModel: getCoreRowModel(),
-//     getPaginationRowModel: getPaginationRowModel(),
-//     getSortedRowModel: getSortedRowModel(),
-//     getFilteredRowModel: getFilteredRowModel(),
-//     onColumnVisibilityChange: setColumnVisibility,
-//     onRowSelectionChange: setRowSelection,
-//     state: {
-//       sorting,
-//       columnFilters,
-//       columnVisibility,
-//       rowSelection
-//     }
-//   })
+  //   const table = useReactTable({
+  //     data: initialData || [],
+  //     columns,
+  //     onSortingChange: setSorting,
+  //     onColumnFiltersChange: setColumnFilters,
+  //     getCoreRowModel: getCoreRowModel(),
+  //     getPaginationRowModel: getPaginationRowModel(),
+  //     getSortedRowModel: getSortedRowModel(),
+  //     getFilteredRowModel: getFilteredRowModel(),
+  //     onColumnVisibilityChange: setColumnVisibility,
+  //     onRowSelectionChange: setRowSelection,
+  //     state: {
+  //       sorting,
+  //       columnFilters,
+  //       columnVisibility,
+  //       rowSelection
+  //     }
+  //   })
 
   return (
     <div className='min-h-max flex-1 rounded-xl bg-muted/50 p-10'>

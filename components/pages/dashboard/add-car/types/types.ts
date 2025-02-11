@@ -10,6 +10,7 @@ import {
   ControllerRenderProps
 } from 'react-hook-form'
 import { z } from 'zod'
+import { ChatCompletionResponseFormat } from '../../my-cars/functions/openai/analysis-response-schema'
 
 export const CarFormSchema = z.object({
   // General Information
@@ -224,9 +225,7 @@ export type AIResponseTableRow =
 export type AIResponseTableInsert =
   Database['public']['Tables']['ai_responses']['Insert']
 
-export type AIAnalysisChatCompletionResponse = AIResponseTableInsert & {
-  userCar: UserCarsTableRow
-}
+// export type AIAnalysisChatCompletionResponse = ChatCompletionResponseFormat
 
 export type CarFormValuesKeys = keyof CarFormFields
 
