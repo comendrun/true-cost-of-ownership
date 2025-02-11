@@ -201,6 +201,12 @@ export default async function UserCarPage({
         </Link>
 
         <Button>Generate Analysis</Button>
+
+        {userCar.last_ai_response_id && (
+          <Link href={`/dashboard/my-cars/${carId}/analysis`} passHref>
+            <Button>Check the generated Analysis</Button>
+          </Link>
+        )}
       </div>
     </div>
   )
