@@ -3,11 +3,14 @@ import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
 import OpenAI from 'openai'
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { AIAnalysisChatCompletionResponse } from '../../../add-car/types/types'
-import { ChatCompletionResponseFormatSchema } from './analysis-response-schema'
+import {
+  ChatCompletionResponseFormat,
+  ChatCompletionResponseFormatSchema
+} from './analysis-response-schema'
 import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
+import { Json } from '@/database.types'
 
-export async function openAICostsAnalysisCompletion({
+export async function openaiCostsAnalysisCompletion({
   userCarId
 }: {
   userCarId: string | number
@@ -63,11 +66,9 @@ export async function openAICostsAnalysisCompletion({
 
   console.log('the user car was found:', userCar)
 
-  const messages = generateOpenAIAnalysisChatCompletionMessage(userCar, user)
-
   const content = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
-    messages,
+    messages: generateOpenAIAnalysisChatCompletionMessage(userCar, user),
     max_tokens: 16384,
     response_format: zodResponseFormat(
       ChatCompletionResponseFormatSchema,
@@ -75,7 +76,7 @@ export async function openAICostsAnalysisCompletion({
     )
   })
 
-  let chatCompletionResponse: AIAnalysisChatCompletionResponse | null = null
+  let chatCompletionResponse: ChatCompletionResponseFormat | null = null
 
   try {
     // Access the specific property that contains the string content
@@ -92,7 +93,7 @@ export async function openAICostsAnalysisCompletion({
 
     chatCompletionResponse = JSON.parse(
       cleanedContent
-    ) as AIAnalysisChatCompletionResponse
+    ) as ChatCompletionResponseFormat
   } catch (error) {
     console.error('There was an error while trying to parse the data', error)
   }
@@ -108,65 +109,22 @@ export async function openAICostsAnalysisCompletion({
 
   console.log('chatCompletionResponse', chatCompletionResponse)
 
-  const { userCar: aiResponseUserCar, ...aiResponseTableInsert } =
-    chatCompletionResponse
-
-  console.log('aiResponseUserCar', aiResponseUserCar)
-  console.log('aiResponseTableInsert', aiResponseTableInsert)
-
-  console.log('before removing the comment field')
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function removeComments(obj: any) {
-    for (const key in obj) {
-      if (key === 'comment' || key === '_comment') {
-        delete obj[key]
-      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-        removeComments(obj[key])
-      }
-    }
-  }
-
-  removeComments(aiResponseUserCar)
-  removeComments(aiResponseTableInsert)
-
-  console.log('after removing the comment field')
-
-  if (!aiResponseUserCar) {
-    console.error('There is no userCar in the AI response')
-    throw new Error(
-      'There was an error while processing the AI response to update UserCar.'
-    )
-  }
-
-  const { data: updatedUserCar, error: updateUserCarError } = await supabase
-    .from('user_cars')
-    .update({
-      ...chatCompletionResponse?.userCar,
-      version: Number(userCar.version) + 1
-    })
-    .eq('id', userCarId)
-    .select()
-    .single()
-
-  if (updateUserCarError) {
-    console.error(
-      'There was an error updating the user car after getting AI Chat completion',
-      updateUserCarError.message
-    )
-    throw new Error('There was an error while updating the User Car.')
-  }
-
-  delete aiResponseTableInsert.id
-  delete aiResponseTableInsert.created_at
-  delete aiResponseTableInsert.version
-
   const { data: savedAIResponse, error: saveAIResponseError } = await supabase
     .from('ai_responses')
     .insert({
-      ...aiResponseTableInsert,
-      version: updatedUserCar.version,
-      car_id: updatedUserCar.id
+      // ...chatCompletionResponse,
+      response: chatCompletionResponse.response,
+      cost_saving_opportunities:
+        chatCompletionResponse?.cost_saving_opportunities,
+      analysis_metrics: JSON.stringify(
+        chatCompletionResponse?.analysis_metrics
+      ),
+      analysis_summary: chatCompletionResponse.analysis_summary,
+      version: carAIResponseVersion?.version,
+      recommended_insurances: [chatCompletionResponse.recommended_insurances],
+      car_id: Number(userCarId),
+      suggested_driving_tips: chatCompletionResponse.suggested_driving_tips,
+      feedback: chatCompletionResponse.feedback
     })
     .select()
     .single()

@@ -94,42 +94,6 @@ export const AIAnalysisMetricsSchema = z.object({
       )
     })
   ),
-  loanAffordability: z.object({
-    loanAmount: z.number(),
-    interestRate: z.number(),
-    loanTerm: z.number(),
-    monthlyPayment: z.number(),
-    totalInterest: z.number(),
-    totalCost: z.number(),
-    feedback: z.string()
-  }),
-  locationSpecificCosts: z.object({
-    country: z.string(),
-    averageFuelCost: z.number(),
-    insuranceRange: z.object({
-      min: z.number(),
-      max: z.number()
-    }),
-    maintenanceCosts: z.array(
-      z.object({
-        type: z.string(),
-        averageCost: z.number()
-      })
-    ),
-    roadTaxes: z.number()
-  }),
-  maintenanceSchedule: z.array(
-    z.object({
-      carModel: z.string(),
-      schedule: z.array(
-        z.object({
-          mileage: z.number(),
-          tasks: z.array(z.string()),
-          cost: z.number()
-        })
-      )
-    })
-  ),
   fuelEfficiency: z.array(
     z.object({
       carModel: z.string(),
@@ -150,7 +114,7 @@ export type AIAnalysisMetrics = z.infer<typeof AIAnalysisMetricsSchema>
 
 export const ChatCompletionResponseFormatSchema = z
   .object({
-    analysis_metrics: AIAnalysisMetricsSchema.or(z.string()),
+    analysis_metrics: AIAnalysisMetricsSchema,
     analysis_summary: z.string(),
     cost_saving_opportunities: z.array(z.string()),
     feedback: z.string(),

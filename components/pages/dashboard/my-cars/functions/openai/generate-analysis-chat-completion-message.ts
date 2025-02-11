@@ -3,12 +3,13 @@ import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 import { defaultCarFormValues } from '@/data/consts'
 import { UserCarsTableRow } from '../../../add-car/types/types'
-import { ChatCompletionResponseFormat } from './analysis-response-schema'
+import {
+  AIAnalysisMetrics,
+  ChatCompletionResponseFormat
+} from './analysis-response-schema'
 
-export const exampleData = {
+export const exampleAnalysisMetricsData: AIAnalysisMetrics = {
   costAnalysis: {
-    _comment:
-      '// this is used to show the users an overview of the analysis of the car they are trying to analyze',
     averageMonthlyCost: 250,
     annualCostProjection: [
       { year: 2024, totalCost: 3000 },
@@ -37,28 +38,9 @@ export const exampleData = {
       depreciationRate: 12,
       fuelEfficiency: 6.0,
       resaleValue: 8500
-    },
-    '_comment: "// here we will give another car in the same price range as an example and will compare the new car with the car that user has provided in terms of costs and etc"'
-  ],
-
-  environmentalImpact: [
-    '_comment: // here we also bring another car in the same range to compare their enviromental impact',
-    {
-      carModel: 'Toyota Corolla',
-      yearlyCO2Emissions: 2000,
-      fuelType: 'petrol',
-      lifecycleImpact: { production: 5000, usePhase: 12000, recycling: 1000 }
-    },
-    {
-      carModel: 'Volkswagen Golf',
-      yearlyCO2Emissions: 2200,
-      fuelType: 'diesel',
-      lifecycleImpact: { production: 5500, usePhase: 13000, recycling: 1100 }
     }
   ],
-
   resaleValueInsights: [
-    '_comment: // here we want the ai to estimate the resalve value of the car in the upcoming years based on the data that it has on its own',
     {
       carModel: 'Toyota Corolla',
       initialPrice: 12000,
@@ -79,55 +61,7 @@ export const exampleData = {
     }
   ],
 
-  loanAffordability: {
-    _comment:
-      'Here we will try to explain to the user how good of a deal their loan is and if its in range with what is being offered in the market',
-    loanAmount: 6000,
-    interestRate: 8,
-    loanTerm: 4,
-    monthlyPayment: 146,
-    totalInterest: 1008,
-    totalCost: 7008,
-    feedback: 'SOME INFORMATION'
-  },
-
-  locationSpecificCosts: {
-    country: 'Germany',
-    averageFuelCost: 1.8,
-    insuranceRange: { min: 50, max: 120 },
-    maintenanceCosts: [
-      { type: 'Oil change', averageCost: 100 },
-      { type: 'Tire replacement', averageCost: 300 }
-    ],
-    roadTaxes: 200
-  },
-
-  maintenanceSchedule: [
-    '_comment:here we will also compare the car with another car in the same range in terms of maintenance costs',
-
-    {
-      carModel: 'Toyota Corolla',
-      schedule: [
-        { mileage: 15000, tasks: ['Oil change', 'Tire rotation'], cost: 150 },
-        { mileage: 30000, tasks: ['Brake pads', 'Engine check'], cost: 400 }
-      ]
-    },
-    {
-      carModel: 'Volkswagen Golf',
-      schedule: [
-        {
-          mileage: 15000,
-          tasks: ['Oil change', 'Filter replacement'],
-          cost: 180
-        },
-        { mileage: 30000, tasks: ['Brake pads', 'Tire replacement'], cost: 500 }
-      ]
-    }
-  ],
-
   fuelEfficiency: [
-    '_comment:here we will also compare the car with another car in the same range in terms of fuel efficiency',
-
     {
       carModel: 'Toyota Corolla',
       distanceDriven: { monthly: 1500, yearly: 18000 },
@@ -144,13 +78,8 @@ export const exampleData = {
 }
 
 // Example Payload for AI Model
-const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
-  // userCar: {
-  //   // @ts-expect-error: the _comment property doesnt exist in the userCar but we need it to give the ai some comments on what to do. ToDo: remove these _comments and add the description in the messages directly
-  //   _comment:
-  //     'Here we will have all the car fields including the ones that were empty and now filled by AI.'
-  // },
-  analysis_metrics: JSON.stringify(exampleData), // this is the place
+const exampleResponse: ChatCompletionResponseFormat = {
+  analysis_metrics: exampleAnalysisMetricsData, // this is the place
   analysis_summary:
     'This car is highly fuel-efficient and cost-effective for urban usage but may not perform well for long-distance travel due to limited space.',
   cost_saving_opportunities: [
@@ -158,7 +87,7 @@ const examplePayloadWithClarifications: ChatCompletionResponseFormat = {
     'Perform regular maintenance to avoid unexpected repair costs'
   ],
   feedback:
-    'The overall specs and the performance ratio of the car look above medium, But there can be better options in the same price range like: VW Golf',
+    'The overall specs and the performance ratio of the car look above average, But there can be better options in the same price range like: VW Golf',
   recommended_insurances:
     "We recommend a full coverage as it's very important for a 3 years old car to have full coverage to prevent any mass loss of value.",
   response:
@@ -177,67 +106,45 @@ export function generateOpenAIAnalysisChatCompletionMessage(
     {
       role: 'system',
       content: `
-  You are a highly advanced assistant responsible for analyzing car-related data. Your task is to enhance incomplete user-provided data in a structured way, calculate missing fields, and provide meaningful analysis. Use the following schemas and examples as guidelines:
-  
-  ### Input Data
-  - User-provided car details, stored in the \`user_cars\` table.
-  - Relevant fields include:
-    - **General Information:** name, brand, model, variant, year, mileage.
-    - **Finances:** purchasePrice, prepayment, interestRate, financingDuration, remainingAmount, totalInterestPaid, truePurchasePrice.
-    - **Depreciation:** initialPrice, depreciationRate.
-    - **Warranty and Service:** guaranteeYears, serviceCosts, serviceIncludes, extendedWarrantyCost.
-    - **Efficiency:** totalPlannedKMs, fuelConsumption, fuelType, averageFuelCost.
-    - **Insurance:** insuranceType, insuranceCost.
-    - **Environmental Impact:** emissions, ecoTax.
-    - **Other Costs:** taxes, parkingCosts, tuvCosts.
-  
-  ### Task
-  1. **Fill Empty Fields:** Complete missing fields like \`name\` (e.g., "Toyota Corolla 2020") and calculate derived values (e.g., \`remainingAmount\`, \`totalInterestPaid\`).
-  2. **Validate Inputs:** Identify potential inconsistencies in user inputs and include them in the feedback section without modifying original data.
-  3. **Generate Analysis:** Provide:
-     - Cost Analysis: Calculate average monthly costs, yearly projections, and major expense categories. This should be realistic and comply with the rest of the categories and costs, especially to the overal tco that is going to be stored in the userCar, and will be the total amount of costs for the car for the duration of the ownership.
-     - Depreciation Insights: Predict resale value and depreciation over time.
-     - Environmental Impact: Analyze emissions and lifecycle CO2.
-     - Maintenance Schedule: Recommend tasks based on mileage.
-     - Usage Scenarios: Suggest cars for specific use cases with cost estimates.
-  
-  ### Examples
-  - **Missing Field Handling:**
-    - Input: { name: null, brand: "Toyota", model: "Corolla", year: 2020 }
-    - Output: { name: "Toyota Corolla 2020", ...other fields calculated }
-  - **Cost Analysis Example:**
-    - Input: { purchasePrice: 25000, interestRate: 5, financingDuration: 4 }
-    - Output: { averageMonthlyCost: 600, annualCostProjection: [{ year: 1, totalCost: 7200 }, ...] }
+      you are an expert in Cars and car information and car value and cost determination.
+      I need you to get the information that our user and also our AI agent filled for specific cars, and turn them into valuable and sensible analysis 
+      format so that we can help our users to make wiser decisions about their choices and their future.
+      as an example or as a sample of what I expect to get in return.
 
-  ### Important: Please take a note that the tco field in the userCar is very important for me and I need it to be filled with the total
-  amount of the costs of the car over the next few years (based on the userCar.planned_years_of_ownership( ${userCar.planned_years_of_ownership} )value) considering all other costs combined (loan, interest, tuv, taxes, etc)
-  Also if you are going to for example generate the costAnalysis for the analysis_metrics, then please take the tco value and also the planned_years_of_ownership into consideration. if planned_years_of_ownership is 5 then create cost analysis projection for 5 years!
-  This was an example, overall i want you to be smart and generate these values as a package that are all connected together
-  
-  ### Guidelines
-  - Adhere to the schemas provided in \`${defaultCarFormValues}\`.
-  - Only calculate and suggest; do not alter user-provided inputs. Highlight discrepancies in the feedback section.
-  - Return data in JSON format with relevant sections.
+        analysis_metrics: z.object({
+          - costAnalysis: in this category I want you to get the following tco (${userCar.tco}) that is expected by us for this car over the span of the following (${userCar.planned_years_of_ownership}) years, and give us a cost prediction for each of the following years, and that how much it would cost on each year for the owner. plus in majorExpenseCategories we want you to divide the major possible costs of the owner for this car, considering its TCO plus other costs and specs of the car that are provided to you (Per Year). Please make a wise and expert analysis of this. obviously in this case the total expenses predicted for the duration of the ownership should be logical and in paar with the TCO value and other values.
+          
+          - comparisonMetrics: 
 
-  ### Output Format: IMPORTANT: THE output Object format type definition examplePayloadWithClarifications:
-  ${JSON.stringify(examplePayloadWithClarifications)}
-  - Please stick strictly to the defined format for the output as I rely on this to parse and save the data after I got a response.
+          - resaleValueInsights: in this case, i want you to take the overall values and costs of the car, and based on the estimated resale values of the car which we predicted (${userCar.estimated_resale_value}), and initial predicted price (${userCar.initial_price}) and the number of ownership years (${userCar.planned_years_of_ownership}), project a resale value for the car for the duration of the ownership, per year.
 
-  ### Location and Costs: if the location is not provided, assume Germany as the location for the car and the costs and all the other costs that may be there
-  
+          - fuelEfficiency:  here in this case I expect you to give an example of a similar car in the same price range and same class range with the current car (${userCar.brand} - ${userCar.model} - ${userCar.variant} - ${userCar.year} - ${userCar.fuel_type} - ${userCar.fuel_consumption}) and compare their fuel efficiency and their performance in an array. I dont need a definiton or a string or anything, just numbers and the coparison is enough.
+        }),
+        analysis_summary: z.string(), A summary or a brief opinion of you as an expert about the car and it's specs and pricing.
+        cost_saving_opportunities: z.array(z.string()), in an array, give some advices to the users about how they can save costs in case they own or plan to buy this car.
+        feedback: z.string(), a feedback about overall qualities and specs of the car and if its a good idea to actually go on and buy this car. or consider other options or make wiser moves, etc
+        recommended_insurances: z.string(), for example in case the car is still young, then it makes more sense to buy a full comprehensive insurance plan, otherwise of course it makes more sense to only buy obligatory insrurance and save on the extra costs of the full coverage insurance plan.
+        response: z.string(), what is about this car that sets it apart? and why it might be good option or a bad option. in one sentence.
+        suggested_driving_tips: z.array(z.string()), suggest and recommend a couple of points as an array of strings to the user so that they can drive this car in the best way possible. and get the most out of it.
+
+
+        you can see an example of what I expect here: (${JSON.stringify(exampleResponse)})
+
+
   \`\`\`
       `
     },
     {
       role: 'user',
-      content: JSON.stringify(
+      content: `
+      Please consider the following car information to complete and generate the requested prompt by the system role:
+      data: ${JSON.stringify(
         {
-          userCar,
-          user
+          userCar
         },
         null,
         2
-      )
+      )}`
     }
   ]
 }
