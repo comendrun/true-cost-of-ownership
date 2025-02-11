@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import UserCarAnalysis from '../../../../../components/pages/dashboard/my-cars/components/analysis/component/user-car-analysis'
+import ErrorPage from '@/components/ui/page-components/error-page-component'
 
 export default async function UserCarAnalysisPage({
   params
@@ -26,7 +27,15 @@ export default async function UserCarAnalysisPage({
     .single()
 
   if (userCarError || getAIResponseError || !userCar || !aiResponse) {
-    return <div>Error loading data. Please try again later.</div>
+    return (
+      <ErrorPage
+        title='Oops'
+        description="Error loading data or this car don't have any analysis yet. Please try again later."
+        buttonTitle='Car Details'
+        href={`/dashboard/my-cars/${carId}`}
+        bounce={false}
+      />
+    )
   }
 
   return (
