@@ -6,7 +6,7 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { CarFormFields, FormStepsIDs } from '../types/types'
+import { CarFormFields, FormStepsIDs } from '../../../../types/add-car/types'
 import {
   FieldErrors,
   UseFormClearErrors,

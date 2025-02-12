@@ -16,7 +16,7 @@ import {
   isChekboxField,
   isTextareaField
 } from '../functions/advanced-form-helper-functions'
-import { FormFieldComponentsProps, FormFieldType } from '../types/types'
+import { FormFieldComponentsProps, FormFieldType } from '../../../../types/add-car/types'
 import NumberFormField from './NumberFormField'
 import TextInputFormField from './TextInputFormField'
 import SelectFormField from './SelectFormField'
