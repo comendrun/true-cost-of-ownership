@@ -18,16 +18,16 @@ import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
 } from '../functions/save-car-server-functions'
+import AdvancedFormAccordionItem from './advanced-form-accordion-item'
+import AdvancedFormFieldComponents from './advanced-form-field-components'
+import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
 import {
   CarFormFields,
   CarFormOptionalFields,
   CarFormSchema,
   FormStepsIDs,
   UserCarsTableRow
-} from '../types/types'
-import AdvancedFormAccordionItem from './advanced-form-accordion-item'
-import AdvancedFormFieldComponents from './advanced-form-field-components'
-import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
+} from '@/components/types/add-car/types'
 
 export default function CarForm({
   id,
@@ -40,47 +40,10 @@ export default function CarForm({
 }) {
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
-  const searchParams = useSearchParams()
   const router = useRouter()
 
-  // const {
-  //   data: car,
-  //   error,
-  //   carEntryFormValues,
-  //   isLoading: isCarLoading,
-  //   triggerFetch
-  // } = useGetCarById(id)
-  const carEntryFormValues = convertUserCarsTableInsertToAdvancedFormValues(carData)
-
-  // const { deleteCookieWithKey, cookie } = useCookie(FORM_ERROR_MESSAGE_KEY)
-
-  // console.log('getCookie value', cookie?.value)
-  // console.log('getCookie', cookie)
-
-  // useEffect(() => {
-  //   if (error) {
-  //     console.log('in the if statement in the useeffect')
-  //     return () => {
-  //       toast.error(
-  //         error?.message ||
-  //           "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-  //       )
-  //       // router.replace('/dashboard/add-car/advanced')
-  //     }
-  //   }
-
-  //   // if (cookie?.value) {
-  //   //   const parsedCookie = JSON.parse(cookie?.value)
-  //   //   if (parsedCookie?.id == id) {
-  //   //     toast.error(
-  //   //       parsedCookie?.message ||
-  //   //         "You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
-  //   //     )
-
-  //   //     deleteCookieWithKey()
-  //   //   }
-  //   // }
-  // }, [router, error, error?.message])
+  const carEntryFormValues =
+    convertUserCarsTableInsertToAdvancedFormValues(carData)
 
   const {
     updateCarFormValues,
@@ -200,7 +163,7 @@ export default function CarForm({
 
   return (
     <>
-      <ScrollArea className='max-h-[90vh] max-w-full rounded-md w-full'>
+      <ScrollArea className='max-h-[90vh] w-full max-w-full rounded-md'>
         <div className='max-h-[100vh] w-full flex-1 overflow-y-scroll rounded-xl bg-muted/50 px-2 py-5 md:min-h-min'>
           <Form {...form}>
             <form
@@ -267,11 +230,7 @@ export default function CarForm({
                   Generate the Car Analysis
                 </Button>
 
-                <Button
-                  className='w-full'
-                  type='submit'
-                  disabled={isLoading}
-                >
+                <Button className='w-full' type='submit' disabled={isLoading}>
                   Save The Car
                 </Button>
               </div>

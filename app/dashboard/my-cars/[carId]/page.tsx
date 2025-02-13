@@ -54,7 +54,8 @@ export default async function UserCarPage({
     emissions,
     depreciation_rate,
     exterior_score,
-    interior_score
+    interior_score,
+    initial_price
   } = userCar
 
   const annualTCO =
@@ -120,6 +121,12 @@ export default async function UserCarPage({
                   <TableCell>Average Fuel Cost</TableCell>
                   <TableCell>
                     €{average_fuel_cost?.toFixed(2) || 'N/A'} per liter
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Estimated Initial Price</TableCell>
+                  <TableCell>
+                    €{initial_price?.toFixed(2) || 'N/A'}
                   </TableCell>
                 </TableRow>
               </TableBody>

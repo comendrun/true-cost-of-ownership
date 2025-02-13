@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { CarFormFields } from '../types/types'
+import { CarFormFields } from '../../../../types/add-car/types'
 import { useEffect, useRef } from 'react'
 
 export default function SelectFormField<TFieldValues extends FieldValues>({
