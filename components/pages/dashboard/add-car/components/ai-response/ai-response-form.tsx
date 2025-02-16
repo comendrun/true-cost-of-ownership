@@ -6,7 +6,7 @@ import {
   CarFormOptionalFields,
   CarFormOptionalFieldsSchema,
   SavedCarAIResponseComponentsProps
-} from '../../types/types'
+} from '../../../../../types/add-car/types'
 
 import {
   Table,

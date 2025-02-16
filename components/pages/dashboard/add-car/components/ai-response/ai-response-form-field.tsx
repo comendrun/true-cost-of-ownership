@@ -21,7 +21,7 @@ import { isSelectField } from '../../functions/advanced-form-helper-functions'
 import {
   AIResponseFormFieldInputProps,
   AIResponseFormFieldProps
-} from '../../types/types'
+} from '../../../../../types/add-car/types'
 
 export default function AIResponseFormField({
   formField,

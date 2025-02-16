@@ -5,7 +5,7 @@ import {
   CarFormOptionalFieldsSchema,
   OptionalAllCarFormFields,
   SavedCarAIResponseComponentsProps
-} from '../../types/types'
+} from '../../../../../types/add-car/types'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
