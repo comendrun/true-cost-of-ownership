@@ -131,6 +131,9 @@ const ChartTooltipContent = React.forwardRef<
     },
     ref
   ) => {
+
+    // console.log('payload', payload)
+    
     const { config } = useChart()
 
     const tooltipLabel = React.useMemo(() => {
@@ -139,7 +142,11 @@ const ChartTooltipContent = React.forwardRef<
       }
 
       const [item] = payload
+      // console.log('item', item)
+      
       const key = `${labelKey || item.dataKey || item.name || "value"}`
+      // console.log('key', key)
+      
       const itemConfig = getPayloadConfigFromPayload(config, item, key)
       const value =
         !labelKey && typeof label === "string"
