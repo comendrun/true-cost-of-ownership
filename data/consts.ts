@@ -1,4 +1,4 @@
-import { CarFormFields } from '@/components/pages/dashboard/add-car/types/types'
+import { CarFormFields } from '@/components/types/add-car/types'
 
 // export const carFormDefaultValues: CarFormFields = {
 //   name: undefined,

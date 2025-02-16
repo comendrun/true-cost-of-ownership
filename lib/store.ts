@@ -3,7 +3,7 @@ import {
   CarFormFields,
   CarFormOptionalFields,
   CarFormValuesKeys
-} from '@/components/pages/dashboard/add-car/types/types'
+} from '@/components/types/add-car/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
