@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import Link from 'next/link'
-import { UserCarsTableRow } from '../../add-car/types/types'
+import { UserCarsTableRow } from '../../../../types/add-car/types'
 
 export default function CarsGridRowActions({
   row

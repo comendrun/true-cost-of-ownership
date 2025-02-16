@@ -9,7 +9,7 @@ import {
 
 import { DataTable } from '@/components/ui/data-table/data-table'
 import { columns } from './cars-grid-columns'
-import { CarsDataTableProps } from '../types/types'
+import { CarsDataTableProps } from '../../../../types/data-grid/types'
 
 export default function CarsGrid({
   userCarsCount,

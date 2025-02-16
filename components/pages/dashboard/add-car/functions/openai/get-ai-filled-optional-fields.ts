@@ -6,7 +6,7 @@ import {
   CarFormOptionalFields,
   CarFormOptionalFieldsSchema,
   UserCarsTableRow
-} from '../../types/types'
+} from '../../../../../types/add-car/types'
 import { zodResponseFormat } from 'openai/helpers/zod.mjs'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
@@ -110,7 +110,7 @@ function generateGetAIFilledOptionalFieldsMessages(
                 remainingAmount: {description: "remaining loan amount", optional: true, value: ${car.remainingAmount}, type: "number", recommendIfEmpty: true},
                 totalInterestPaid: {description: "total interest paid", optional: true, value: ${car.totalInterestPaid}, type: "number", recommendIfEmpty: true},
                 truePurchasePrice: {description: "true purchase price", optional: true, value: ${car.truePurchasePrice}, type: "number", recommendIfEmpty: true},
-                initialPrice: {description: "initial sale price", optional: true, value: ${car.initialPrice}, type: "number", recommendIfEmpty: true},
+                initialPrice: {description: "we need to know the estimated price of the car (${car.brand}-${car.model}) back in ${car.year} when it first manufactured. naturally in most cases this price will be more than the current price (${car.purchasePrice}) of the car, as it already has some mileage and depreciation.", optional: true, value: ${car.initialPrice}, type: "number", recommendIfEmpty: true},
                 depreciationRate: {description: "depreciation rate", optional: true, value: ${car.depreciationRate}, type: "number", recommendIfEmpty: true},
                 guaranteeYears: {description: "guarantee duration", optional: true, value: ${car.guaranteeYears}, type: "number", recommendIfEmpty: true},
                 serviceCosts: {description: "annual service costs", optional: true, value: ${car.serviceCosts}, type: "number", recommendIfEmpty: true},
@@ -275,7 +275,7 @@ function generateGetAIFilledOptionalFieldsMessages(
                 shouldBeRecommendedByAIIncaseEmpty: true
             },
             initialPrice: {
-                description: "the initial price of the vehicle when it was first sold as new. This should be calculated or estimated based on the number of factors, including the region (by default Germany), the year the car was manufactured (${car.year}), the brand  (${car.brand})and the model (${car.model}) ",
+                description: "the initial price of the vehicle when it was first sold as new. This should be calculated or estimated based on the number of factors, including the region (by default Germany), the year the car was manufactured (${car.year}), the brand  (${car.brand})and the model (${car.model}), so we need to know the estimated price of the car (${car.brand}-${car.model}) back in ${car.year} when it first manufactured. naturally in most cases this price will be more than the current price (${car.purchasePrice}) of the car, as it already has some mileage and depreciation.",
                 optional: true,
                 value: ${car.initialPrice},
                 expectedValueType: "number",
@@ -564,7 +564,7 @@ function generateGetAIFilledOptionalFieldsMessages(
             },
             "initialPrice": {
             "type": "number",
-            "description": "Initial price of the vehicle when it was first sold as brand new back in the manufactured year. This is an optional field, and the value should be in Euros."
+            "description": "Initial price of the vehicle when it was first sold as brand new back in the manufactured year. This is an optional field, and the value should be in Euros. so we need to know the estimated price of the car (${car.brand}-${car.model}) back in ${car.year} when it first manufactured. naturally in most cases this price will be more than the current price (${car.purchasePrice}) of the car, as it already has some mileage and depreciation."
             },
             "depreciationRate": {
             "type": "number",

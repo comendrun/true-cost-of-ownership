@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getCarById } from '../functions/save-car-server-functions'
-import { CarFormFields, UserCarsTableRow } from '../types/types'
+import { CarFormFields, UserCarsTableRow } from '../../../../types/add-car/types'
 import { PostgrestError } from '@supabase/supabase-js'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
 
