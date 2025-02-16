@@ -9,7 +9,7 @@ import {
   FormFieldType,
   FormSteps,
   FormStepsIDs
-} from '../types/types'
+} from '../../../../types/add-car/types'
 
 export const FORM_VALUES_STORED_KEY = 'car-form-store'
 
