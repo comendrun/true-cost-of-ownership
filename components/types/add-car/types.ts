@@ -244,8 +244,10 @@ export type AIAnalysisMetrics = {
 export type CostAnalysis = {
   averageMonthlyCost: number // Average monthly cost in EUR
   annualCostProjection: { year: number; totalCost: number }[] // Projected yearly costs
-  majorExpenseCategories: { category: string; cost: number }[] // Breakdown of major expenses
+  majorExpenseCategories: MajorExpenseCategory[] // Breakdown of major expenses
 }
+
+export type MajorExpenseCategory = { category: string; cost: number }
 
 export type ComparisonMetrics = {
   carModel: string
