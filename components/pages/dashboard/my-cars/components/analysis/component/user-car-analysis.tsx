@@ -2,11 +2,15 @@
 import {
   AIAnalysisMetrics,
   AIResponseTableRow,
+  ComparisonMetrics,
   CostAnalysis,
   UserCarsTableRow
-} from '@/components/pages/dashboard/add-car/types/types'
+} from '@/components/types/add-car/types'
 import React from 'react'
-import { AnnualCostLinearChart } from './cost-analysis/annual-costs-linear-chart'
+import { AnnualCostLinearChart } from './charts/cost-analysis/annual-costs-linear-chart'
+import MajorExpensesChart from './charts/cost-analysis/major-expenses-chart'
+import ComparisonMetricsChart from './charts/comparison-metrics/comparison-metrics-chart'
+import { ResaleValueInsightsLinearChart } from './charts/resale-value/resale-value-insights-chart'
 
 export default function UserCarAnalysis({
   car,
@@ -17,26 +21,47 @@ export default function UserCarAnalysis({
 }) {
   const { analysis_metrics } = aiResponse
 
-  let costAnalysis: CostAnalysis | null = null
-
   const parsedMetrics =
     typeof analysis_metrics === 'string'
       ? (JSON.parse(analysis_metrics) as AIAnalysisMetrics)
       : null
-  costAnalysis = parsedMetrics?.costAnalysis || null
+  const costAnalysis: CostAnalysis | null = parsedMetrics?.costAnalysis || null
+  const comparisonMetrics: ComparisonMetrics | null =
+    parsedMetrics?.comparisonMetrics || null
+
+  const resaleValueInsights = parsedMetrics?.resaleValueInsights
 
   console.log('parsed Metrics', parsedMetrics)
-  
 
   return (
     <>
-      <div className='3xl:grid-cols-3 grid auto-rows-min gap-4 xl:grid-cols-2'>
-        <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
-          <AnnualCostLinearChart car={car} costAnalysis={costAnalysis} />
-        </div>
-        <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'></div>
-        <div className='aspect-video rounded-xl bg-muted/50' />
-        <div className='aspect-video rounded-xl bg-muted/50' />
+      <div className='3xl:grid-cols-3 grid auto-rows-fr auto-rows-min gap-4 xl:grid-cols-2'>
+        {costAnalysis && (
+          <>
+            <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+              <AnnualCostLinearChart car={car} costAnalysis={costAnalysis} />
+            </div>
+            <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+              <MajorExpensesChart car={car} costAnalysis={costAnalysis} />
+            </div>
+          </>
+        )}
+        {comparisonMetrics && (
+          <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+            <ComparisonMetricsChart
+              car={car}
+              comparisonMetrics={comparisonMetrics}
+            />
+          </div>
+        )}
+        {resaleValueInsights && (
+          <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+            <ResaleValueInsightsLinearChart
+              car={car}
+              resaleValueInsights={resaleValueInsights}
+            />
+          </div>
+        )}
       </div>
     </>
   )
