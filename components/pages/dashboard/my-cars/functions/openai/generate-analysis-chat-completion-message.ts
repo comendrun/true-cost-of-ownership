@@ -2,7 +2,7 @@ import { User } from '@supabase/supabase-js'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 
 import { defaultCarFormValues } from '@/data/consts'
-import { UserCarsTableRow } from '../../../add-car/types/types'
+import { UserCarsTableRow } from '../../../../../types/add-car/types'
 import {
   AIAnalysisMetrics,
   ChatCompletionResponseFormat
