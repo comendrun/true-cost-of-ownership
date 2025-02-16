@@ -33,7 +33,7 @@ import { navItems } from './consts'
 import {
   UserCarsTableRow,
   UserProfile
-} from '@/components/pages/dashboard/add-car/types/types'
+} from '@/components/types/add-car/types'
 import { ModeToggle } from '../providers/theme-toggle'
 
 // the page
