@@ -9,7 +9,7 @@ import {
   TextareaField,
   UserCarsTableInsert,
   UserCarsTableRow
-} from '../types/types'
+} from '../../../../types/add-car/types'
 import { advancedFormSteps } from '../consts/consts'
 
 export function calculateMonthlyPayment(

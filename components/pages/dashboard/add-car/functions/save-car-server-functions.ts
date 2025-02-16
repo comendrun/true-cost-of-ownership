@@ -9,7 +9,7 @@ import {
   CarFormOptionalFields,
   UserCarsTableRow,
   userCarTableToFormKeyMapping
-} from '../types/types'
+} from '../../../../types/add-car/types'
 import {
   convertAdvancedFormValuesToUserCarsTableInsert,
   convertUserCarsTableInsertToAdvancedFormValues
