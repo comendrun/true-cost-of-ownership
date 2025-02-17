@@ -3,9 +3,8 @@
  * @see https://v0.dev/t/FhHJTdJDd5T
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import { ErrorPageProps } from '@/types'
 import Link from 'next/link'
-import { ReactNode } from 'react'
+import { ErrorPageProps } from '../../types/types'
 
 export default function ErrorPage({
   title,
