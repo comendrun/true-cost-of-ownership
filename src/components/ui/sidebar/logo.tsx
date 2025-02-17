@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../sidebar'
+import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '../sidebar'
 
 export default function Logo() {
   return (
