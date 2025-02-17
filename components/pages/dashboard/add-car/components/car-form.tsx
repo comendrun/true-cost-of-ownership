@@ -6,14 +6,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useCarFormStore } from '@/lib/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { LoadingDialogWithSpinner } from '../../../../ui/loading/LoadingDialogWithSpinner'
 import { advancedFormSteps } from '../consts/consts'
-import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
-import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
@@ -28,6 +25,9 @@ import {
   FormStepsIDs,
   UserCarsTableRow
 } from '@/components/types/add-car/types'
+import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
+import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
+import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
 
 export default function CarForm({
   id,

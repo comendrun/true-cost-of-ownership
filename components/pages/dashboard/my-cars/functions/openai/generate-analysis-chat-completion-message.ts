@@ -1,12 +1,10 @@
 import { User } from '@supabase/supabase-js'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
-
-import { defaultCarFormValues } from '@/data/consts'
-import { UserCarsTableRow } from '../../../../../types/add-car/types'
 import {
   AIAnalysisMetrics,
   ChatCompletionResponseFormat
 } from './analysis-response-schema'
+import { UserCarsTableRow } from '@/components/types/add-car/types'
 
 export const exampleAnalysisMetricsData: AIAnalysisMetrics = {
   costAnalysis: {
