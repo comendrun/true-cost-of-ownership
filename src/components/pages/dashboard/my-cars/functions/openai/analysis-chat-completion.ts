@@ -8,7 +8,6 @@ import {
   ChatCompletionResponseFormatSchema
 } from './analysis-response-schema'
 import { generateOpenAIAnalysisChatCompletionMessage } from './generate-analysis-chat-completion-message'
-import { Json } from '@/database.types'
 
 export async function openaiCostsAnalysisCompletion({
   userCarId

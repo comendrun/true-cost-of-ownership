@@ -1,16 +1,15 @@
 import { Database } from '@/database.types'
 import {
   Control,
+  ControllerRenderProps,
   FieldErrors,
-  UseFormSetValue,
-  UseFormGetValues,
-  UseFormWatch,
   FieldValues,
   Path,
-  ControllerRenderProps
+  UseFormGetValues,
+  UseFormSetValue,
+  UseFormWatch
 } from 'react-hook-form'
 import { z } from 'zod'
-import { ChatCompletionResponseFormat } from '../../pages/dashboard/my-cars/functions/openai/analysis-response-schema'
 
 export const CarFormSchema = z.object({
   // General Information

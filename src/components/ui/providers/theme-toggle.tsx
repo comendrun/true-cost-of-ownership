@@ -2,24 +2,14 @@
 
 import { useTheme } from 'next-themes'
 
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
-  BadgeCheck,
-  Bell,
-  LogOut,
-  Moon,
-  Sparkles,
-  Sun,
-  MonitorCog
-} from 'lucide-react'
-import { logUserOut } from '@/app/log-user-out-server-action'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import {
@@ -28,7 +18,8 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { CaretSortIcon, ComponentPlaceholderIcon } from '@radix-ui/react-icons'
+import { CaretSortIcon } from '@radix-ui/react-icons'
+import { Moon, Sun } from 'lucide-react'
 import { Button } from '../button'
 
 export function ModeToggle() {
