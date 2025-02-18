@@ -5,16 +5,16 @@ import { PostgrestError } from '@supabase/supabase-js'
 import { revalidatePath } from 'next/cache'
 import { FieldValues } from 'react-hook-form'
 import {
-  CarFormFields,
-  CarFormOptionalFields,
-  UserCarsTableRow,
-  userCarTableToFormKeyMapping
-} from '../../../../types/add-car/types'
-import {
   convertAdvancedFormValuesToUserCarsTableInsert,
   convertUserCarsTableInsertToAdvancedFormValues
 } from './advanced-form-helper-functions'
 import { getAIFilledOptionalFields } from './openai/get-ai-filled-optional-fields'
+import {
+  CarFormFields,
+  UserCarsTableRow,
+  CarFormOptionalFields,
+  userCarTableToFormKeyMapping
+} from '@/components/types/add-car/types'
 
 export async function saveCar(formValues: CarFormFields): Promise<{
   data: UserCarsTableRow | null
@@ -304,7 +304,7 @@ export async function getCarById(id: string | number): Promise<{
         error
       )
       throw new Error(
-        error.message || 'Error fetching car data or no data found'
+        error?.message || 'Error fetching car data or no data found'
       )
     }
 
