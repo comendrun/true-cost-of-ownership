@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { advancedFormSteps } from '../consts/consts'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
@@ -28,6 +27,7 @@ import {
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
 import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
 import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
+import { advancedFormSteps } from '../consts/consts'
 
 export default function CarForm({
   id,

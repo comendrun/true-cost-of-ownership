@@ -19,11 +19,11 @@ import {
   getKeysOutsideStep,
   getStepFieldKeys
 } from '../functions/advanced-form-helper-functions'
-import { advancedFormSteps } from '../consts/consts'
 import {
   onNextStep,
   onPreviousStep
 } from '../functions/accordion-steps-helper-functions'
+import { advancedFormSteps } from '../consts/consts'
 
 export default function AdvancedFormAccordionItem({
   title,

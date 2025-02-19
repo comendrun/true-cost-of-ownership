@@ -1,7 +1,6 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { aiResponseFormFields } from '../../consts/consts'
 import {
   Table,
   TableBody,
@@ -22,6 +21,7 @@ import {
   CarFormOptionalFieldsSchema
 } from '@/components/types/add-car/types'
 import { useCarFormStore } from '@/lib/store'
+import { aiResponseFormFields } from '../../consts/consts'
 
 export default function SavedCarAIResponseForm({
   optionalCarFormValues,
