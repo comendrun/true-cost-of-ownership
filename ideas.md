@@ -14,3 +14,4 @@
 - find a way to make the AI suggestions more consistent. (Probably not possible due to the nature of the AI)
 - add the manual or automatic transmission part to the car details
 - add a feature to compare two user cars with each other
+- the "Sugggested Values for the Empty field" should only be shown for the specific vehicle ID's case, not for all of the cases that we open the advanced form.
