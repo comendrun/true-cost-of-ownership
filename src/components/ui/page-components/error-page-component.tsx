@@ -7,11 +7,11 @@ import Link from 'next/link'
 import { ErrorPageProps } from '../../types/types'
 
 export default function ErrorPage({
-  title,
-  description,
+  title = 'Oops!',
+  description = 'There was an error when trying to render the page.',
   bounce = false,
-  buttonTitle,
-  href
+  buttonTitle = 'Take me to Dashboard',
+  href = '/dashboard'
 }: ErrorPageProps) {
   return (
     <div className='flex min-h-screen items-center px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16'>
