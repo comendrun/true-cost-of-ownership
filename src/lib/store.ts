@@ -1,4 +1,4 @@
-import { FORM_VALUES_STORED_KEY } from '@/components/pages/dashboard/add-car/consts/consts'
+import { FORM_VALUES_STORED_KEY } from '@/consts/add-car-consts'
 import {
   CarFormFields,
   CarFormOptionalFields,

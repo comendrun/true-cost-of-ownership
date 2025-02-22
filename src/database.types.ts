@@ -64,6 +64,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          config: Json | null
           email: string | null
           first_name: string | null
           id: string
@@ -72,6 +73,7 @@ export type Database = {
           username: string | null
         }
         Insert: {
+          config?: Json | null
           email?: string | null
           first_name?: string | null
           id: string
@@ -80,6 +82,7 @@ export type Database = {
           username?: string | null
         }
         Update: {
+          config?: Json | null
           email?: string | null
           first_name?: string | null
           id?: string
@@ -93,6 +96,7 @@ export type Database = {
         Row: {
           average_fuel_cost: number | null
           brand: string
+          country: Database["public"]["Enums"]["COUNTRIES"]
           created_at: string | null
           depreciation_rate: number | null
           driver_age_range: string
@@ -145,6 +149,7 @@ export type Database = {
         Insert: {
           average_fuel_cost?: number | null
           brand: string
+          country?: Database["public"]["Enums"]["COUNTRIES"]
           created_at?: string | null
           depreciation_rate?: number | null
           driver_age_range: string
@@ -197,6 +202,7 @@ export type Database = {
         Update: {
           average_fuel_cost?: number | null
           brand?: string
+          country?: Database["public"]["Enums"]["COUNTRIES"]
           created_at?: string | null
           depreciation_rate?: number | null
           driver_age_range?: string
@@ -267,7 +273,14 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      COUNTRIES:
+        | "GERMANY"
+        | "United Kingdom"
+        | "United States of America"
+        | "AUSTRIA"
+        | "NETHERLANDS"
+        | "FRANCE"
+        | "BELGIUM"
     }
     CompositeTypes: {
       [_ in never]: never
