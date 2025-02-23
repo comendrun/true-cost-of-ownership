@@ -1,23 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal
-} from 'lucide-react'
 
-import { NavMain } from '@/components/ui/sidebar/nav-main'
-import { NavRecentCars } from '@/components/ui/sidebar/nav-recent-cars'
-import { NavUser } from '@/components/ui/sidebar/nav-user'
-import { TeamSwitcher } from '@/components/ui/sidebar/team-switcher'
+import { UserCarsTableRow, UserProfile } from '@/components/types/add-car/types'
 import {
   Sidebar,
   SidebarContent,
@@ -25,148 +10,12 @@ import {
   SidebarHeader,
   SidebarRail
 } from '@/components/ui/sidebar'
-import { CaretSortIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
-import Logo from './logo'
-import { User } from '@supabase/supabase-js'
-import { navItems } from './consts'
-import {
-  UserCarsTableRow,
-  UserProfile
-} from '@/components/types/add-car/types'
+import { NavMain } from '@/components/ui/sidebar/nav-main'
+import { NavRecentCars } from '@/components/ui/sidebar/nav-recent-cars'
+import { NavUser } from '@/components/ui/sidebar/nav-user'
 import { ModeToggle } from '../providers/theme-toggle'
-
-// the page
-
-// This is sample data.
-// const data = {
-//   user: {
-//     name: 'shadcn',
-//     email: 'm@example.com',
-//     avatar: '/avatars/shadcn.jpg'
-//   },
-//   teams: [
-//     {
-//       name: 'Acme Inc',
-//       logo: GalleryVerticalEnd,
-//       plan: 'Enterprise'
-//     },
-//     {
-//       name: 'Acme Corp.',
-//       logo: AudioWaveform,
-//       plan: 'Startup'
-//     },
-//     {
-//       name: 'Evil Corp.',
-//       logo: Command,
-//       plan: 'Free'
-//     }
-//   ],
-//   navMain: [
-//     {
-//       title: 'Playground',
-//       url: '#',
-//       icon: SquareTerminal,
-//       isActive: true,
-//       items: [
-//         {
-//           title: 'History',
-//           url: '#'
-//         },
-//         {
-//           title: 'Starred',
-//           url: '#'
-//         },
-//         {
-//           title: 'Settings',
-//           url: '#'
-//         }
-//       ]
-//     },
-//     {
-//       title: 'Models',
-//       url: '#',
-//       icon: Bot,
-//       items: [
-//         {
-//           title: 'Genesis',
-//           url: '#'
-//         },
-//         {
-//           title: 'Explorer',
-//           url: '#'
-//         },
-//         {
-//           title: 'Quantum',
-//           url: '#'
-//         }
-//       ]
-//     },
-//     {
-//       title: 'Documentation',
-//       url: '#',
-//       icon: BookOpen,
-//       items: [
-//         {
-//           title: 'Introduction',
-//           url: '#'
-//         },
-//         {
-//           title: 'Get Started',
-//           url: '#'
-//         },
-//         {
-//           title: 'Tutorials',
-//           url: '#'
-//         },
-//         {
-//           title: 'Changelog',
-//           url: '#'
-//         }
-//       ]
-//     },
-//     {
-//       title: 'Settings',
-//       url: '#',
-//       icon: Settings2,
-//       items: [
-//         {
-//           title: 'General',
-//           url: '#'
-//         },
-//         {
-//           title: 'Team',
-//           url: '#'
-//         },
-//         {
-//           title: 'Billing',
-//           url: '#'
-//         },
-//         {
-//           title: 'Limits',
-//           url: '#'
-//         }
-//       ]
-//     }
-//   ],
-//   projects: [
-//     {
-//       name: 'Design Engineering',
-//       url: '#',
-//       icon: Frame
-//     },
-//     {
-//       name: 'Sales & Marketing',
-//       url: '#',
-//       icon: PieChart
-//     },
-//     {
-//       name: 'Travel',
-//       url: '#',
-//       icon: Map
-//     }
-//   ]
-// }
+import { navItems } from './consts'
+import Logo from './logo'
 
 export function AppSidebar({
   user,
@@ -183,10 +32,7 @@ export function AppSidebar({
         <Logo />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain
-          sectionTitle={navItems(cars).navMain.title}
-          items={navItems(cars).navMain.mainItems}
-        />
+        <NavMain cars={cars} />
         <NavRecentCars cars={navItems(cars).cars.mainItems || null} />
       </SidebarContent>
       <SidebarFooter>
