@@ -1,5 +1,9 @@
-import { CarFormFields, FormSteps, FormStepsIDs } from '../../../../types/add-car/types'
-import { formStepIdMap } from '../consts/consts'
+import {
+  CarFormFields,
+  FormSteps,
+  FormStepsIDs
+} from '@/components/types/add-car/types'
+import { formStepIdMap } from '@/consts/add-car-consts'
 
 export function onNextStep(
   currentStep: string,
