@@ -1,8 +1,18 @@
 'use client'
+import {
+  CarFormFields,
+  CarFormOptionalFields,
+  CarFormSchema,
+  FormStepsIDs,
+  SelectField,
+  UserCarsTableRow
+} from '@/components/types/add-car/types'
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { advancedFormSteps, formFields } from '@/consts/add-car-consts'
 import { useCarFormStore } from '@/lib/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
@@ -10,6 +20,8 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
+import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
 import {
   saveCarAndGetRecommendations,
   updateCarAndGetRecommendations
@@ -17,17 +29,7 @@ import {
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
-import {
-  CarFormFields,
-  CarFormOptionalFields,
-  CarFormSchema,
-  FormStepsIDs,
-  UserCarsTableRow
-} from '@/components/types/add-car/types'
-import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
-import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
-import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
-import { advancedFormSteps } from '../consts/consts'
+import CountrySelectField from './country-select-field'
 
 export default function CarForm({
   id,
@@ -38,6 +40,8 @@ export default function CarForm({
   user: User | null
   carData?: UserCarsTableRow
 }) {
+  console.log('we are now here too **')
+
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const router = useRouter()
@@ -161,6 +165,8 @@ export default function CarForm({
     }
   }
 
+  const countryField = formFields['country'] as SelectField<CarFormFields>
+
   return (
     <>
       <ScrollArea className='max-h-[90vh] w-full max-w-full rounded-md'>
@@ -170,6 +176,16 @@ export default function CarForm({
               onSubmit={handleSubmit(onSubmit)}
               className='m-auto mt-5 flex w-full flex-col gap-8 p-5'
             >
+              <div className='ml-auto w-max min-w-[350px] border-b-2 border-dashed border-primary p-3'>
+                <CountrySelectField
+                  carId={id}
+                  control={control}
+                  errors={errors}
+                  getValues={getValues}
+                  watch={watch}
+                  setValue={setValue}
+                />
+              </div>
               <Accordion
                 value={step}
                 type='single'
