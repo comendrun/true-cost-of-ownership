@@ -47,3 +47,4 @@
 - [ ] change the way the charts, especially the Radar chart works. now its
   wrong, in some cases it should show the ones with lower cost as better,
   but it shows the ones with higher cost as better now.
+- [ ] edit the ai analysis response message generation as well.
