@@ -21,7 +21,7 @@ import {
   CarFormOptionalFieldsSchema
 } from '@/components/types/add-car/types'
 import { useCarFormStore } from '@/lib/store'
-import { aiResponseFormFields } from '../../consts/consts'
+import { aiResponseFormFields } from '@/consts/add-car-consts'
 
 export default function SavedCarAIResponseForm({
   optionalCarFormValues,
@@ -50,7 +50,6 @@ export default function SavedCarAIResponseForm({
   } = form
 
   async function onSubmitHandler(formValues: CarFormOptionalFields) {
-    console.log('formValues', formValues)
     const { error } = await updateCar<CarFormOptionalFields>(formValues, id)
     if (error) return toast.error(error.message)
 
@@ -84,8 +83,6 @@ export default function SavedCarAIResponseForm({
       {} as Partial<CarFormOptionalFields>
     )
 
-  console.log('aiResponseField', aiResponseFormFields)
-
   const formFields = aiResponseFormFields.filter(
     ({ key }) => changedFields && Object.keys(changedFields).includes(key)
   )
@@ -103,13 +100,13 @@ export default function SavedCarAIResponseForm({
       >
         <Table className=''>
           <TableCaption>
-            The values are an average recommended by our AI agent..
+            The values are an average recommended by our AI agent.
           </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className=''>Label</TableHead>
-              <TableHead className='w-[100px]'>Needs Editting?</TableHead>
-              <TableHead className='w-[50%]'>Value</TableHead>
+              <TableHead className='min-w-[100px]'>Needs Editing?</TableHead>
+              <TableHead className='min-w-[50%]'>Value</TableHead>
               {/* <TableHead className='text-right'>Amount</TableHead> */}
             </TableRow>
           </TableHeader>
