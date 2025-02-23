@@ -1,3 +1,4 @@
+import { COUNTRIES } from '@/consts/app-constants'
 import { Database } from '@/database.types'
 import {
   Control,
@@ -102,10 +103,13 @@ export const CarFormSchema = z.object({
   ecoTax: z.number().nullable().optional(),
 
   // Total Cost of Ownership
-  tco: z.number().nullable().optional()
+  tco: z.number().nullable().optional(),
+  country: z.enum(COUNTRIES)
 })
 
 export type CarFormFields = z.infer<typeof CarFormSchema>
+
+export type CarFormFieldsKeys = keyof CarFormFields
 
 export const CarFormSchemaOptional = CarFormSchema.partial()
 
@@ -146,6 +150,8 @@ export const CarFormOptionalFieldsSchema = CarFormSchema.pick({
 
 export type CarFormOptionalFields = z.infer<typeof CarFormOptionalFieldsSchema>
 
+export type CarFormOptionalFieldsKeys = keyof CarFormOptionalFields
+
 type BaseField<TFieldValues> = {
   key: Path<TFieldValues> // Keys of the provided form fields type
   type: 'string' | 'number' | 'boolean' // Type of the returned value
@@ -180,7 +186,7 @@ export type CheckboxField<TFieldValues> = BaseField<TFieldValues> & {
   component: 'checkbox'
 }
 
-export type FormFieldType<TFieldValues> =
+export type FormFieldType<TFieldValues = FieldValues> =
   | InputField<TFieldValues>
   | SelectField<TFieldValues>
   | TextareaField<TFieldValues>
@@ -223,6 +229,8 @@ export type AIResponseTableRow =
 
 export type AIResponseTableInsert =
   Database['public']['Tables']['ai_responses']['Insert']
+
+export type COUNTRIES_TYPE = Database['public']['Enums']['COUNTRIES']
 
 // export type AIAnalysisChatCompletionResponse = ChatCompletionResponseFormat
 
@@ -353,7 +361,8 @@ export const userCarFormToTableKeyMapping: Record<
   maintenanceFrequency: 'maintenance_frequency',
   emissions: 'emissions',
   ecoTax: 'eco_tax',
-  tco: 'tco'
+  tco: 'tco',
+  country: 'country'
 }
 
 export const userCarTableToFormKeyMapping: Record<
