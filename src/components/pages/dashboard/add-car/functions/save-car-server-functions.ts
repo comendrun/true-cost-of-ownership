@@ -20,7 +20,6 @@ export async function saveCar(formValues: CarFormFields): Promise<{
   data: UserCarsTableRow | null
   error: PostgrestError | { message: string } | null
 }> {
-  console.log('Starting saveCarAndGetRecommendations function')
   const supabase = createClient()
 
   const {
@@ -35,9 +34,6 @@ export async function saveCar(formValues: CarFormFields): Promise<{
     }
   }
 
-  console.log('User identified:', user)
-
-  console.log('Inserting new car data')
   const payload = convertAdvancedFormValuesToUserCarsTableInsert(
     formValues,
     user.id
@@ -63,7 +59,6 @@ export async function saveCarAndGetRecommendations(
   id?: number
 }> {
   try {
-    console.log('Starting saveCarAndGetRecommendations function')
     const supabase = createClient()
 
     const {
@@ -91,11 +86,8 @@ export async function saveCarAndGetRecommendations(
       data
     ) as CarFormFields
 
-    console.log('Successfully updated car data:', data)
     const aiFilledOptionalFields =
       await getAIFilledOptionalFields(updatedFormValues)
-
-    console.log('ai Field OPtional fields', aiFilledOptionalFields)
 
     return {
       carFormOptionalFields: aiFilledOptionalFields, // ToDo: Update
@@ -122,7 +114,6 @@ export async function updateCar<TFormValues extends FieldValues>(
   data: UserCarsTableRow | null
   error: PostgrestError | { message: string } | null
 }> {
-  console.log('Starting saveCarAndGetRecommendations function')
   const supabase = createClient()
 
   // await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -173,10 +164,8 @@ export async function updateCar<TFormValues extends FieldValues>(
     return acc
   }, {} as Partial<UserCarsTableRow>)
 
-  console.log('Updated values to be saved:', updatedValues)
-
   if (Object.entries(updatedValues).length === 0) {
-    console.log('No changes detected, nothing to update.')
+    console.error('No changes detected, nothing to update.')
     return {
       data: data,
       error: { message: 'No changes detected, nothing to update.' }
@@ -206,7 +195,6 @@ export async function updateCarAndGetRecommendations<
   error: { message: string } | null
 }> {
   try {
-    console.log('Starting saveCarAndGetRecommendations function')
     const supabase = createClient()
 
     const {
@@ -233,11 +221,8 @@ export async function updateCarAndGetRecommendations<
       updatedCar
     ) as CarFormFields
 
-    console.log('Successfully updated car data:', updatedCar)
     const aiFilledOptionalFields =
       await getAIFilledOptionalFields(updatedFormValues)
-
-    console.log('ai Field OPtional fields', aiFilledOptionalFields)
 
     return {
       carFormOptionalFields: aiFilledOptionalFields, // ToDo: Update
@@ -280,10 +265,6 @@ export async function getCarById(id: string | number): Promise<{
         'No user identified when trying to fetch the car instance.'
       )
     }
-    console.log(
-      'Starting to fetch the car info from supabase with the id of',
-      id
-    )
     const { data, error } = await supabase
       .from('user_cars')
       .select()
@@ -291,18 +272,12 @@ export async function getCarById(id: string | number): Promise<{
       .eq('user_id', user.id)
       .single()
 
-    console.log('The data in the getCarById Server Action', data)
-    console.log('The error in the getCarById Server Action', error)
-
     if (error || !data) {
       console.error(
         '[getCarById] - Error fetching car data or no data found:',
         error
       )
-      console.log(
-        '[getCarById] - Error fetching car data or no data found:',
-        error
-      )
+
       throw new Error(
         error?.message || 'Error fetching car data or no data found'
       )
@@ -311,10 +286,7 @@ export async function getCarById(id: string | number): Promise<{
     return { error, data }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    console.log('[getCarById], error:', err.message)
     console.error('[getCarById], error:', err.message)
-
-    // redirect('/dashboard/add-car/advanced')
 
     return {
       error: {
