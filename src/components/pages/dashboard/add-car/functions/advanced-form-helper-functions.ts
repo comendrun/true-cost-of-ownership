@@ -1,16 +1,17 @@
 import { FieldErrors } from 'react-hook-form'
+
 import {
   CarFormFields,
-  CheckboxField,
-  FormFieldType,
   FormStepsIDs,
+  FormFieldType,
   InputField,
   SelectField,
   TextareaField,
+  CheckboxField,
   UserCarsTableInsert,
   UserCarsTableRow
-} from '../../../../types/add-car/types'
-import { advancedFormSteps } from '../consts/consts'
+} from '@/components/types/add-car/types'
+import { advancedFormSteps } from '@/consts/add-car-consts'
 
 export function calculateMonthlyPayment(
   remainingAmount: number,
@@ -106,19 +107,19 @@ export const getKeysOutsideStep = (stepId: FormStepsIDs) => {
   return otherKeys
 }
 
-export const isInputField = <TFieldValues,>(
+export const isInputField = <TFieldValues>(
   field: FormFieldType<TFieldValues>
 ): field is InputField<TFieldValues> => field.component === 'input'
 
-export const isSelectField = <TFieldValues,>(
+export const isSelectField = <TFieldValues>(
   field: FormFieldType<TFieldValues>
 ): field is SelectField<TFieldValues> => field.component === 'select'
 
-export const isTextareaField = <TFieldValues,>(
+export const isTextareaField = <TFieldValues>(
   field: FormFieldType<TFieldValues>
 ): field is TextareaField<TFieldValues> => field.component === 'textarea'
 
-export const isChekboxField = <TFieldValues,>(
+export const isChekboxField = <TFieldValues>(
   field: FormFieldType<TFieldValues>
 ): field is CheckboxField<TFieldValues> => field.component === 'checkbox'
 
@@ -174,7 +175,8 @@ export function convertAdvancedFormValuesToUserCarsTableInsert(
     updated_at: new Date().toISOString(),
     user_id: userId, // Assuming this is provided elsewhere
     variant: formValues.variant,
-    year: formValues.year
+    year: formValues.year,
+    country: formValues.country
   }
 
   return data
@@ -227,7 +229,8 @@ export function convertUserCarsTableInsertToAdvancedFormValues(
     tuvCosts: userCar.tuv_costs ?? undefined,
     unexpectedRepairCosts: userCar.unexpected_repair_costs ?? undefined,
     variant: userCar.variant ?? undefined,
-    year: userCar.year
+    year: userCar.year,
+    country: userCar?.country
   }
 
   return formValues
