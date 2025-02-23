@@ -392,31 +392,31 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
 }
 
 export const aiResponseFormFields: FormFieldType<CarFormOptionalFields>[] = [
-  useFormField('name'),
-  useFormField('interestRate'),
-  useFormField('financingDuration'),
-  useFormField('remainingAmount', { infoField: false }),
-  useFormField('totalInterestPaid', { infoField: false }),
-  useFormField('truePurchasePrice', { infoField: false }),
-  useFormField('initialPrice'),
-  useFormField('depreciationRate'),
-  useFormField('serviceCosts'),
-  useFormField('serviceIncludes'),
-  useFormField('tiresCosts'),
-  useFormField('oilChangeCosts'),
-  useFormField('fuelConsumption'),
-  useFormField('averageFuelCost'),
-  useFormField('insuranceCost'),
-  useFormField('tuvCosts'),
-  useFormField('taxes'),
-  useFormField('parkingCosts'),
-  useFormField('estimatedResaleValue'),
-  useFormField('regularMaintenanceCosts'),
-  useFormField('unexpectedRepairCosts'),
-  useFormField('maintenanceFrequency'),
-  useFormField('emissions'),
-  useFormField('ecoTax'),
-  // useFormField('tco')
+  getFormField('name'),
+  getFormField('interestRate'),
+  getFormField('financingDuration'),
+  getFormField('remainingAmount', { infoField: false }),
+  getFormField('totalInterestPaid', { infoField: false }),
+  getFormField('truePurchasePrice', { infoField: false }),
+  getFormField('initialPrice'),
+  getFormField('depreciationRate'),
+  getFormField('serviceCosts'),
+  getFormField('serviceIncludes'),
+  getFormField('tiresCosts'),
+  getFormField('oilChangeCosts'),
+  getFormField('fuelConsumption'),
+  getFormField('averageFuelCost'),
+  getFormField('insuranceCost'),
+  getFormField('tuvCosts'),
+  getFormField('taxes'),
+  getFormField('parkingCosts'),
+  getFormField('estimatedResaleValue'),
+  getFormField('regularMaintenanceCosts'),
+  getFormField('unexpectedRepairCosts'),
+  getFormField('maintenanceFrequency'),
+  getFormField('emissions'),
+  getFormField('ecoTax')
+  // getFormField('tco')
 ]
 
 export const advancedFormSteps: FormSteps<CarFormFields>[] = [
@@ -425,15 +425,15 @@ export const advancedFormSteps: FormSteps<CarFormFields>[] = [
     index: 0,
     title: 'General Information',
     fields: [
-      useFormField('name'),
-      useFormField('brand'),
-      useFormField('model'),
-      useFormField('variant'),
-      useFormField('year'),
-      useFormField('mileage'),
-      useFormField('plannedYearsOfOwnership'),
-      useFormField('drivingExperienceYears'),
-      useFormField('driverAgeRange')
+      getFormField('name'),
+      getFormField('brand'),
+      getFormField('model'),
+      getFormField('variant'),
+      getFormField('year'),
+      getFormField('mileage'),
+      getFormField('plannedYearsOfOwnership'),
+      getFormField('drivingExperienceYears'),
+      getFormField('driverAgeRange')
     ]
   },
   {
@@ -441,33 +441,33 @@ export const advancedFormSteps: FormSteps<CarFormFields>[] = [
     index: 1,
     title: 'Finances',
     fields: [
-      useFormField('purchasePrice'),
-      useFormField('prepayment'),
-      useFormField('financingDuration'),
-      useFormField('interestRate'),
-      useFormField('remainingAmount'),
-      useFormField('totalInterestPaid'),
-      useFormField('truePurchasePrice')
+      getFormField('purchasePrice'),
+      getFormField('prepayment'),
+      getFormField('financingDuration'),
+      getFormField('interestRate'),
+      getFormField('remainingAmount'),
+      getFormField('totalInterestPaid'),
+      getFormField('truePurchasePrice')
     ]
   },
   {
     id: 'depreciation',
     index: 2,
     title: 'Depreciation',
-    fields: [useFormField('initialPrice'), useFormField('depreciationRate')]
+    fields: [getFormField('initialPrice'), getFormField('depreciationRate')]
   },
   {
     id: 'warrantyAndService',
     index: 3,
     title: 'Warranty and Service',
     fields: [
-      useFormField('guaranteeYears'),
-      useFormField('serviceCosts'),
-      useFormField('serviceIncludes'),
-      useFormField('tiresCosts'),
-      useFormField('oilChangeCosts'),
-      useFormField('offerOnExtendedWarranty'),
-      useFormField('extendedWarrantyCost')
+      getFormField('guaranteeYears'),
+      getFormField('serviceCosts'),
+      getFormField('serviceIncludes'),
+      getFormField('tiresCosts'),
+      getFormField('oilChangeCosts'),
+      getFormField('offerOnExtendedWarranty'),
+      getFormField('extendedWarrantyCost')
     ]
   },
   {
@@ -475,26 +475,26 @@ export const advancedFormSteps: FormSteps<CarFormFields>[] = [
     index: 4,
     title: 'Efficiency',
     fields: [
-      useFormField('totalPlannedKMs'),
-      useFormField('fuelConsumption'),
-      useFormField('fuelType'),
-      useFormField('averageFuelCost')
+      getFormField('totalPlannedKMs'),
+      getFormField('fuelConsumption'),
+      getFormField('fuelType'),
+      getFormField('averageFuelCost')
     ]
   },
   {
     id: 'insurance',
     index: 5,
     title: 'Insurance',
-    fields: [useFormField('insuranceType'), useFormField('insuranceCost')]
+    fields: [getFormField('insuranceType'), getFormField('insuranceCost')]
   },
   {
     id: 'otherCosts',
     index: 6,
     title: 'Other Costs',
     fields: [
-      useFormField('tuvCosts'),
-      useFormField('taxes'),
-      useFormField('parkingCosts')
+      getFormField('tuvCosts'),
+      getFormField('taxes'),
+      getFormField('parkingCosts')
     ]
   },
   {
@@ -502,22 +502,22 @@ export const advancedFormSteps: FormSteps<CarFormFields>[] = [
     index: 7,
     title: 'Maintenance',
     fields: [
-      useFormField('regularMaintenanceCosts'),
-      useFormField('unexpectedRepairCosts'),
-      useFormField('maintenanceFrequency')
+      getFormField('regularMaintenanceCosts'),
+      getFormField('unexpectedRepairCosts'),
+      getFormField('maintenanceFrequency')
     ]
   },
   {
     id: 'personalPreferences',
     index: 8,
     title: 'Personal Preferences',
-    fields: [useFormField('interiorScore'), useFormField('exteriorScore')]
+    fields: [getFormField('interiorScore'), getFormField('exteriorScore')]
   },
   {
     id: 'environmentalImpact',
     index: 9,
     title: 'Environmental Impact',
-    fields: [useFormField('emissions'), useFormField('ecoTax')]
+    fields: [getFormField('emissions'), getFormField('ecoTax')]
   }
 ]
 
@@ -537,7 +537,7 @@ export const formStepIdMap = advancedFormSteps.reduce(
   {} as Record<number, FormStepsIDs>
 )
 
-export function useFormField<
+export function getFormField<
   K extends FormFieldKey,
   T extends Partial<Omit<(typeof formFields)[K], 'key'>>
 >(key: K, overrides?: T): (typeof formFields)[K] & { key: K } {
