@@ -18,13 +18,11 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { navItems } from './consts'
+import { UserCarsTableRow } from '@/components/types/add-car/types'
 
-export function NavMain({
-  items,
-  sectionTitle
-}: {
-  sectionTitle: string
-  items: {
+export function NavMain({ cars }: { cars: UserCarsTableRow[] | null }) {
+  const items: {
     title: string
     url: string
     icon?: LucideIcon | string
@@ -33,8 +31,8 @@ export function NavMain({
       title: string
       url: string
     }[]
-  }[]
-}) {
+  }[] = navItems(cars).navMain.mainItems
+  const sectionTitle = navItems(cars).navMain.title
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{sectionTitle}</SidebarGroupLabel>
