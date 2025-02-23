@@ -72,23 +72,23 @@ export const navItems = (cars?: UserCarsTableRow[] | null) => ({
             url: '/dashboard/settings'
           }
         ]
-      },
-      {
-        title: 'Forms',
-        url: '/dashboard/add-car',
-        icon: Library,
-        isActive: false,
-        items: [
-          {
-            title: 'Simple Form',
-            url: '/dashboard/add-car/simple'
-          },
-          {
-            title: 'Advanced Form',
-            url: '/dashboard/add-car/advanced'
-          }
-        ]
       }
+      // {
+      //   title: 'Forms',
+      //   url: '/dashboard/add-car',
+      //   icon: Library,
+      //   isActive: false,
+      //   items: [
+      //     {
+      //       title: 'Simple Form',
+      //       url: '/dashboard/add-car/simple'
+      //     },
+      //     {
+      //       title: 'Advanced Form',
+      //       url: '/dashboard/add-car/advanced'
+      //     }
+      //   ]
+      // }
     ]
   },
   cars: {
