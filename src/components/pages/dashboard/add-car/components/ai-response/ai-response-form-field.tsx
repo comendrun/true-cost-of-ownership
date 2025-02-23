@@ -51,7 +51,7 @@ export default function AIResponseFormField({
       <TableCell className='font-medium'>{formField.label}</TableCell>
 
       <TableCell>
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2 mx-auto'>
           {!isCheckboxDisabled && (
             <>
               <Checkbox
@@ -59,6 +59,7 @@ export default function AIResponseFormField({
                 onCheckedChange={e => setIsEditting(Boolean(e))}
                 checked={isEditting}
                 disabled={isCheckboxDisabled}
+                className='mx-auto'
               />
 
               {/* <Label htmlFor={`checkbox-${formField.key}`}>
