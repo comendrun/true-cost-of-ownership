@@ -22,7 +22,7 @@ export default async function CarEditPage({
     return (
       <ErrorPage
         title='Oops! Something went wrong!'
-        description="You don't have access to this entity or an error occured while fetching the requested entry. Please start with a fresh form."
+        description="You don't have access to this entity or an error occurred while fetching the requested entry. Please start with a fresh form."
         bounce
         buttonTitle='New Form'
         href='/dashboard/add-car/advanced'
@@ -31,7 +31,7 @@ export default async function CarEditPage({
   }
 
   return (
-    <div className='flex flex-col items-center justify-center gap-5 w-full'>
+    <div className='flex w-full flex-col items-center justify-center gap-5'>
       <Suspense fallback={<div>Loading...</div>}>
         <CarForm id={carId} user={user} carData={data} />
       </Suspense>
