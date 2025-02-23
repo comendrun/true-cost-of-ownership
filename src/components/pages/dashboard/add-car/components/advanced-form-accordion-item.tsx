@@ -23,7 +23,7 @@ import {
   onNextStep,
   onPreviousStep
 } from '../functions/accordion-steps-helper-functions'
-import { advancedFormSteps } from '../consts/consts'
+import { advancedFormSteps } from '@/consts/add-car-consts'
 
 export default function AdvancedFormAccordionItem({
   title,
