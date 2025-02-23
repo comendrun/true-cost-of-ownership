@@ -29,7 +29,7 @@ export default function UserCarsOverview({
           <Link href='/dashboard/add-car/'>Add a new Car</Link>
         </Button>
         {userCars && (
-          <Button variant='default' className=''>
+          <Button asChild variant='default' className=''>
             <Link href='/dashboard/my-cars'>My Cars</Link>
           </Button>
         )}
