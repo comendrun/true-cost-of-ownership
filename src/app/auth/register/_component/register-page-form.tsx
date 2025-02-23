@@ -10,15 +10,14 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import CircularSpinner from '@/components/ui/loading/spinner'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { redirect, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import CircularSpinner from '@/components/ui/loading/spinner'
-import { registerSchema } from '../../_types/types'
-import { RegisterForm } from '../../_components/register-tab'
 import { toast } from 'sonner'
-import { revalidatePath } from 'next/cache'
+import { RegisterForm } from '../../_components/register-tab'
+import { registerSchema } from '../../_types/types'
 
 export default function RegistrationPageForm({
   signup
