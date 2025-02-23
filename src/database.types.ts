@@ -275,8 +275,8 @@ export type Database = {
     Enums: {
       COUNTRIES:
         | "GERMANY"
-        | "United Kingdom"
-        | "United States of America"
+        | "UNITED KINGDOM"
+        | "UNITED STATES OF AMERICA"
         | "AUSTRIA"
         | "NETHERLANDS"
         | "FRANCE"
