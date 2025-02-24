@@ -60,12 +60,12 @@ export const navItems = (cars?: UserCarsTableRow[] | null) => ({
         isActive: true,
         items: [
           {
-            title: 'My Cars',
-            url: '/dashboard/my-cars'
-          },
-          {
             title: 'Add a New Car',
             url: '/dashboard/add-car'
+          },
+          {
+            title: 'My Cars',
+            url: '/dashboard/my-cars'
           },
           {
             title: 'Settings',
