@@ -104,7 +104,7 @@ export const CarFormSchema = z.object({
 
   // Total Cost of Ownership
   tco: z.number().nullable().optional(),
-  country: z.enum(COUNTRIES)
+  country: z.enum(COUNTRIES).default(COUNTRIES[0])
 })
 
 export type CarFormFields = z.infer<typeof CarFormSchema>
