@@ -1,6 +1,5 @@
 import { z } from 'zod'
 
-// Define the UserCarsTableRow structure
 const UserCarsTableRowSchema = z.object({
   average_fuel_cost: z.number(),
   depreciation_rate: z.number(),
@@ -29,32 +28,8 @@ const UserCarsTableRowSchema = z.object({
   true_purchase_price: z.number(),
   tuv_costs: z.number(),
   unexpected_repair_costs: z.number()
-  //   driving_experience_years: z.number(),
-  //   driver_age_range: z.string(),
-  //   financing_duration: z.number(),
-  //   initial_price: z.number(),
-  //   variant: z.string()
-  //   brand: z.string(),
-  //   created_at: z.string(),
-  //   fuel_type: z.string(),
-  //   id: z.number(),
-  //   insurance_type: z.string(),
-  //   interest_rate: z.number(),
-  //   interior_score: z.number(),
-  //   exterior_score: z.number(),
-  //   last_ai_response_id: z.number(),
-  //   mileage: z.number(),
-  //   model: z.string(),
-  //   planned_years_of_ownership: z.number(),
-  //   prepayment: z.number(),
-  //   purchase_price: z.number(),
-  //   updated_at: z.string(),
-  //   user_id: z.string(),
-  //   version: z.number()
-  //   year: z.number()
 })
 
-// Define the Zod schema for AIAnalysisMetrics
 export const AIAnalysisMetricsSchema = z.object({
   costAnalysis: z.object({
     averageMonthlyCost: z.number(),
