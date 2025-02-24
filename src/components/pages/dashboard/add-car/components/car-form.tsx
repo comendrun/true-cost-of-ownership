@@ -40,8 +40,6 @@ export default function CarForm({
   user: User | null
   carData?: UserCarsTableRow
 }) {
-  console.log('we are now here too **')
-
   const [step, setStep] = useState<FormStepsIDs>('generalInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const router = useRouter()
@@ -107,7 +105,7 @@ export default function CarForm({
     updateOptionalCarFormValues(carFormOptionalFields)
 
     if (!id && savedCarId) {
-      router.replace(`/dashboard/my-car/${savedCarId}/edit`)
+      router.replace(`/dashboard/my-cars/${savedCarId}/edit`)
     }
   }
 
@@ -176,7 +174,7 @@ export default function CarForm({
               onSubmit={handleSubmit(onSubmit)}
               className='m-auto mt-5 flex w-full flex-col gap-8 p-5'
             >
-              <div className='ml-auto w-max min-w-[350px] border-b-2 border-dashed border-primary p-3'>
+              <div className='ml-auto w-max min-w-[350px] border-b border-primary p-3'>
                 <CountrySelectField
                   carId={id}
                   control={control}
