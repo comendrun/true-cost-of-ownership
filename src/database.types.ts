@@ -267,6 +267,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_latest_ai_responses: {
+        Args: {
+          car_ids: number[]
+        }
+        Returns: {
+          analysis_metrics: Json | null
+          analysis_summary: string | null
+          car_id: number | null
+          cost_saving_opportunities: string[] | null
+          created_at: string | null
+          feedback: string | null
+          id: number
+          recommended_insurances: string[] | null
+          response: string
+          suggested_driving_tips: string[] | null
+          version: number | null
+          visualization_config: Json | null
+        }[]
+      }
       sync_existing_users: {
         Args: Record<PropertyKey, never>
         Returns: undefined
