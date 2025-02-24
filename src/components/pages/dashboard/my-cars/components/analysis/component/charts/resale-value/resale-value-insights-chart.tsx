@@ -26,7 +26,7 @@ export function ResaleValueInsightsLinearChart({
   return (
     <LinearChart
       title='Resale value of the Car over Years'
-      description={`over ${resaleValueInsights[0].resaleValueProjections.length} years`}
+      description={`From ${chartData[0].year} to ${chartData[chartData.length - 1].year}`}
       chartData={chartData || []}
       chartConfig={chartConfig}
       //   footer={{

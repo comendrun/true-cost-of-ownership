@@ -245,7 +245,7 @@ export default function CarForm({
                 </Button>
 
                 <Button className='w-full' type='submit' disabled={isLoading}>
-                  Save The Car
+                  Save
                 </Button>
               </div>
             </form>
