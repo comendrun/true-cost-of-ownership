@@ -9,7 +9,6 @@ export default async function layout({
   children: ReactNode
 }) {
   const { carId } = params
-  console.log('id', carId)
 
   return <>{children}</>
 }
