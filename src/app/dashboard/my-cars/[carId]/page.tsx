@@ -37,8 +37,6 @@ export default async function UserCarPage({
     )
   }
 
-  console.log('userCar', userCar)
-
   const {
     brand,
     model,
@@ -125,9 +123,7 @@ export default async function UserCarPage({
                 </TableRow>
                 <TableRow>
                   <TableCell>Estimated Initial Price</TableCell>
-                  <TableCell>
-                    €{initial_price?.toFixed(2) || 'N/A'}
-                  </TableCell>
+                  <TableCell>€{initial_price?.toFixed(2) || 'N/A'}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
