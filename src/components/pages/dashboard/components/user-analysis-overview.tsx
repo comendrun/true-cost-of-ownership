@@ -58,7 +58,7 @@ export default function UserAnalysisOverview({
                 car => car.id === analysis.car_id
               )[0]
               return (
-                <TableRow>
+                <TableRow key={`analysis-${analysis.id}-${index}`}>
                   <TableCell>{userCar?.name}</TableCell>
                   <TableCell>{analysis.version}</TableCell>
                   <TableCell>

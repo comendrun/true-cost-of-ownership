@@ -50,7 +50,7 @@ export default function UserCarsOverview({
           </TableHeader>
           <TableBody>
             {userCars.slice(0, 5).map((car, index) => (
-              <TableRow>
+              <TableRow key={`car-${car.id}-${index}`}>
                 <TableCell>{car.name}</TableCell>
                 <TableCell>{car.year}</TableCell>
                 <TableCell>{car.tco}</TableCell>
