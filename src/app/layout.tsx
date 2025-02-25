@@ -1,12 +1,8 @@
-import Navbar from '@/components/navbar/Navbar'
-import { ThemeProvider } from '@/components/ui/providers/theme-provider'
-import { Toaster } from '@/components/ui/sonner'
+import { createClient } from '@/utils/supabase/server'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import { createClient } from '@/utils/supabase/server'
-import Providers from './providers'
-import { redirect } from 'next/navigation'
+import ClientProviders from './providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -35,17 +31,30 @@ export default async function RootLayout({
     data: { user }
   } = await supabase.auth.getUser()
 
+  const { data: userProfile, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user?.id || '')
+    .single()
+
+  if (error) {
+    console.error(
+      'There was an error while trying to get the User Profile.',
+      error?.cause
+    )
+  }
+
   return (
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full antialiased`}
       >
-        <Providers>
+        <ClientProviders user={userProfile}>
           {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
           {/* <Navbar user={user} /> */}
           {children}
           {/* </div> */}
-        </Providers>
+        </ClientProviders>
       </body>
     </html>
   )
