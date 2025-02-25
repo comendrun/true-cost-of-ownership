@@ -47,11 +47,11 @@ export default async function Page() {
             <Skeleton className='aspect-video rounded-xl bg-muted/50 p-5' />
           }
         >
-          <div className='aspect-video rounded-xl bg-muted/50 p-5'>
+          <div className='rounded-xl bg-muted/50 p-5'>
             <UserCarsOverview userCars={userCars} />
           </div>
         </Suspense>
-        <div className='aspect-video rounded-xl bg-muted/50 p-5'>
+        <div className='rounded-xl bg-muted/50 p-5'>
           <UserAnalysisOverview
             userAnalysisList={userAnalysis}
             userCars={userCars}
