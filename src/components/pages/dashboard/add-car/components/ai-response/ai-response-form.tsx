@@ -20,7 +20,7 @@ import {
   CarFormOptionalFields,
   CarFormOptionalFieldsSchema
 } from '@/components/types/add-car/types'
-import { useCarFormStore } from '@/lib/store'
+import { useCarFormStore } from '@/lib/cars-store'
 import { aiResponseFormFields } from '@/consts/add-car-consts'
 
 export default function SavedCarAIResponseForm({
