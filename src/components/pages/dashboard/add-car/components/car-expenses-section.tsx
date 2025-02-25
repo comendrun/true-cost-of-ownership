@@ -1,6 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { useCarFormStore } from '@/lib/store'
+import { useCarFormStore } from '@/lib/cars-store'
 import React from 'react'
 
 export default function CarExpensesSection() {
