@@ -18,6 +18,7 @@ import { useState } from 'react'
 import { loginSchema } from '../_types/types'
 import { LoginForm } from '../_components/login-tab'
 import CircularSpinner from '@/components/ui/loading/spinner'
+import { useUserStore } from '@/lib/users.store'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,6 +50,13 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const localStoredUser = useUserStore(state => state.user)
+  const setUser = useUserStore(state => state.setUser)
+
+  if (localStoredUser) {
+    setUser(null)
   }
 
   return (

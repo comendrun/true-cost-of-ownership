@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { RegisterForm } from '../../_components/register-tab'
 import { registerSchema } from '../../_types/types'
+import { useUserStore } from '@/lib/users.store'
 
 export default function RegistrationPageForm({
   signup
@@ -66,6 +67,13 @@ export default function RegistrationPageForm({
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const localStoredUser = useUserStore(state => state.user)
+  const setUser = useUserStore(state => state.setUser)
+
+  if (localStoredUser) {
+    setUser(null)
   }
 
   return (
