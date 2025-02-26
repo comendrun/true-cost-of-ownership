@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/ui/sidebar/app-sidebar'
 import Breadcrumbs from '@/components/ui/sidebar/breadcrumbs'
+import DashboardProviders from '@/providers/dashboard-providers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -40,9 +41,8 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <SidebarProvider>
+      <DashboardProviders user={userProfile}>
         <AppSidebar user={userProfile} cars={userLatestCars} />
-
         <SidebarInset>
           <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
             <div className='flex items-center gap-2 px-4'>
@@ -55,7 +55,7 @@ export default async function DashboardLayout({
             {children}
           </div>
         </SidebarInset>
-      </SidebarProvider>
+      </DashboardProviders>
     </>
   )
 }
