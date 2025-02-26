@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import ClientProviders from './providers'
+import RootLayoutClientProviders from '@/providers/root-client-providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -31,30 +31,17 @@ export default async function RootLayout({
     data: { user }
   } = await supabase.auth.getUser()
 
-  const { data: userProfile, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user?.id || '')
-    .single()
-
-  if (error) {
-    console.error(
-      'There was an error while trying to get the User Profile.',
-      error?.cause
-    )
-  }
-
   return (
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full antialiased`}
       >
-        <ClientProviders user={userProfile}>
+        <RootLayoutClientProviders>
           {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
           {/* <Navbar user={user} /> */}
           {children}
           {/* </div> */}
-        </ClientProviders>
+        </RootLayoutClientProviders>
       </body>
     </html>
   )
