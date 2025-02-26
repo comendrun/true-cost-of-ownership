@@ -15,3 +15,7 @@ export enum CURRENCIES {
   USD = '$',
   GBP = '£'
 }
+
+export enum LOCAL_STORAGE_KEYS {
+  USER_INFO_LOCAL_STORAGE_KEY = 'USER_PROFILE_INFO'
+}

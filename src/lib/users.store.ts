@@ -8,27 +8,27 @@ export type State = {
 }
 
 export type Actions = {
-  setUser: (values: UserProfile) => void
+  setUser: (values: UserProfile | null) => void
   clearStorage: () => void
 }
+
+const localStoredUser = JSON.parse(
+  localStorage.getItem(LOCAL_STORAGE_KEYS.USER_INFO_LOCAL_STORAGE_KEY) || '{}'
+)?.state as State
 
 export const useUserStore = create<State & Actions>()(
   persist(
     set => ({
-      user: null,
-      setUser: (values: UserProfile) => {
-        console.log('user is being set')
-
-        set(() => ({ user: values }))
-      },
+      user: localStoredUser?.user || null,
+      setUser: (values: UserProfile | null) => set(() => ({ user: values })),
       clearStorage: () =>
         localStorage.removeItem(LOCAL_STORAGE_KEYS.USER_INFO_LOCAL_STORAGE_KEY)
     }),
     {
       name: LOCAL_STORAGE_KEYS.USER_INFO_LOCAL_STORAGE_KEY,
-      partialize: state => {
+      partialize: state => ({
         user: state?.user
-      }
+      })
     }
   )
 )
