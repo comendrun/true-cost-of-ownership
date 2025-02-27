@@ -21,7 +21,7 @@ export type Actions = {
     value: string | number
   ) => void
   setIsSavingCarInProgress: (boolValue: boolean) => void
-  clearStorage: () => void // Method to clear local storage
+  clearStorage: () => void
   clearPartialStorage: (keys: (keyof State)[]) => void
 }
 
