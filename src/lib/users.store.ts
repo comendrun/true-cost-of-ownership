@@ -1,3 +1,4 @@
+'use client'
 import { UserProfile } from '@/components/types/add-car/types'
 import { LOCAL_STORAGE_KEYS } from '@/consts/app-constants'
 import { create } from 'zustand'
@@ -12,9 +13,14 @@ export type Actions = {
   clearStorage: () => void
 }
 
-const localStoredUser = JSON.parse(
-  localStorage.getItem(LOCAL_STORAGE_KEYS.USER_INFO_LOCAL_STORAGE_KEY) || '{}'
-)?.state as State
+const isBrowser = typeof window !== 'undefined'
+
+const localStoredUser = isBrowser
+  ? (JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.USER_INFO_LOCAL_STORAGE_KEY) ||
+        '{}'
+    )?.state as State)
+  : null
 
 export const useUserStore = create<State & Actions>()(
   persist(
