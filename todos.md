@@ -54,3 +54,9 @@
 - [ ] Change the server side pages to client side and create hooks to make
       supabase queries so that we can add suspense and skeletons and loading
       stages to the page.
+- [ ] Add a comparison possiblity to choose cars they want and compare them
+      - [ ] add a new table to store the comparison data
+      - [ ] add a new page to show the comparison
+      - [ ] in the comparison page, give users the ability to add or remove cars
+      - [ ] in the comparison page, give users the ability to equilize the terms and situations of each car and then get a new analysis (interest rate, loan term, etc.)
+- [ ] 
