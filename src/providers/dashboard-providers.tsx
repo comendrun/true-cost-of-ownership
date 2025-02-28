@@ -1,9 +1,8 @@
 'use client'
 import { UserProfile } from '@/components/types/add-car/types'
 import { SidebarProvider } from '@/components/ui/sidebar'
-import { LOCAL_STORAGE_KEYS } from '@/consts/app-constants'
-import { State, useUserStore } from '@/lib/users.store'
-import React, { ReactNode } from 'react'
+import { useUserStore } from '@/lib/users.store'
+import { ReactNode } from 'react'
 
 export default function DashboardProviders({
   children,
@@ -16,13 +15,12 @@ export default function DashboardProviders({
   const storedUser = useUserStore(state => state.user)
   const clearStorage = useUserStore(state => state.clearStorage)
 
-  console.log('storedUser', storedUser)
-  
-
   if (!user) {
     clearStorage()
   } else {
-    !storedUser && setUser(user)
+    if (!storedUser) {
+      setUser(user)
+    }
   }
 
   return (
