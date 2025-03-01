@@ -23,3 +23,29 @@ export async function getUserCarWithId(carId: number): Promise<{
 
   return { data, error }
 }
+
+export async function getUserCars({
+  userId,
+  sort = ['created_at', { ascending: false }]
+}: {
+  userId?: string
+  sort?: [string, { ascending: boolean }]
+}): Promise<{
+  data: UserCarsTableRow[] | null
+  error: Error | PostgrestError | { message: string } | null
+}> {
+  if (!userId)
+    return { data: null, error: { message: 'There is no user ID specified.' } }
+
+  // await new Promise(resolve => setTimeout(resolve, 3000))
+
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('user_cars')
+    .select('*')
+    .eq('user_id', userId)
+    .order(...sort)
+
+  return { data, error }
+}
