@@ -3,12 +3,7 @@ import { UserCarsTableRow } from '@/components/types/add-car/types'
 import { useUserStore } from '@/lib/users.store'
 import { getUserCars } from '@/server-actions/user-car-actions'
 import { PostgrestError } from '@supabase/supabase-js'
-import React, {
-  useCallback,
-  useEffect,
-  useInsertionEffect,
-  useState
-} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 export default function useGetUserCars(
   sort: [string, { ascending: boolean }] = ['created_at', { ascending: false }]
@@ -26,19 +21,27 @@ export default function useGetUserCars(
   const [cars, setCars] = useState<UserCarsTableRow[] | null>(null)
 
   const triggerFetch = useCallback(async () => {
-    setIsLoading(true)
-    const { data, error } = await getUserCars({ userId: user?.id })
-
-    if (error || !data) {
-      setError({
-        message: 'There was an error while trying to fetch the User Cars.'
-      })
-    } else {
-      setCars(data)
+    if (!user?.id) {
+      setIsLoading(false)
+      return
     }
-
-    setIsLoading(false)
-  }, [user, user?.id])
+    setIsLoading(true)
+    try {
+      const { data, error } = await getUserCars({ userId: user.id })
+      if (error || !data) {
+        setError({
+          message: 'There was an error while trying to fetch the User Cars.'
+        })
+      } else {
+        setCars(data)
+        setError(null)
+      }
+    } catch (err) {
+      setError(err as Error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [user?.id])
 
   useEffect(() => {
     triggerFetch()
