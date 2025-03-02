@@ -1,9 +1,7 @@
 import {
-  AIResponseTableRow,
   UserCarsTableRow
 } from '@/components/types/add-car/types'
-import { Button } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -13,78 +11,126 @@ import {
   TableRow
 } from '@/components/ui/table'
 import Link from 'next/link'
-import React from 'react'
 
 export default function UserAnalysisOverview({
-  userAnalysisList,
-  userCars
+  isLoading,
+  userCarsWithAnalysis
 }: {
-  userAnalysisList: AIResponseTableRow[] | null
-  userCars: UserCarsTableRow[] | null
+  isLoading: boolean
+  userCarsWithAnalysis?: UserCarsTableRow[]
 }) {
-  return (
-    <div className='flex h-full w-full flex-col justify-between gap-5'>
-      <div className='flex h-max w-full flex-row items-center justify-start gap-2'>
-        {userAnalysisList ? (
-          <>
-            <p>You have</p>
-            <p className='text-[50px] font-bold md:text-xl'>
-              {userAnalysisList.length}
-            </p>
-            <p className=''>Car Analysis in total.</p>
-          </>
-        ) : (
-          <p className='mx-auto text-[25px]'>You have no Analysis yet.</p>
-        )}
-      </div>
+  if (isLoading) {
+    return <UserAnalysisOverviewSkeleton />
+  }
 
-      {userAnalysisList && (
-        // <Card>
-        //   <CardHeader>
-        //     <CardTitle>Your Saved Cars</CardTitle>
-        //   </CardHeader>
+  return (
+    <div className='rounded-xl bg-muted/50 p-5'>
+      <div className='flex h-full w-full flex-col justify-between gap-5'>
+        <div className='flex h-max w-full flex-row items-center justify-start gap-2'>
+          {userCarsWithAnalysis ? (
+            <>
+              <p>You have</p>
+              <p className='text-[50px] font-bold md:text-xl'>
+                {userCarsWithAnalysis.length}
+              </p>
+              <p className=''>Car Analysis in total.</p>
+            </>
+          ) : (
+            <p className='mx-auto text-[25px]'>You have no Analysis yet.</p>
+          )}
+        </div>
+
+        {userCarsWithAnalysis && (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Car Name</TableHead>
+                <TableHead>Version</TableHead>
+                <TableHead>Link</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {userCarsWithAnalysis.slice(0, 5).map((userCar, index) => {
+                // const userCar = userCars?.filter(
+                //   car => car.id === analysis.car_id
+                // )[0]
+                return (
+                  <TableRow key={`user-car-analysis-${userCar.id}-${index}`}>
+                    <TableCell>{userCar?.name}</TableCell>
+                    <TableCell>{userCar.version}</TableCell>
+                    <TableCell>
+                      <Link href={`/dashboard/my-cars/${userCar?.id}/analysis`}>
+                        Full Analysis
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+          // </Card>
+        )}
+
+        <div className='flex w-full gap-4'>
+          {/* <Link href='/dashboard/add-car/'>
+          <Button variant='secondary' className='ml-auto'>
+          Add a new Car
+          </Button>
+          </Link> */}
+          {/* {userAnalysisList && (
+          <Button variant='default' className=''>
+          Checkout 
+          </Button>
+          )} */}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function UserAnalysisOverviewSkeleton() {
+  return (
+    <div className='rounded-xl bg-muted/50 p-5'>
+      <div className='flex h-full w-full flex-col justify-between gap-5'>
+        <div className='flex h-max w-full flex-row items-center justify-start gap-2'>
+          <Skeleton className='h-10 w-full' />
+        </div>
 
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Car Name</TableHead>
-              <TableHead>Version</TableHead>
-              <TableHead>Link</TableHead>
+              <TableHead>
+                <Skeleton className='h-6 w-full' />
+              </TableHead>
+              <TableHead>
+                <Skeleton className='h-6 w-full' />
+              </TableHead>
+              <TableHead>
+                <Skeleton className='h-6 w-full' />
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {userAnalysisList.slice(0, 5).map((analysis, index) => {
-              const userCar = userCars?.filter(
-                car => car.id === analysis.car_id
-              )[0]
-              return (
-                <TableRow key={`analysis-${analysis.id}-${index}`}>
-                  <TableCell>{userCar?.name}</TableCell>
-                  <TableCell>{analysis.version}</TableCell>
-                  <TableCell>
-                    <Link href={`/dashboard/my-cars/${userCar?.id}/analysis`}>
-                      Full Analysis
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              )
-            })}
+            {Array.from({ length: 5 }).map((_, index) => (
+              <TableRow key={`skeleton-row-${index}`}>
+                <TableCell>
+                  <Skeleton className='h-6 w-full' />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className='h-6 w-full' />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className='h-6 w-full' />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
-        // </Card>
-      )}
 
-      <div className='flex w-full gap-4'>
-        {/* <Link href='/dashboard/add-car/'>
-          <Button variant='secondary' className='ml-auto'>
-            Add a new Car
-          </Button>
-        </Link> */}
-        {/* {userAnalysisList && (
-          <Button variant='default' className=''>
-            Checkout 
-          </Button>
-        )} */}
+        <div className='flex w-full gap-4'>
+          <Skeleton className='h-10 w-1/4' />
+          <Skeleton className='h-10 w-1/4' />
+        </div>
       </div>
     </div>
   )
