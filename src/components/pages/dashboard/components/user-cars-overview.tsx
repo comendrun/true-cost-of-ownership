@@ -44,11 +44,6 @@ export default function UserCarsOverview({
         </div>
 
         {userCars && (
-          // <Card>
-          //   <CardHeader>
-          //     <CardTitle>Your Saved Cars</CardTitle>
-          //   </CardHeader>
-
           <Table>
             <TableHeader>
               <TableRow>
