@@ -1,27 +1,15 @@
 'use client'
-import React, { Dispatch, SetStateAction } from 'react'
-import {
-  CarFormOptionalFields,
-  CarFormOptionalFieldsSchema,
-  OptionalAllCarFormFields,
-  SavedCarAIResponseComponentsProps
-} from '../../../../../types/add-car/types'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import CircularSpinner from '@/components/ui/loading/spinner'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+
 import SavedCarAIResponseForm from './ai-response-form'
+import { SavedCarAIResponseComponentsProps } from '@/components/types/add-car/types'
 
 export default function SavedCarAIResponseDialog({
   optionalCarFormValues,
