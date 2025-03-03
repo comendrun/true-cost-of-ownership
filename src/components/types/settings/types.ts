@@ -6,8 +6,8 @@ export const UserConfigSchema = z.object({
   preferredCountry: z.enum(COUNTRIES)
 })
 
-export const UserProfileSchema = z.object({
-  email: z.string().trim().email(),
+export const UserSettingsSchema = z.object({
+  email: z.string().trim().email().optional(),
   username: z
     .string()
     .trim()
@@ -15,7 +15,8 @@ export const UserProfileSchema = z.object({
     .regex(
       /^[a-zA-Z0-9_]+$/,
       'Username must not contain spaces or special characters'
-    ),
+    )
+    .optional(),
   firstName: z
     .string()
     .trim()
@@ -26,9 +27,11 @@ export const UserProfileSchema = z.object({
     .trim()
     .min(2, 'The last name should be at least 2 Characters.')
     .optional(),
-  config: UserConfigSchema
+  // config: UserConfigSchema
+  preferredCurrency: z.nativeEnum(CURRENCIES).optional(),
+  preferredCountry: z.enum(COUNTRIES).optional()
 })
 
 export type UserConfig = z.infer<typeof UserConfigSchema>
 
-export type UserProfile = z.infer<typeof UserProfileSchema>
+export type UserSettingsFields = z.infer<typeof UserSettingsSchema>
