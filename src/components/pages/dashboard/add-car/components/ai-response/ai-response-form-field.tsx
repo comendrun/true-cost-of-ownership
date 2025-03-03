@@ -18,10 +18,9 @@ import {
 } from '@radix-ui/react-select'
 import { useState } from 'react'
 import { isSelectField } from '../../functions/advanced-form-helper-functions'
-import {
-  AIResponseFormFieldInputProps,
-  AIResponseFormFieldProps
-} from '../../../../../types/add-car/types'
+
+import DynamicFormFieldInput from '@/components/input-fields/dynamic-form-fields'
+import { AIResponseFormFieldInputProps, AIResponseFormFieldProps, CarFormOptionalFields } from '@/components/types/add-car/types'
 
 export default function AIResponseFormField({
   formField,
@@ -51,7 +50,7 @@ export default function AIResponseFormField({
       <TableCell className='font-medium'>{formField.label}</TableCell>
 
       <TableCell>
-        <div className='flex items-center gap-2 mx-auto'>
+        <div className='mx-auto flex items-center gap-2'>
           {!isCheckboxDisabled && (
             <>
               <Checkbox
@@ -80,7 +79,7 @@ export default function AIResponseFormField({
             return (
               <FormItem>
                 <FormControl>
-                  <AIResponseFormFieldInput
+                  <DynamicFormFieldInput<CarFormOptionalFields>
                     errors={errors}
                     control={control}
                     formField={formField}
