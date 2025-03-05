@@ -217,6 +217,9 @@ export type UserCarsTableRow = Database['public']['Tables']['user_cars']['Row']
 
 export type UserProfile = Database['public']['Tables']['profiles']['Row']
 
+export type UserProfileUpdate = Database['public']['Tables']['profiles']['Update']
+
+
 export type UserCarsTableInsert =
   Database['public']['Tables']['user_cars']['Insert']
 
