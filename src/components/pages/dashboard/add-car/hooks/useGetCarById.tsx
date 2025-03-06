@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { getCarById } from '../functions/save-car-server-functions'
+import { getCarById } from '../functions/save-car.server.action'
+import { PostgrestError } from '@supabase/supabase-js'
+import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
 import {
   CarFormFields,
   UserCarsTableRow
-} from '../../../../types/add-car/types'
-import { PostgrestError } from '@supabase/supabase-js'
-import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
+} from '@/components/types/add-car/types'
 
 export default function useGetCarById(id: string | number | null) {
   const [data, setData] = useState<UserCarsTableRow | null>(null)
