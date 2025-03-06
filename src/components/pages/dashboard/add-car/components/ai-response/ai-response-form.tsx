@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from 'sonner'
-import { updateCar } from '../../functions/save-car-server-functions'
+import { updateCar } from '../../functions/save-car.server.action'
 import AIResponseFormField from './ai-response-form-field'
 import {
   SavedCarAIResponseComponentsProps,
