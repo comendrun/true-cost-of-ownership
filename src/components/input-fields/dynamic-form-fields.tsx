@@ -41,12 +41,8 @@ export default function DynamicFormFieldInput<
   const selectItems = component === 'select' ? formField.selectItems : undefined
   const inputSuffix = component === 'input' ? formField.inputSuffix : undefined
 
-  //   console.log('selectItems', selectItems)
-
   const isFieldDisabled =
     infoField || disabled || (typeof isEditting === 'boolean' && !isEditting)
-
-  console.log('isFieldDisabled', formField.key, isFieldDisabled)
 
   const inputValue = field.value ?? ''
 
