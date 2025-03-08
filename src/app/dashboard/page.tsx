@@ -1,5 +1,4 @@
 'use server'
-
 import DashboardView from '@/components/pages/dashboard/components/dashboard-view'
 
 export default async function Page() {
