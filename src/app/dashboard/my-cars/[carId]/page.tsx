@@ -1,5 +1,5 @@
 'use server'
-import { Button } from '@/components/ui/button'
+import GenerateAIAnalysisButton from '@/components/pages/dashboard/add-car/components/ai-response/generate-ai-analysis-buttin'
 import {
   Card,
   CardContent,
@@ -10,7 +10,23 @@ import {
 import ErrorPage from '@/components/ui/page-components/error-page-component'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { getUserCarWithId } from '@/server-actions/user-car-actions'
+import { CirclePlus, FileText, Pencil, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 
 export default async function UserCarPage({
   params
@@ -39,6 +55,7 @@ export default async function UserCarPage({
 
   const {
     brand,
+    name,
     model,
     variant,
     year,
@@ -62,7 +79,67 @@ export default async function UserCarPage({
       : 'N/A'
 
   return (
-    <div className='p-6'>
+    <div className='min-h-max flex-1 rounded-xl bg-muted/50 p-5'>
+      <div className='flex items-center justify-between'>
+        <p className='my-4 flex items-end gap-2 font-bold'>
+          <span className='text-lg'>{name ? name : `${brand}-${model}`}</span>
+          Information
+        </p>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Tooltip>
+              <TooltipTrigger>
+                <CirclePlus />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Car Actions</p>
+              </TooltipContent>
+            </Tooltip>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Car Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/dashboard/my-cars/${carId}/edit`}
+                passHref
+                className='flex items-center gap-3'
+              >
+                <span>
+                  <Pencil size={20} />
+                </span>
+                <span>Edit Car Details</span>
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <GenerateAIAnalysisButton
+                carId={carId}
+                isDisabled={false}
+                icon={<Sparkles size={20} />}
+                variant='ghost'
+                className=''
+                // setState={setIsAnalysisGenerating}
+              />
+            </DropdownMenuItem>
+
+            {userCar.last_ai_response_id && (
+              <DropdownMenuItem asChild>
+                <Link
+                  href={`/dashboard/my-cars/${carId}/analysis`}
+                  passHref
+                  className='flex items-center gap-3'
+                >
+                  <span>
+                    <FileText size={20} />
+                  </span>
+                  <span>Check Car Analysis</span>
+                </Link>
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
         {/* General Information */}
         <Card>
@@ -195,21 +272,6 @@ export default async function UserCarPage({
             </Table>
           </CardContent>
         </Card>
-      </div>
-
-      {/* Edit Button */}
-      <div className='mt-6 flex flex-row gap-4'>
-        <Link href={`/dashboard/my-cars/${carId}/edit`} passHref>
-          <Button className='w-full md:w-auto'>Edit Car Details</Button>
-        </Link>
-
-        <Button>Generate Analysis</Button>
-
-        {userCar.last_ai_response_id && (
-          <Link href={`/dashboard/my-cars/${carId}/analysis`} passHref>
-            <Button>Check the generated Analysis</Button>
-          </Link>
-        )}
       </div>
     </div>
   )
