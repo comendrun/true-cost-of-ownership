@@ -1,18 +1,19 @@
 import { convertUserSettingFieldsToUserProfileTableFields } from '@/components/pages/dashboard/settings/settings.helper.function'
-import { UserProfileUpdate } from '@/components/types/add-car/types'
+import {
+  UserProfile,
+  UserProfileUpdate
+} from '@/components/types/add-car/types'
 import { UserSettingsFields } from '@/components/types/settings/types'
 import { createClient } from '@/utils/supabase/server'
-// import { NextApiRequest, NextApiResponse } from 'next'
 
 export type UserProfileResponseData = {
   error: string | null
+  user?: UserProfile
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
   const supabase = createClient()
   const formValues = (await req.json()) as UserSettingsFields
-
-  console.log('formvalues', formValues)
 
   try {
     const {
@@ -23,8 +24,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     if (!user || getUserError) {
       throw new Error('The user is not authenticated.')
     }
-
-    console.log('user', user)
 
     const { data: userProfile, error: getProfileError } = await supabase
       .from('profiles')
@@ -39,14 +38,13 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
     const payload: UserProfileUpdate =
       convertUserSettingFieldsToUserProfileTableFields(formValues, user)
-    console.log('payload', payload)
 
     const { data, error } = await supabase
       .from('profiles')
       .update(payload)
       .eq('id', user.id)
       .select()
-    // .single()
+      .single()
 
     if (!data || error) {
       throw new Error(
@@ -54,11 +52,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       )
     }
 
-    console.log('data', data)
-    console.log('error', error)
-
-    return res.status(200).json(
-      { error: null },
+    return Response.json(
+      { error: null, user: data },
       {
         status: 200
       }
