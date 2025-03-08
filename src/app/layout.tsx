@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-full antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-[100vw] border-2 border-white antialiased`}
       >
         <RootLayoutClientProviders>
           {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
