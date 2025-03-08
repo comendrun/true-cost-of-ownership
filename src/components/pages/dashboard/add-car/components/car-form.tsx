@@ -10,7 +10,6 @@ import {
 import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { advancedFormSteps, formFields } from '@/consts/add-car-consts'
 import { useCarFormStore } from '@/lib/cars-store'
@@ -20,7 +19,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { openaiCostsAnalysisCompletion } from '../../my-cars/functions/openai/analysis-chat-completion'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../functions/advanced-form-helper-functions'
 import {
   saveCarAndGetRecommendations,
@@ -28,6 +26,7 @@ import {
 } from '../functions/save-car.server.action'
 import AdvancedFormAccordionItem from './advanced-form-accordion-item'
 import AdvancedFormFieldComponents from './advanced-form-field-components'
+import GenerateAIAnalysisButton from './ai-response/generate-ai-analysis-buttin'
 import SavedCarAIResponseDialog from './ai-response/saved-car-ai-response-dialog'
 import CountrySelectField from './country-select-field'
 
@@ -140,28 +139,31 @@ export default function CarForm({
 
   const { errors, isLoading } = formState
 
-  async function handleGenerateAIAnalysis(): Promise<void> {
-    if (id) {
-      setIsAnalysisGenerating(true)
-      try {
-        const result = await openaiCostsAnalysisCompletion({
-          userCarId: id
-        })
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        console.error(
-          'There was an error while generating the AI Analysis:',
-          error?.message
-        )
-        toast.error(
-          error.message ||
-            'There was an error while trying to generate the car analysis.'
-        )
-      } finally {
-        setIsAnalysisGenerating(false)
-      }
-    }
-  }
+  // async function handleGenerateAIAnalysis(
+  //   id: string | number | null,
+  //   setIsAnalysisGenerating: Dispatch<SetStateAction<boolean>>
+  // ): Promise<void> {
+  //   if (id) {
+  //     setIsAnalysisGenerating(true)
+  //     try {
+  //       const result = await openaiCostsAnalysisCompletion({
+  //         userCarId: id
+  //       })
+  //       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //     } catch (error: any) {
+  //       console.error(
+  //         'There was an error while generating the AI Analysis:',
+  //         error?.message
+  //       )
+  //       toast.error(
+  //         error.message ||
+  //           'There was an error while trying to generate the car analysis.'
+  //       )
+  //     } finally {
+  //       setIsAnalysisGenerating(false)
+  //     }
+  //   }
+  // }
 
   const countryField = formFields['country'] as SelectField<CarFormFields>
 
@@ -234,15 +236,22 @@ export default function CarForm({
                   Reset
                 </Button>
 
-                <Button
+                {/* <Button
                   variant='outline'
                   className='w-full'
                   type='button'
                   disabled={isLoading || !id}
-                  onClick={handleGenerateAIAnalysis}
+                  onClick={() =>
+                    handleGenerateAIAnalysis(id, setIsAnalysisGenerating)
+                  }
                 >
                   Generate the Car Analysis
-                </Button>
+                </Button> */}
+                <GenerateAIAnalysisButton
+                  carId={id}
+                  isDisabled={isLoading || !id}
+                  // setState={setIsAnalysisGenerating}
+                />
 
                 <Button className='w-full' type='submit' disabled={isLoading}>
                   Save
@@ -250,7 +259,7 @@ export default function CarForm({
               </div>
             </form>
           </Form>
-          {isAnalysisGenerating ? (
+          {/* {isAnalysisGenerating ? (
             <LoadingDialogWithSpinner
               open={isAnalysisGenerating}
               setIsOpen={setIsAnalysisGenerating}
@@ -260,7 +269,7 @@ export default function CarForm({
             />
           ) : (
             <></>
-          )}
+          )} */}
         </div>
         {isSavingCarInProgress && (
           <div className='flex h-full w-full items-center justify-center'>
