@@ -39,7 +39,7 @@ export default function CarForm({
   user: User | null
   carData?: UserCarsTableRow
 }) {
-  const [step, setStep] = useState<FormStepsIDs>('generalInfo')
+  const [step, setStep] = useState<FormStepsIDs>('essentialInfo')
   const [isAnalysisGenerating, setIsAnalysisGenerating] = useState(false)
   const router = useRouter()
 
@@ -236,21 +236,9 @@ export default function CarForm({
                   Reset
                 </Button>
 
-                {/* <Button
-                  variant='outline'
-                  className='w-full'
-                  type='button'
-                  disabled={isLoading || !id}
-                  onClick={() =>
-                    handleGenerateAIAnalysis(id, setIsAnalysisGenerating)
-                  }
-                >
-                  Generate the Car Analysis
-                </Button> */}
                 <GenerateAIAnalysisButton
                   carId={id}
                   isDisabled={isLoading || !id}
-                  // setState={setIsAnalysisGenerating}
                 />
 
                 <Button className='w-full' type='submit' disabled={isLoading}>
