@@ -43,7 +43,7 @@ export const settingsPageFields: FormFieldType<UserSettingsFields>[] = [
     type: 'string',
     placeholder: 'Currency',
     required: false,
-    selectItems: Object.values(CURRENCIES)
+    selectItems: [...CURRENCIES]
   },
   {
     key: 'preferredCountry',
