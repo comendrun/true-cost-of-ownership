@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   FormControl,
   FormDescription,
@@ -10,13 +9,13 @@ import {
 import {
   Control,
   FieldErrors,
-  FieldValues,
-  Path,
   UseFormGetValues,
   UseFormSetValue,
   UseFormWatch
 } from 'react-hook-form'
 
+import { CarFormFields, SelectField } from '@/components/types/add-car/types'
+import { UserConfig } from '@/components/types/settings/types'
 import {
   Select,
   SelectContent,
@@ -24,9 +23,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { useRef } from 'react'
-import { CarFormFields, SelectField } from '@/components/types/add-car/types'
 import { formFields } from '@/consts/add-car-consts'
+import { useUserStore } from '@/lib/users.store'
 
 export default function CountrySelectField({
   control,
@@ -43,6 +41,7 @@ export default function CountrySelectField({
   setValue: UseFormSetValue<CarFormFields>
   carId: string | number | null
 }) {
+  const user = useUserStore(state => state.user)
   const {
     label,
     required,
@@ -59,17 +58,22 @@ export default function CountrySelectField({
 
   const name = key
 
+  const userCountry = user?.config as UserConfig
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => {
-        const value = field.value !== undefined ? String(field.value) : ''
+        const value =
+          field.value !== undefined
+            ? String(field.value)
+            : (userCountry?.preferredCountry ?? 'GERMANY')
         const errorMessage = errors?.[name]?.message as string | undefined
 
         return (
           <FormItem className=''>
-            <div className='w-max min-w-full flex items-center gap-5 ml-auto'>
+            <div className='ml-auto flex w-max min-w-full items-center gap-5'>
               <FormLabel
                 className={`${required && !disabled ? 'required-field' : ''} font-bold`}
               >
