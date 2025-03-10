@@ -1,23 +1,32 @@
 import { UserProfileUpdate } from '@/components/types/add-car/types'
-import { UserSettingsFields } from '@/components/types/settings/types'
+import {
+  UserConfig,
+  UserSettingsFields
+} from '@/components/types/settings/types'
 
-export function convertUserSettingFieldsToUserProfileTableFields({
-  email,
-  firstName,
-  lastName,
-  preferredCountry,
-  preferredCurrency,
-  username
-}: UserSettingsFields): UserProfileUpdate {
-  const config = {
+export function convertUserSettingFieldsToUserProfileTableFields(
+  {
+    email,
+    firstName,
+    lastName,
     preferredCountry,
-    preferredCurrency
-  }
-  return {
-    email: email as string,
-    first_name: firstName as string,
-    last_name: lastName as string,
-    username: username as string,
-    config: JSON.stringify(config)
-  }
+    preferredCurrency,
+    username
+  }: UserSettingsFields,
+  user: UserProfileUpdate
+): UserProfileUpdate {
+  const config: UserConfig = {}
+  const result: UserProfileUpdate = {}
+  result.id = user.id
+  if (email) result.email = email
+  if (firstName) result.first_name = firstName
+  if (lastName) result.last_name = lastName
+  if (username) result.username = username
+  if (preferredCountry) config.preferredCountry = preferredCountry
+  else config.preferredCountry = 'GERMANY'
+  if (preferredCurrency) config.preferredCurrency = preferredCurrency
+  else config.preferredCurrency = 'EUR'
+  if (config) result.config = config
+
+  return result
 }
