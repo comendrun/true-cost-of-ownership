@@ -1,6 +1,6 @@
 'use client'
 
-import { BadgeCheck, Bell, LogOut, Sparkles, User } from 'lucide-react'
+import { logUserOut } from '@/app/log-user-out-server-action'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -17,10 +17,9 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { CaretSortIcon, ComponentPlaceholderIcon } from '@radix-ui/react-icons'
-import { logUserOut } from '@/app/log-user-out-server-action'
-import LogoutButton from '@/components/navbar/logout-button'
-import { LogoutButtonWithDialog } from '@/app/auth/_components/logout-button-with-spinner'
+import { CaretSortIcon } from '@radix-ui/react-icons'
+import { LogOut, User } from 'lucide-react'
+import Link from 'next/link'
 
 export function NavUser({
   user
@@ -87,27 +86,13 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem className='flex flex-row gap-2'>
-                <User />
-                Account
+              <DropdownMenuItem asChild className='flex flex-row gap-2'>
+                <Link href='/dashboard/settings'>
+                  <User />
+                  Account
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
-
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem className='flex flex-row gap-2'>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem className='flex flex-row gap-2'>
-                <ComponentPlaceholderIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem className='flex flex-row gap-2'>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
 
             <DropdownMenuSeparator />
             <DropdownMenuItem
