@@ -81,7 +81,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: true,
     label: 'Mileage',
     component: 'input',
-    inputSuffix: 'Kilometers'
+    inputSuffix: 'KM'
   },
   plannedYearsOfOwnership: {
     key: 'plannedYearsOfOwnership',
@@ -113,7 +113,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: true,
     label: 'Price',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   prepayment: {
     key: 'prepayment',
@@ -121,7 +121,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: true,
     label: 'Prepayment',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   financingDuration: {
     key: 'financingDuration',
@@ -137,7 +137,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Interest Rate',
     component: 'input',
-    inputSuffix: 'Percentage/Year'
+    inputSuffix: '%/Year'
   },
   remainingAmount: {
     key: 'remainingAmount',
@@ -145,7 +145,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Remaining amount',
     component: 'input',
-    inputSuffix: 'Euros',
+    inputSuffix: '€',
     infoField: true
   },
   totalInterestPaid: {
@@ -154,7 +154,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Total Interest Paid',
     component: 'input',
-    inputSuffix: 'Euros',
+    inputSuffix: '€',
     infoField: true
   },
   truePurchasePrice: {
@@ -163,7 +163,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'True Purchase Price',
     component: 'input',
-    inputSuffix: 'Euros',
+    inputSuffix: '€',
     infoField: true
   },
   initialPrice: {
@@ -172,7 +172,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Original Initial Price',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   depreciationRate: {
     key: 'depreciationRate',
@@ -180,7 +180,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'The car price depreciation rate',
     component: 'input',
-    inputSuffix: 'Percentage/Year',
+    inputSuffix: '%/Year',
     infoField: true
   },
   guaranteeYears: {
@@ -197,7 +197,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'How much on average the car service costs?',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   serviceIncludes: {
     key: 'serviceIncludes',
@@ -214,7 +214,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Tires Costs',
     component: 'input',
-    inputSuffix: 'Euros/Year'
+    inputSuffix: '€/Year'
   },
   oilChangeCosts: {
     key: 'oilChangeCosts',
@@ -222,7 +222,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'How much on average changing the car oil costs?',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   offerOnExtendedWarranty: {
     key: 'offerOnExtendedWarranty',
@@ -237,7 +237,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'How much extending car guarantee by the manufacturer costs?',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   totalPlannedKMs: {
     key: 'totalPlannedKMs',
@@ -245,7 +245,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: true,
     label: 'Planned traveling distance per year?',
     component: 'input',
-    inputSuffix: 'Kilometers/Year'
+    inputSuffix: 'KM/Year'
   },
   fuelConsumption: {
     key: 'fuelConsumption',
@@ -275,7 +275,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Average Fuel cost?',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   insuranceType: {
     key: 'insuranceType',
@@ -291,7 +291,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Insurance Cost',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   tuvCosts: {
     key: 'tuvCosts',
@@ -299,7 +299,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'TÜV Costs',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   taxes: {
     key: 'taxes',
@@ -307,7 +307,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Taxes',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   parkingCosts: {
     key: 'parkingCosts',
@@ -315,7 +315,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Parking Costs',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   regularMaintenanceCosts: {
     key: 'regularMaintenanceCosts',
@@ -323,7 +323,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Regular Maintenance Costs',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   unexpectedRepairCosts: {
     key: 'unexpectedRepairCosts',
@@ -331,7 +331,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Unexpected Repair Costs',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   maintenanceFrequency: {
     key: 'maintenanceFrequency',
@@ -370,7 +370,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Eco Tax',
     component: 'input',
-    inputSuffix: 'Euros'
+    inputSuffix: '€'
   },
   country: {
     key: 'country',
@@ -386,7 +386,7 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
     required: false,
     label: 'Total Cost of Ownership',
     component: 'input',
-    inputSuffix: 'Euros',
+    inputSuffix: '€',
     infoField: true
   }
 }
@@ -419,105 +419,184 @@ export const aiResponseFormFields: FormFieldType<CarFormOptionalFields>[] = [
   // getFormField('tco')
 ]
 
+// export const advancedFormSteps: FormSteps<CarFormFields>[] = [
+//   {
+//     id: 'generalInfo',
+//     index: 0,
+//     title: 'General Information',
+//     fields: [
+//       getFormField('name'),
+//       getFormField('brand'),
+//       getFormField('model'),
+//       getFormField('variant'),
+//       getFormField('year'),
+//       getFormField('mileage'),
+//       getFormField('plannedYearsOfOwnership'),
+//       getFormField('drivingExperienceYears'),
+//       getFormField('driverAgeRange')
+//     ]
+//   },
+//   {
+//     id: 'finances',
+//     index: 1,
+//     title: 'Finances',
+//     fields: [
+//       getFormField('purchasePrice'),
+//       getFormField('prepayment'),
+//       getFormField('financingDuration'),
+//       getFormField('interestRate'),
+//       getFormField('remainingAmount'),
+//       getFormField('totalInterestPaid'),
+//       getFormField('truePurchasePrice')
+//     ]
+//   },
+//   {
+//     id: 'depreciation',
+//     index: 2,
+//     title: 'Depreciation',
+//     fields: [getFormField('initialPrice'), getFormField('depreciationRate')]
+//   },
+//   {
+//     id: 'warrantyAndService',
+//     index: 3,
+//     title: 'Warranty and Service',
+//     fields: [
+//       getFormField('guaranteeYears'),
+//       getFormField('serviceCosts'),
+//       getFormField('serviceIncludes'),
+//       getFormField('tiresCosts'),
+//       getFormField('oilChangeCosts'),
+//       getFormField('offerOnExtendedWarranty'),
+//       getFormField('extendedWarrantyCost')
+//     ]
+//   },
+//   {
+//     id: 'efficiency',
+//     index: 4,
+//     title: 'Efficiency',
+//     fields: [
+//       getFormField('totalPlannedKMs'),
+//       getFormField('fuelConsumption'),
+//       getFormField('fuelType'),
+//       getFormField('averageFuelCost')
+//     ]
+//   },
+//   {
+//     id: 'insurance',
+//     index: 5,
+//     title: 'Insurance',
+//     fields: [getFormField('insuranceType'), getFormField('insuranceCost')]
+//   },
+//   {
+//     id: 'otherCosts',
+//     index: 6,
+//     title: 'Other Costs',
+//     fields: [
+//       getFormField('tuvCosts'),
+//       getFormField('taxes'),
+//       getFormField('parkingCosts')
+//     ]
+//   },
+//   {
+//     id: 'maintenance',
+//     index: 7,
+//     title: 'Maintenance',
+//     fields: [
+//       getFormField('regularMaintenanceCosts'),
+//       getFormField('unexpectedRepairCosts'),
+//       getFormField('maintenanceFrequency')
+//     ]
+//   },
+//   {
+//     id: 'personalPreferences',
+//     index: 8,
+//     title: 'Personal Preferences',
+//     fields: [getFormField('interiorScore'), getFormField('exteriorScore')]
+//   },
+//   {
+//     id: 'environmentalImpact',
+//     index: 9,
+//     title: 'Environmental Impact',
+//     fields: [getFormField('emissions'), getFormField('ecoTax')]
+//   }
+// ]
+
 export const advancedFormSteps: FormSteps<CarFormFields>[] = [
   {
-    id: 'generalInfo',
+    id: 'essentialInfo',
     index: 0,
-    title: 'General Information',
+    title: 'Essential Information',
     fields: [
-      getFormField('name'),
-      getFormField('brand'),
-      getFormField('model'),
-      getFormField('variant'),
-      getFormField('year'),
-      getFormField('mileage'),
-      getFormField('plannedYearsOfOwnership'),
-      getFormField('drivingExperienceYears'),
-      getFormField('driverAgeRange')
+      getFormField('name'), // Always included
+      getFormField('brand'), // Required
+      getFormField('model'), // Required
+      getFormField('variant'), // Always included
+      getFormField('year'), // Required
+      getFormField('mileage'), // Required
+      getFormField('plannedYearsOfOwnership'), // Required
+      getFormField('drivingExperienceYears'), // Required
+      getFormField('driverAgeRange'), // Required
+      getFormField('purchasePrice'), // Required
+      getFormField('prepayment'), // Required
+      getFormField('totalPlannedKMs'), // Required
+      getFormField('fuelType'), // Required
+      getFormField('insuranceType') // Required
     ]
   },
   {
-    id: 'finances',
+    id: 'financialOverview',
     index: 1,
-    title: 'Finances',
+    title: 'Financial Overview & Depreciation',
     fields: [
-      getFormField('purchasePrice'),
-      getFormField('prepayment'),
+      // Non-required financial details
       getFormField('financingDuration'),
       getFormField('interestRate'),
       getFormField('remainingAmount'),
       getFormField('totalInterestPaid'),
-      getFormField('truePurchasePrice')
+      getFormField('truePurchasePrice'),
+      // Depreciation information
+      getFormField('initialPrice'),
+      getFormField('depreciationRate')
     ]
   },
   {
-    id: 'depreciation',
+    id: 'efficiencyConsumption',
     index: 2,
-    title: 'Depreciation',
-    fields: [getFormField('initialPrice'), getFormField('depreciationRate')]
+    title: 'Efficiency & Consumption',
+    fields: [
+      // Efficiency non-required fields (the required ones were moved)
+      getFormField('fuelConsumption'),
+      getFormField('averageFuelCost')
+    ]
   },
   {
-    id: 'warrantyAndService',
+    id: 'maintenanceWarranty',
     index: 3,
-    title: 'Warranty and Service',
+    title: 'Maintenance, Warranty & Additional Costs',
     fields: [
+      // Warranty and service details
       getFormField('guaranteeYears'),
       getFormField('serviceCosts'),
       getFormField('serviceIncludes'),
       getFormField('tiresCosts'),
       getFormField('oilChangeCosts'),
       getFormField('offerOnExtendedWarranty'),
-      getFormField('extendedWarrantyCost')
-    ]
-  },
-  {
-    id: 'efficiency',
-    index: 4,
-    title: 'Efficiency',
-    fields: [
-      getFormField('totalPlannedKMs'),
-      getFormField('fuelConsumption'),
-      getFormField('fuelType'),
-      getFormField('averageFuelCost')
-    ]
-  },
-  {
-    id: 'insurance',
-    index: 5,
-    title: 'Insurance',
-    fields: [getFormField('insuranceType'), getFormField('insuranceCost')]
-  },
-  {
-    id: 'otherCosts',
-    index: 6,
-    title: 'Other Costs',
-    fields: [
+      getFormField('extendedWarrantyCost'),
+      // Insurance and other costs
+      getFormField('insuranceCost'),
       getFormField('tuvCosts'),
       getFormField('taxes'),
-      getFormField('parkingCosts')
-    ]
-  },
-  {
-    id: 'maintenance',
-    index: 7,
-    title: 'Maintenance',
-    fields: [
+      getFormField('parkingCosts'),
+      // Maintenance details
       getFormField('regularMaintenanceCosts'),
       getFormField('unexpectedRepairCosts'),
-      getFormField('maintenanceFrequency')
+      getFormField('maintenanceFrequency'),
+      // Personal preferences and environmental aspects
+      getFormField('interiorScore'),
+      getFormField('exteriorScore'),
+      getFormField('emissions'),
+      getFormField('ecoTax')
     ]
-  },
-  {
-    id: 'personalPreferences',
-    index: 8,
-    title: 'Personal Preferences',
-    fields: [getFormField('interiorScore'), getFormField('exteriorScore')]
-  },
-  {
-    id: 'environmentalImpact',
-    index: 9,
-    title: 'Environmental Impact',
-    fields: [getFormField('emissions'), getFormField('ecoTax')]
   }
 ]
 
