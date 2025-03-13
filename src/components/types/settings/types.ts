@@ -2,8 +2,8 @@ import { COUNTRIES, CURRENCIES } from '@/consts/app-constants'
 import z from 'zod'
 
 export const UserConfigSchema = z.object({
-  preferredCurrency: z.nativeEnum(CURRENCIES),
-  preferredCountry: z.enum(COUNTRIES)
+  preferredCurrency: z.enum(CURRENCIES).optional(),
+  preferredCountry: z.enum(COUNTRIES).optional()
 })
 
 export const UserSettingsSchema = z.object({
@@ -28,7 +28,7 @@ export const UserSettingsSchema = z.object({
     .min(2, 'The last name should be at least 2 Characters.')
     .optional(),
   // config: UserConfigSchema
-  preferredCurrency: z.nativeEnum(CURRENCIES).optional(),
+  preferredCurrency: z.enum(CURRENCIES).optional(),
   preferredCountry: z.enum(COUNTRIES).optional()
 })
 
