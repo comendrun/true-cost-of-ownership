@@ -200,25 +200,29 @@ export type FormSteps<TFieldValues> = {
 }
 
 export type FormStepsIDs =
-  | 'generalInfo'
-  | 'finances'
-  | 'depreciation'
-  | 'warrantyAndService'
-  | 'efficiency'
-  | 'insurance'
-  | 'otherCosts'
-  | 'resaleValue'
-  | 'maintenance'
-  | 'personalPreferences'
-  | 'environmentalImpact'
-  | 'totalCostOfOwnership'
+  | 'essentialInfo'
+  | 'financialOverview'
+  | 'efficiencyConsumption'
+  | 'maintenanceWarranty'
+// | 'generalInfo'
+// | 'finances'
+// | 'depreciation'
+// | 'warrantyAndService'
+// | 'efficiency'
+// | 'insurance'
+// | 'otherCosts'
+// | 'resaleValue'
+// | 'maintenance'
+// | 'personalPreferences'
+// | 'environmentalImpact'
+// | 'totalCostOfOwnership'
 
 export type UserCarsTableRow = Database['public']['Tables']['user_cars']['Row']
 
 export type UserProfile = Database['public']['Tables']['profiles']['Row']
 
-export type UserProfileUpdate = Database['public']['Tables']['profiles']['Update']
-
+export type UserProfileUpdate =
+  Database['public']['Tables']['profiles']['Update']
 
 export type UserCarsTableInsert =
   Database['public']['Tables']['user_cars']['Insert']
