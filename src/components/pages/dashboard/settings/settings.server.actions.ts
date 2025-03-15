@@ -35,7 +35,7 @@ export async function updateUserProfile({
       throw new Error('There was an error while fetching the user profile')
     }
     const payload: UserProfileUpdate =
-      convertUserSettingFieldsToUserProfileTableFields(formValues)
+      convertUserSettingFieldsToUserProfileTableFields(formValues, user)
 
     const { data, error } = await supabase
       .from('profiles')
