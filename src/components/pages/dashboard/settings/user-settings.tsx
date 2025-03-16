@@ -5,7 +5,7 @@ import {
   UserSettingsFields,
   UserSettingsSchema
 } from '@/components/types/settings/types'
-import { Form } from '@/components/ui/form'
+import { Form, FormLabel } from '@/components/ui/form'
 import { settingsPageFields } from '@/consts/settings'
 import { useUserStore } from '@/lib/users.store'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -22,10 +22,13 @@ import {
 import { updateUserProfile } from './settings.server.actions'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import axios from 'axios'
+import { UserProfileResponseData } from '@/app/dashboard/settings/api/route'
 
 export default function UserSettings() {
   const [isLoading, setIsLoading] = useState(false)
   const user = useUserStore(state => state.user)
+  const setUser = useUserStore(state => state.setUser)
 
   const userConfig = user?.config as UserConfig
   const values: UserSettingsFields = {
@@ -54,17 +57,23 @@ export default function UserSettings() {
     console.log('submitting', data)
     setIsLoading(true)
     try {
-      const response = await updateUserProfile({ formValues: data })
+      // const response = await updateUserProfile({ formValues: data })
+      const response: UserProfileResponseData = await axios.post(
+        `${process.env.NEXT_PUBLIC_HOST}/dashboard/settings/api`,
+        data
+      )
       console.log('response', response)
 
-      if (response.error) {
+      if (response?.error) {
         return toast.error(
-          'Error while updating User Profile',
-          response.error.message
+          `Error while updating User Profile: ${response.error}`
         )
       }
 
       toast.success('Your information was successfully updated.')
+      if (response?.user) {
+        setUser(response?.user)
+      }
     } catch (error: any) {
       console.error('Error while updating User Profile', error?.message)
       toast.error('There was an error while trying to save the user profile.')
@@ -91,6 +100,7 @@ export default function UserSettings() {
           } = formField
           return (
             <FormField
+              key={`user-settings-${index}-${formField.key}`}
               control={control}
               name={key}
               render={({ field }) => {
@@ -100,15 +110,24 @@ export default function UserSettings() {
                   | string
                   | undefined
                 return (
-                  <FormItem>
-                    <FormControl>
-                      <DynamicFormFieldInput<UserSettingsFields>
-                        errors={errors}
-                        control={control}
-                        formField={formField}
-                        field={field}
-                        watch={watch}
-                      />
+                  <FormItem className='grid grid-cols-4 items-center'>
+                    {/* <div className='grid grid-cols-4 items-center gap-4'> */}
+
+                    <FormLabel
+                      className={`${required && !disabled ? 'required-field' : ''} col-span-2`}
+                    >
+                      {label}
+                    </FormLabel>
+                    <FormControl className=''>
+                      <div className='col-span-2'>
+                        <DynamicFormFieldInput<UserSettingsFields>
+                          errors={errors}
+                          control={control}
+                          formField={formField}
+                          field={field}
+                          watch={watch}
+                        />
+                      </div>
                     </FormControl>
                     <FormDescription>{formDescription}</FormDescription>
                     <FormMessage>{errorMessage}</FormMessage>
