@@ -34,6 +34,7 @@
     "cars-cost": "file:",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "eslint-plugin-boundaries": "^5.0.1",
     "formik": "^2.4.6",
     "framer-motion": "^11.11.1",
     "husky": "^9.1.6",
