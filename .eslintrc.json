@@ -3,10 +3,120 @@
     "next/core-web-vitals",
     "next/typescript"
   ],
+  "plugins": [
+    "boundaries"
+  ],
+  "settings": {
+    "boundaries/include": [
+      "src/**/*"
+    ],
+    "boundaries/elements": [
+      {
+        "mode": "full",
+        "type": "shared",
+        "pattern": [
+          "src/components/**/*",
+          "src/data/**/*",
+          "src/drizzle/**/*",
+          "src/hooks/**/*",
+          "src/lib/**/*",
+          "src/server/**/*"
+        ]
+      },
+      {
+        "mode": "full",
+        "type": "feature",
+        "capture": [
+          "featureName"
+        ],
+        "pattern": [
+          "src/features/*/**/*"
+        ]
+      },
+      {
+        "mode": "full",
+        "type": "app",
+        "capture": [
+          "_",
+          "fileName"
+        ],
+        "pattern": [
+          "src/app/**/*"
+        ]
+      },
+      {
+        "mode": "full",
+        "type": "neverImport",
+        "pattern": [
+          "src/*",
+          "src/tasks/**/*"
+        ]
+      }
+    ]
+  },
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-empty-object-type": "off"
+    "@typescript-eslint/no-empty-object-type": "off",
+    "boundaries/no-unknown": [
+      "error"
+    ],
+    "boundaries/no-unknown-files": [
+      "error"
+    ],
+    "boundaries/element-types": [
+      "error",
+      {
+        "default": "disallow",
+        "rules": [
+          {
+            "from": [
+              "shared"
+            ],
+            "allow": [
+              "shared"
+            ]
+          },
+          {
+            "from": [
+              "feature"
+            ],
+            "allow": [
+              "shared",
+              [
+                "feature",
+                {
+                  "featureName": "${from.featureName}"
+                }
+              ]
+            ]
+          },
+          {
+            "from": [
+              "app",
+              "neverImport"
+            ],
+            "allow": [
+              "shared",
+              "feature"
+            ]
+          },
+          {
+            "from": [
+              "app"
+            ],
+            "allow": [
+              [
+                "app",
+                {
+                  "fileName": "*.css"
+                }
+              ]
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
