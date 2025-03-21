@@ -1,4 +1,4 @@
-import { openaiCostsAnalysisCompletion } from '@/components/pages/dashboard/my-cars/functions/openai/analysis-chat-completion'
+import { openaiCostsAnalysisCompletion } from '@/server/actions/analysis-chat-completion.action'
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'sonner'
 

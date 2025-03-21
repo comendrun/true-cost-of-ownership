@@ -2,7 +2,7 @@
 import React from 'react'
 import UserAnalysisOverview from './user-analysis-overview'
 import UserCarsOverview from './user-cars-overview'
-import useGetUserCars from '@/features/settings/hooks/use-get-user-cars'
+import useGetUserCars from '@/hooks/use-get-user-cars'
 
 export default function DashboardView() {
   const { cars, isLoading } = useGetUserCars()
