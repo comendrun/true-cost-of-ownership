@@ -4,10 +4,10 @@ import {
   UserConfig,
   UserSettingsFields,
   UserSettingsSchema
-} from '@/components/types/settings/types'
+} from '@/features/settings/types/types'
 import { Form, FormLabel } from '@/components/ui/form'
 import { settingsPageFields } from '@/consts/settings'
-import { useUserStore } from '@/lib/users.store'
+import { useUserStore } from '@/hooks/users.store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 

@@ -1,4 +1,4 @@
-import { UserCarsTableRow } from '../../../../types/add-car/types'
+import { UserCarsTableRow } from '../../../../../features/add-car/types/add-cars.types'
 
 export type CarsDataTableProps = {
   userCarsCount: number | null

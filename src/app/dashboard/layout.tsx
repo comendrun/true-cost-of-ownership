@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/ui/sidebar/app-sidebar'
 import Breadcrumbs from '@/components/ui/sidebar/breadcrumbs'
-import DashboardProviders from '@/providers/dashboard-providers'
+import DashboardProviders from '@/components/providers/dashboard-providers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'

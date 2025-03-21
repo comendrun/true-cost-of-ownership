@@ -18,8 +18,8 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
-import { navItems } from './consts'
-import { UserCarsTableRow } from '@/components/types/add-car/types'
+import { navItems } from './sidebar.consts'
+import { UserCarsTableRow } from '@/types/db.types'
 
 export function NavMain({ cars }: { cars: UserCarsTableRow[] | null }) {
   const items: {

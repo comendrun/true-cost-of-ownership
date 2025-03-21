@@ -1,5 +1,5 @@
 'use server'
-import GenerateAIAnalysisButton from '@/components/pages/dashboard/add-car/components/ai-response/generate-ai-analysis-buttin'
+import GenerateAIAnalysisButton from '@/features/add-car/components/ai-response/generate-ai-analysis-buttin'
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/card'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
-import { getUserCarWithId } from '@/server-actions/user-car-actions'
+import { getUserCarWithId } from '@/server/actions/user-car-actions'
 import { CirclePlus, FileText, Pencil, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 

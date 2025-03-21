@@ -3,7 +3,7 @@
 import {
   ResaleValueInsights,
   UserCarsTableRow
-} from '@/components/types/add-car/types'
+} from '@/features/add-car/types/add-cars.types'
 import { ChartConfig } from '@/components/ui/chart'
 import { LinearChart } from '@/components/ui/charts/linear-chart'
 

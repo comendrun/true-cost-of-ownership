@@ -4,7 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 import Link from 'next/link'
-import { ErrorPageProps } from '../../types/types'
+import { ErrorPageProps } from '../../../types/error-page.types'
 
 export default function ComingSoon({
   title = 'COMING SOON!',

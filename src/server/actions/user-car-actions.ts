@@ -1,6 +1,6 @@
 'use server'
 
-import { UserCarsTableRow } from '@/components/types/add-car/types'
+import { UserCarsTableRow } from '@/types/db.types'
 import { createClient } from '@/utils/supabase/server'
 import { PostgrestError } from '@supabase/supabase-js'
 

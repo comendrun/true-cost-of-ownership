@@ -1,4 +1,4 @@
-import CarForm from '@/components/pages/dashboard/add-car/components/car-form'
+import CarForm from '@/features/add-car/components/advanced-form/car-form'
 import { getCarById } from '@/components/pages/dashboard/add-car/functions/save-car.server.action'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
 import { createClient } from '@/utils/supabase/server'

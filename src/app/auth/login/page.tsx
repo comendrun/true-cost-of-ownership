@@ -1,8 +1,5 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { login } from '../actions'
 import {
   Form,
   FormControl,
@@ -13,12 +10,15 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import CircularSpinner from '@/components/ui/loading/spinner'
+import { useUserStore } from '@/hooks/users.store'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
-import { loginSchema } from '../_types/types'
-import { LoginForm } from '../_components/login-tab'
-import CircularSpinner from '@/components/ui/loading/spinner'
-import { useUserStore } from '@/lib/users.store'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { login } from '../../../features/auth/server/actions/auth.server.actions'
+import { loginSchema } from '../../../features/auth/types/auth-form.types'
+import { LoginForm } from '@/features/auth/components/login-tab'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)

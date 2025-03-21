@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 
-import { UserCarsTableRow, UserProfile } from '@/components/types/add-car/types'
 import {
   Sidebar,
   SidebarContent,
@@ -14,8 +13,9 @@ import { NavMain } from '@/components/ui/sidebar/nav-main'
 import { NavRecentCars } from '@/components/ui/sidebar/nav-recent-cars'
 import { NavUser } from '@/components/ui/sidebar/nav-user'
 import { ModeToggle } from '../providers/theme-toggle'
-import { navItems } from './consts'
+import { navItems } from './sidebar.consts'
 import Logo from './logo'
+import { UserCarsTableRow, UserProfile } from '@/types/db.types'
 
 export function AppSidebar({
   user,

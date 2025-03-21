@@ -4,7 +4,7 @@ import {
   AIAnalysisMetrics,
   ChatCompletionResponseFormat
 } from './analysis-response-schema'
-import { UserCarsTableRow } from '@/components/types/add-car/types'
+import { UserCarsTableRow } from '@/features/add-car/types/add-cars.types'
 
 // Example response structure (for reference)
 export const exampleResponse: ChatCompletionResponseFormat = {

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/chart'
 import { ReactNode } from 'react'
 import { MyPieChart } from '@/components/ui/charts/pie-chart'
-import { MajorExpenseCategory } from '@/components/types/add-car/types'
+import { MajorExpenseCategory } from '@/features/add-car/types/add-cars.types'
 import { convertStringToCamelCase } from '@/functions/helper-function'
 
 const pieChartChartConfigGenerator = (

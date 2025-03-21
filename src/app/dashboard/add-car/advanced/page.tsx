@@ -1,4 +1,4 @@
-import CarForm from '@/components/pages/dashboard/add-car/components/car-form'
+import CarForm from '@/features/add-car/components/advanced-form/car-form'
 import { createClient } from '@/utils/supabase/server'
 import { Suspense } from 'react'
 

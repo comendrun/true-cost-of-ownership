@@ -3,8 +3,8 @@
 import {
   UserProfile,
   UserProfileUpdate
-} from '@/components/types/add-car/types'
-import { UserSettingsFields } from '@/components/types/settings/types'
+} from '@/features/add-car/types/add-cars.types'
+import { UserSettingsFields } from '@/features/settings/types/types'
 import { createClient } from '@/utils/supabase/server'
 import { convertUserSettingFieldsToUserProfileTableFields } from './settings.helper.function'
 

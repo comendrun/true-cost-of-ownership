@@ -9,8 +9,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
-import { FormFieldType } from '../types/add-car/types'
-import { isSelectField } from '../pages/dashboard/add-car/functions/advanced-form-helper-functions'
+import { FormFieldType } from '../../features/add-car/types/add-cars.types'
+import { isSelectField } from '../../features/add-car/functions/advanced-form-helper-functions'
 import {
   Select,
   SelectContent,

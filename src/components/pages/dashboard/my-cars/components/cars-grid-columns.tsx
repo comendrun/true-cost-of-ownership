@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import CarsGridRowActions from './cars-grid-rows-actions'
 import { DataTableColumnHeader } from '@/components/ui/data-table/column-header'
-import { UserCarsTableRow } from '../../../../types/add-car/types'
+import { UserCarsTableRow } from '../../../../../features/add-car/types/add-cars.types'
 
 export const columns: ColumnDef<UserCarsTableRow>[] = [
   {

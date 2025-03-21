@@ -5,7 +5,7 @@ import { Bar, BarChart, XAxis } from 'recharts'
 import {
   ComparisonMetrics,
   UserCarsTableRow
-} from '@/components/types/add-car/types'
+} from '@/features/add-car/types/add-cars.types'
 import {
   Card,
   CardContent,

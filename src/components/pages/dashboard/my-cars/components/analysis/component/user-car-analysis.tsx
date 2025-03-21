@@ -5,7 +5,7 @@ import {
   ComparisonMetrics,
   CostAnalysis,
   UserCarsTableRow
-} from '@/components/types/add-car/types'
+} from '@/features/add-car/types/add-cars.types'
 import React from 'react'
 import { AnnualCostLinearChart } from './charts/cost-analysis/annual-costs-linear-chart'
 import MajorExpensesChart from './charts/cost-analysis/major-expenses-chart'

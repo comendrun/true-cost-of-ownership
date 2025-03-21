@@ -2,7 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import RootLayoutClientProviders from '@/providers/root-client-providers'
+import RootLayoutClientProviders from '@/components/providers/root-client-providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',

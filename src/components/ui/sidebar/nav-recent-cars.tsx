@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   useSidebar
 } from '@/components/ui/sidebar'
-import { navItems } from './consts'
+import { navItems } from './sidebar.consts'
 
 export function NavRecentCars({
   cars

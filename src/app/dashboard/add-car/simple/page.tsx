@@ -1,5 +1,5 @@
 'use client'
-import SimpleForm from '@/components/pages/dashboard/add-car/components/simple-form'
+import SimpleForm from '@/features/add-car/components/simple-form'
 import React from 'react'
 
 export default function CarsPage() {

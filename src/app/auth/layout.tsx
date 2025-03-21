@@ -1,11 +1,8 @@
 'use server'
-import React, { ReactNode } from 'react'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import Link from 'next/link'
+import TabsClient from '@/features/auth/components/tab-client'
 import { createClient } from '@/utils/supabase/server'
-import { Button } from '@/components/ui/button'
-import TabsClient from './_components/tab-client'
 import { redirect } from 'next/navigation'
+import { ReactNode } from 'react'
 
 export default async function AuthLayout({
   children
@@ -19,14 +16,6 @@ export default async function AuthLayout({
 
   if (user?.aud === 'authenticated') {
     redirect('/dashboard')
-    // return (
-    //   <div className='flex flex-col items-center justify-center gap-2'>
-    //     <p>You are already Authenticated!</p>
-    //     <Link href='/dashboard'>
-    //       <Button>Take me to dashboard</Button>
-    //     </Link>
-    //   </div>
-    // )
   }
 
   return (

@@ -1,8 +1,8 @@
-import { UserProfileUpdate } from '@/components/types/add-car/types'
+import { UserProfileUpdate } from '@/features/add-car/types/add-cars.types'
 import {
   UserConfig,
   UserSettingsFields
-} from '@/components/types/settings/types'
+} from '@/features/settings/types/types'
 
 export function convertUserSettingFieldsToUserProfileTableFields(
   {

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import LogoutButton from './logout-button'
-import { logUserOut } from '@/app/log-user-out-server-action'
+import { logUserOut } from '@/features/auth/server/actions/log-user-out.server.action'
 import Link from 'next/link'
 
 export default function UserNavAvatar() {
