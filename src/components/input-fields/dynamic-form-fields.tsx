@@ -1,16 +1,13 @@
-import {
-  ControllerRenderProps,
-  Control,
-  FieldErrors,
-  UseFormWatch,
-  FieldValues,
-  Path
-} from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-
-import { FormFieldType } from '../../features/add-car/types/add-cars.types'
-import { isSelectField } from '../../features/add-car/functions/advanced-form-helper-functions'
+import {
+  Control,
+  ControllerRenderProps,
+  FieldErrors,
+  FieldValues,
+  Path,
+  UseFormWatch
+} from 'react-hook-form'
 import {
   Select,
   SelectContent,
@@ -18,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select'
+import { FormFieldType } from '@/types/form-field.types'
+import { isSelectField } from '@/functions/is-input-field.function'
 
 export type DynamicFormFieldInputProps<TFieldValues extends FieldValues> = {
   formField: FormFieldType<TFieldValues>

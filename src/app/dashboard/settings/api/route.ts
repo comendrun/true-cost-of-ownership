@@ -1,15 +1,7 @@
-import { convertUserSettingFieldsToUserProfileTableFields } from '@/components/pages/dashboard/settings/settings.helper.function'
-import {
-  UserProfile,
-  UserProfileUpdate
-} from '@/features/add-car/types/add-cars.types'
+import { convertUserSettingFieldsToUserProfileTableFields } from '@/features/settings/functions/settings.helper.function'
 import { UserSettingsFields } from '@/features/settings/types/types'
+import { UserProfileUpdate } from '@/types/db.types'
 import { createClient } from '@/utils/supabase/server'
-
-export type UserProfileResponseData = {
-  error: string | null
-  user?: UserProfile
-}
 
 export async function POST(req: Request) {
   const supabase = createClient()
@@ -58,6 +50,7 @@ export async function POST(req: Request) {
         status: 200
       }
     )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(
       'Caught an error while trying to save user profile',

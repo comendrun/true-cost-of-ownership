@@ -1,10 +1,4 @@
-import React from 'react'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarLetters
-} from '@/components/ui/avatar'
+import { Avatar, AvatarLetters } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import LogoutButton from './logout-button'
-import { logUserOut } from '@/features/auth/server/actions/log-user-out.server.action'
+import { logUserOut } from '@/server/actions/log-user-out.server.action'
 import Link from 'next/link'
 
 export default function UserNavAvatar() {
@@ -42,14 +35,10 @@ export default function UserNavAvatar() {
             Add a New Car
           </Link>
         </DropdownMenuItem>
-
-        {/* <DropdownMenuItem>My Cars</DropdownMenuItem> */}
-        {/* <DropdownMenuItem>Team</DropdownMenuItem> */}
         <DropdownMenuItem
           className='cursor-pointer'
           onClick={() => logUserOut()}
         >
-          {/* <LogoutButton /> */}
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
