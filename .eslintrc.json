@@ -17,10 +17,11 @@
         "pattern": [
           "src/components/**/*",
           "src/data/**/*",
-          "src/drizzle/**/*",
           "src/hooks/**/*",
+          "src/utils/**/*",
           "src/lib/**/*",
-          "src/server/**/*"
+          "src/server/**/*",
+          "src/types/**/*"
         ]
       },
       {
