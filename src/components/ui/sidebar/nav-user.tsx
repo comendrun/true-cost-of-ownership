@@ -1,6 +1,6 @@
 'use client'
 
-import { logUserOut } from '@/features/auth/server/actions/log-user-out.server.action'
+import { logUserOut } from '@/server/actions/log-user-out.server.action'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
