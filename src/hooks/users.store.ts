@@ -1,6 +1,6 @@
 'use client'
-import { UserProfile } from '@/components/types/add-car/types'
-import { LOCAL_STORAGE_KEYS } from '@/consts/app-constants'
+import { LOCAL_STORAGE_KEYS } from '@/data/app.consts'
+import { UserProfile } from '@/types/db.types'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
