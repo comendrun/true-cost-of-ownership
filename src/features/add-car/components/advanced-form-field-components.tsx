@@ -10,17 +10,18 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@radix-ui/react-checkbox'
 import { FieldValues } from 'react-hook-form'
-import {
-  isInputField,
-  isSelectField,
-  isChekboxField,
-  isTextareaField
-} from '../functions/advanced-form-helper-functions'
+
 import { FormFieldComponentsProps } from '../types/add-cars.types'
 import NumberFormField from './NumberFormField'
 import TextInputFormField from './TextInputFormField'
 import SelectFormField from './SelectFormField'
 import { FormFieldType } from '@/types/form-field.types'
+import {
+  isInputField,
+  isSelectField,
+  isChekboxField,
+  isTextareaField
+} from '@/functions/is-input-field.function'
 
 export default function FormFieldComponents<TFieldValues extends FieldValues>({
   fields,

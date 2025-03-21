@@ -49,17 +49,11 @@ export default function SavedCarAIResponseDialog({
                 triggerFetch={triggerFetch}
               />
             ) : (
-              // <div className='flex h-full max-h-[50vh] w-full flex-col gap-2 overflow-y-scroll'>
-              // </div>
-              //     <div className='flex flex-col items-center justify-center gap-5'>
-              // </div>
               <div className='flex w-full items-center justify-center'>
                 <CircularSpinner color='bg-primary' />
               </div>
             )}
           </div>
-          {/* <DialogFooter>
-          </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>

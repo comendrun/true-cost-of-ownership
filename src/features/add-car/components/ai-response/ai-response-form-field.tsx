@@ -17,10 +17,13 @@ import {
   SelectValue
 } from '@radix-ui/react-select'
 import { useState } from 'react'
-import { isSelectField } from '../../functions/advanced-form-helper-functions'
-
 import DynamicFormFieldInput from '@/components/input-fields/dynamic-form-fields'
-import { AIResponseFormFieldInputProps, AIResponseFormFieldProps, CarFormOptionalFields } from '@/features/add-car/types/add-cars.types'
+import {
+  AIResponseFormFieldInputProps,
+  AIResponseFormFieldProps,
+  CarFormOptionalFields
+} from '@/features/add-car/types/add-cars.types'
+import { isSelectField } from '@/functions/is-input-field.function'
 
 export default function AIResponseFormField({
   formField,
