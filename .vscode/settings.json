@@ -9,4 +9,5 @@
         "typescriptreact"
     ],
     "eslint.format.enable": true,
+    "files.autoSave": "off"
 }
