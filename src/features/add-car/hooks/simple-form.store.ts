@@ -1,8 +1,6 @@
 import { create } from 'zustand'
-import {
-  SimpleFormDriverInfo,
-  SimpleFormFields
-} from '../types/add-car.simple.types'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import { SimpleFormFields } from '../types/add-car.simple.types'
 
 type SimpleFormState = {
   data: Partial<SimpleFormFields>
@@ -14,13 +12,21 @@ type SimpleFormAction = {
 
 export const useSimpleFormDataStore = create<
   SimpleFormState & SimpleFormAction
->(set => ({
-  data: {},
-  setData: data =>
-    set(prevValues => ({
-      data: {
-        ...prevValues.data,
-        ...data
-      }
-    }))
-}))
+>(
+  persist(
+    set => ({
+      data: {},
+      setData: data =>
+        set(prevValues => ({
+          data: {
+            ...prevValues.data,
+            ...data
+          }
+        }))
+    }),
+    {
+      name: 'simple-form-data',
+      storage: createJSONStorage(() => localStorage)
+    }
+  )
+)
