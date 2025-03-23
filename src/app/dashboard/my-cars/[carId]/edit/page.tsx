@@ -1,8 +1,8 @@
 import CarForm from '@/features/add-car/components/advanced-form/car-form'
-import { getCarById } from '@/components/pages/dashboard/add-car/functions/save-car.server.action'
 import ErrorPage from '@/components/ui/page-components/error-page-component'
 import { createClient } from '@/utils/supabase/server'
 import { Suspense } from 'react'
+import { getCarById } from '@/features/add-car/server/actions/save-car.server.actions'
 
 export default async function CarEditPage({
   params

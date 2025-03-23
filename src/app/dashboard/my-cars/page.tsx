@@ -1,9 +1,8 @@
 'use server'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
-import { getPaginatedUserCars } from '../../../components/pages/dashboard/my-cars/components/server-actions/get-paginated-user-cars'
-import CarsGrid from '@/components/pages/dashboard/my-cars/components/cars-grid'
+import { getPaginatedUserCars } from '@/features/my-cars/server/actions/get-paginated-user-cars.action'
+import CarsGrid from '@/features/my-cars/components/cars-grid'
 
 export default async function MyCarsPage() {
   const supabase = createClient()
