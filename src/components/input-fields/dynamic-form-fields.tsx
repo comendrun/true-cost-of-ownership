@@ -71,9 +71,9 @@ export default function DynamicFormFieldInput<
         <Select
           {...field}
           value={String(field.value ?? '')}
-          onValueChange={value =>
-            field.onChange(type === 'number' ? Number(value) : value)
-          }
+          onValueChange={value => {
+            return field.onChange(type === 'number' ? Number(value) : value)
+          }}
           disabled={isFieldDisabled}
         >
           <SelectTrigger className='w-full'>
