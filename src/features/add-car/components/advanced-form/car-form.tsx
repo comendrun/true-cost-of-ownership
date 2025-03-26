@@ -3,7 +3,6 @@ import { Accordion } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { advancedFormSteps, formFields } from '@/consts/add-car-consts'
 import { useCarFormStore } from '@/features/add-car/hooks/cars-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
@@ -26,9 +25,11 @@ import {
 import {
   FormStepsIDs,
   CarFormFields,
-  CarFormSchema,
   CarFormOptionalFields
 } from '../../types/add-cars.types'
+import { advancedFormSteps } from '../../data/add-car.advanced.fields'
+import { CarFormSchema } from '../../types/add-car.schemas'
+import { formFields } from '../../data/fields'
 
 export default function CarForm({
   id,
