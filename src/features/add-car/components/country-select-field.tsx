@@ -13,9 +13,9 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { formFields } from '@/consts/add-car-consts'
 import { useUserStore } from '@/hooks/users.store'
 import { SelectField } from '@/types/form-field.types'
+import { UserConfig } from '@/types/user.types'
 import {
   Control,
   FieldErrors,
@@ -23,8 +23,8 @@ import {
   UseFormSetValue,
   UseFormWatch
 } from 'react-hook-form'
+import { formFields } from '../data/fields'
 import { CarFormFields } from '../types/add-cars.types'
-import { UserConfig } from '@/types/user.types'
 
 export default function CountrySelectField({
   control,

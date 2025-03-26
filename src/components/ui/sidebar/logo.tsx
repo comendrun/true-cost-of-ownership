@@ -13,11 +13,15 @@ export default function Logo() {
           className=''
         >
           <SidebarMenuButton
-            className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex gap-4 p-4'
+            className='flex gap-4 p-4 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             size='lg'
           >
-            <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-              {/* <activeTeam.logo className='size-4' /> */}
+            <div className='rounded-lgtext-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center'>
+              <img
+                src='\assets\logo-image-no-bg.png'
+                className='w-full rounded-md border-black bg-white dark:border-white dark:bg-white'
+                alt='logo'
+              />
               {/* <div className='size-4'>§</div> */}
             </div>
             <div className='grid flex-1 text-left text-sm leading-tight'>

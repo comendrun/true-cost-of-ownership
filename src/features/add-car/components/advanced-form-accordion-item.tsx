@@ -15,15 +15,15 @@ import {
 } from 'react-hook-form'
 import { toast } from 'sonner'
 import {
-  extractErrorFieldsLabels,
-  getKeysOutsideStep,
-  getStepFieldKeys
-} from '../functions/advanced-form-helper-functions'
-import {
   onNextStep,
   onPreviousStep
 } from '../functions/accordion-steps-helper-functions'
-import { advancedFormSteps } from '@/consts/add-car-consts'
+import { advancedFormSteps } from '../data/add-car.advanced.fields'
+import {
+  getKeysOutsideStep,
+  extractErrorFieldsLabels,
+  getStepFieldKeys
+} from '../functions/advanced-form-helper-functions'
 
 export default function AdvancedFormAccordionItem({
   title,
