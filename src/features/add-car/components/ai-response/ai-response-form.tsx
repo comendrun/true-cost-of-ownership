@@ -12,16 +12,16 @@ import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { aiResponseFormFields } from '@/consts/add-car-consts'
 import { useCarFormStore } from '@/features/add-car/hooks/cars-store'
 import {
   CarFormOptionalFields,
-  CarFormOptionalFieldsSchema,
   SavedCarAIResponseComponentsProps
 } from '@/features/add-car/types/add-cars.types'
 import { toast } from 'sonner'
 import AIResponseFormField from './ai-response-form-field'
 import { updateCar } from '../../server/actions/save-car.server.actions'
+import { aiResponseFormFields } from '../../data/add-car.advanced.fields'
+import { CarFormOptionalFieldsSchema } from '../../types/add-car.schemas'
 
 export default function SavedCarAIResponseForm({
   optionalCarFormValues,
