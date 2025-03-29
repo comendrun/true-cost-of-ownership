@@ -18,60 +18,93 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { simpleFormCarInfoFields } from '@/features/add-car/data/add-car.simple.fields'
+import {
+  simpleFormCarInfoFieldsKeys,
+  simpleFormDriverInfoFields,
+  simpleFormFinancialInfoFieldsKeys
+} from '@/features/add-car/data/add-car.simple.fields'
 import { useSimpleFormDataStore } from '@/features/add-car/hooks/simple-form.store'
-import { SimpleFormCarInfoSchema } from '@/features/add-car/types/add-car.simple.schema'
-import { SimpleFormCarInfoType } from '@/features/add-car/types/add-car.simple.types'
+import { SimpleFormDriverInfoSchema } from '@/features/add-car/types/add-car.simple.schema'
+import {
+  SimpleFormCarInfoType,
+  SimpleFormDriverInfo,
+  SimpleFormFinancialInfo
+} from '@/features/add-car/types/add-car.simple.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function CarInfoStep() {
+export default function SimpleFormDriverInfoStep() {
   const router = useRouter()
-
-  const setData = useSimpleFormDataStore(state => state.setData)
   const formData = useSimpleFormDataStore(state => state.data)
+  const setData = useSimpleFormDataStore(state => state.setData)
+  const clearData = useSimpleFormDataStore(state => state.clearData)
 
-  const form = useForm<SimpleFormCarInfoType>({
-    resolver: zodResolver(SimpleFormCarInfoSchema),
+  const form = useForm<SimpleFormDriverInfo>({
+    resolver: zodResolver(SimpleFormDriverInfoSchema),
     defaultValues: {
-      fuelType: formData.fuelType ?? undefined,
-      brand: formData.brand ?? undefined,
-      model: formData.model ?? undefined,
-      year: formData?.year ?? undefined,
-      mileage: formData.mileage ?? undefined
+      country: formData.country,
+      driverAgeRange: formData.driverAgeRange,
+      drivingExperienceYears: formData.drivingExperienceYears
     }
   })
 
+  const onSubmit = async (data: SimpleFormDriverInfo) => {
+    console.log('submitted data', { ...formData, ...data })
+    setData(data)
+
+    clearData()
+  }
+
   const {
     control,
-    formState: { errors, isLoading, submitCount },
+    formState: { errors, isLoading },
     watch,
-    setValue,
-    reset,
-    getFieldState
+    reset
   } = form
 
-  const onSubmit = async (data: SimpleFormCarInfoType) => {
-    console.log('data', data)
-    setData(data)
+  function onPreviousSimpleFormStep() {
     router.push('/dashboard/add-car/simple/finance')
   }
+
+  useEffect(() => {
+    if (!useSimpleFormDataStore.persist.hasHydrated) return
+
+    const carInfoKeys =
+      simpleFormCarInfoFieldsKeys as (keyof SimpleFormCarInfoType)[]
+    const hasInvalidCarInfo = carInfoKeys.some(key => !formData?.[key])
+
+    if (hasInvalidCarInfo) {
+      router.push('/dashboard/add-car/simple/car')
+      return
+    }
+
+    const financialInfoKeys =
+      simpleFormFinancialInfoFieldsKeys as (keyof SimpleFormFinancialInfo)[]
+    const hasInvalidFinancialInfo = financialInfoKeys.some(
+      key => !formData?.[key]
+    )
+
+    if (hasInvalidFinancialInfo) {
+      router.push('/dashboard/add-car/simple/finance')
+      return
+    }
+  }, [formData, reset])
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className=''>
         <Card className='w-[350px]'>
           <CardHeader>
-            <CardTitle>Car Information</CardTitle>
+            <CardTitle>Financical Information</CardTitle>
             <CardDescription>
               Add a new Vehicle to Monitor in three simple steps.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className='grid w-full gap-4 md:grid-cols-2'>
-              {simpleFormCarInfoFields.map((formField, index) => {
+              {simpleFormDriverInfoFields.map((formField, index) => {
                 const {
                   formDescription,
                   component,
@@ -109,7 +142,7 @@ export default function CarInfoStep() {
                           </FormLabel>
                           <FormControl className=''>
                             <div className='col-span-2'>
-                              <DynamicFormFieldInput<SimpleFormCarInfoType>
+                              <DynamicFormFieldInput<SimpleFormDriverInfo>
                                 errors={errors}
                                 control={control}
                                 formField={formField}
@@ -130,8 +163,16 @@ export default function CarInfoStep() {
           </CardContent>
           <CardFooter className='flex justify-between'>
             {/* <Button variant='outline'>Previous Step</Button> */}
+            <Button
+              type='button'
+              className=''
+              variant='outline'
+              onClick={onPreviousSimpleFormStep}
+            >
+              previous Step
+            </Button>
             <Button type='submit' className='ml-auto'>
-              Next Step
+              Submit
             </Button>
           </CardFooter>
         </Card>
