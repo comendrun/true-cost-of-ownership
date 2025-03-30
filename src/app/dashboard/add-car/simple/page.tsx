@@ -1,11 +1,18 @@
 'use client'
-import SimpleForm from '@/features/add-car/components/simple-form/simple-form'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { Loader2 } from 'lucide-react'
 
 export default function SimpleFormPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push('/dashboard/add-car/simple/car')
+  }, [router])
+
   return (
-    <div className='min-h-max max-w-full flex-1 rounded-xl bg-muted/50 p-5'>
-      <SimpleForm />
+    <div className='flex h-full max-w-full flex-1 items-center justify-center rounded-xl p-5'>
+      <Loader2 className='h-8 w-8 animate-spin' />
     </div>
   )
 }
