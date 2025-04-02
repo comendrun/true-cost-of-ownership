@@ -1,14 +1,7 @@
-import { FieldErrors } from 'react-hook-form'
-import { advancedFormSteps } from '@/consts/add-car-consts'
 import { UserCarsTableInsert, UserCarsTableRow } from '@/types/db.types'
-import {
-  FormFieldType,
-  InputField,
-  SelectField,
-  TextareaField,
-  CheckboxField
-} from '@/types/form-field.types'
+import { FieldErrors } from 'react-hook-form'
 import { CarFormFields, FormStepsIDs } from '../types/add-cars.types'
+import { advancedFormSteps } from '../data/add-car.advanced.fields'
 
 export function calculateMonthlyPayment(
   remainingAmount: number,
