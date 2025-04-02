@@ -3,7 +3,7 @@ import {
   FormSteps,
   FormStepsIDs
 } from '@/features/add-car/types/add-cars.types'
-import { formStepIdMap } from '@/consts/add-car-consts'
+import { formStepIdMap } from '../data/add-car.advanced.fields'
 
 export function onNextStep(
   currentStep: string,
