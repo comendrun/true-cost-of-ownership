@@ -1,4 +1,3 @@
-import { FORM_VALUES_STORED_KEY } from '@/consts/add-car-consts'
 import {
   CarFormFields,
   CarFormOptionalFields,
@@ -6,6 +5,7 @@ import {
 } from '@/features/add-car/types/add-cars.types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { FORM_VALUES_STORED_KEY } from '../data/add-car.advanced.fields'
 
 export type State = {
   carFormValues: CarFormFields | null
