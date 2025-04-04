@@ -5,9 +5,9 @@ import { zodResponseFormat } from 'openai/helpers/zod.mjs'
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs'
 import {
   CarFormFields,
-  CarFormOptionalFields,
-  CarFormOptionalFieldsSchema
+  CarFormOptionalFields
 } from '../../types/add-cars.types'
+import { CarFormOptionalFieldsSchema } from '../../types/add-car.schemas'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
