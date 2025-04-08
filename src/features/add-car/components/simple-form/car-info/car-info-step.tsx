@@ -26,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import SimpleFormStepCard from '../SimpleFormStepCard'
 
 export default function CarInfoStep() {
   const router = useRouter()
@@ -62,79 +63,73 @@ export default function CarInfoStep() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className=''>
-        <Card className='w-[350px]'>
-          <CardHeader>
-            <CardTitle>Car Information</CardTitle>
-            <CardDescription>
-              Add a new Vehicle to Monitor in three simple steps.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className='grid w-full gap-4 md:grid-cols-2'>
-              {simpleFormCarInfoFields.map((formField, index) => {
-                const {
-                  formDescription,
-                  component,
-                  key,
-                  label,
-                  required,
-                  type,
-                  disabled,
-                  fullWidth,
-                  infoField,
-                  placeholder
-                } = formField
-
-                return (
-                  <FormField
-                    key={`simple-form-${index}-${formField.key}`}
-                    control={control}
-                    name={key}
-                    render={({ field }) => {
-                      const value =
-                        typeof field.value === 'boolean' ? '' : field.value
-                      const errorMessage = errors?.[key]?.message as
-                        | string
-                        | undefined
-                      return (
-                        <FormItem
-                          className={`grid w-full grid-cols-4 items-center ${fullWidth ? 'col-span-2' : 'col-span-1'}`}
-                        >
-                          {/* <div className='grid grid-cols-4 items-center gap-4'> */}
-
-                          <FormLabel
-                            className={`${required && !disabled ? 'required-field' : ''} col-span-2`}
-                          >
-                            {label}
-                          </FormLabel>
-                          <FormControl className=''>
-                            <div className='col-span-2'>
-                              <DynamicFormFieldInput<SimpleFormCarInfoType>
-                                errors={errors}
-                                control={control}
-                                formField={formField}
-                                field={field}
-                                watch={watch}
-                              />
-                            </div>
-                          </FormControl>
-                          <FormDescription>{formDescription}</FormDescription>
-                          <FormMessage>{errorMessage}</FormMessage>
-                        </FormItem>
-                      )
-                    }}
-                  />
-                )
-              })}
-            </div>
-          </CardContent>
-          <CardFooter className='flex justify-between'>
-            {/* <Button variant='outline'>Previous Step</Button> */}
+        <SimpleFormStepCard
+          cardDescription='Add a new Vehicle to Monitor in three simple steps.'
+          cardTitle='Car Information'
+          cardFooter={
             <Button type='submit' className='ml-auto'>
               Next Step
             </Button>
-          </CardFooter>
-        </Card>
+          }
+        >
+          <>
+            {simpleFormCarInfoFields.map((formField, index) => {
+              const {
+                formDescription,
+                component,
+                key,
+                label,
+                required,
+                type,
+                disabled,
+                fullWidth,
+                infoField,
+                placeholder
+              } = formField
+
+              return (
+                <FormField
+                  key={`simple-form-${index}-${formField.key}`}
+                  control={control}
+                  name={key}
+                  render={({ field }) => {
+                    const value =
+                      typeof field.value === 'boolean' ? '' : field.value
+                    const errorMessage = errors?.[key]?.message as
+                      | string
+                      | undefined
+                    return (
+                      <FormItem
+                        className={`grid w-full grid-cols-4 items-center ${fullWidth ? 'col-span-2' : 'col-span-1'}`}
+                      >
+                        {/* <div className='grid grid-cols-4 items-center gap-4'> */}
+
+                        <FormLabel
+                          className={`${required && !disabled ? 'required-field' : ''} col-span-2`}
+                        >
+                          {label}
+                        </FormLabel>
+                        <FormControl className=''>
+                          <div className='col-span-2'>
+                            <DynamicFormFieldInput<SimpleFormCarInfoType>
+                              errors={errors}
+                              control={control}
+                              formField={formField}
+                              field={field}
+                              watch={watch}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>{formDescription}</FormDescription>
+                        <FormMessage>{errorMessage}</FormMessage>
+                      </FormItem>
+                    )
+                  }}
+                />
+              )
+            })}
+          </>
+        </SimpleFormStepCard>
       </form>
     </Form>
   )
