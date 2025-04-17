@@ -35,11 +35,10 @@ export default async function UserCarPage({
 }) {
   const { carId } = params
 
-  const { data: userCar, error: userCarErrerroror } =
-    await getUserCarWithId(carId)
+  const { data: userCar, error: userCarError } = await getUserCarWithId(carId)
 
-  if (userCarErrerroror || !userCar) {
-    console.log('the user cant see the page')
+  if (userCarError || !userCar) {
+    console.log('the user cant see the page', userCarError, userCar)
 
     // return <div>Error loading data. Please try again later.</div>
     return (
@@ -48,7 +47,7 @@ export default async function UserCarPage({
         description='You dont have access to this entity.'
         bounce={false}
         buttonTitle='Login'
-        href='/login'
+        href='/auth/login'
       />
     )
   }
