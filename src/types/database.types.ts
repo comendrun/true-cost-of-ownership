@@ -54,12 +54,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "ai_responses_car_id_fkey"
-            columns: ["car_id"]
+            foreignKeyName: 'ai_responses_car_id_fkey'
+            columns: ['car_id']
             isOneToOne: false
-            referencedRelation: "user_cars"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'user_cars'
+            referencedColumns: ['id']
+          }
         ]
       }
       profiles: {
@@ -96,7 +96,7 @@ export type Database = {
         Row: {
           average_fuel_cost: number | null
           brand: string
-          country: Database["public"]["Enums"]["COUNTRIES"]
+          country: Database['public']['Enums']['COUNTRIES']
           created_at: string | null
           depreciation_rate: number | null
           driver_age_range: string
@@ -113,14 +113,14 @@ export type Database = {
           id: number
           initial_price: number | null
           insurance_cost: number | null
-          insurance_type: string
+          insurance_type: string | null
           interest_rate: number | null
           interior_score: number | null
           last_ai_response_id: number | null
           maintenance_frequency: string | null
           mileage: number
           model: string
-          name: string
+          name: string | null
           offer_on_extended_warranty: boolean | null
           oil_change_costs: number | null
           parking_costs: number | null
@@ -149,7 +149,7 @@ export type Database = {
         Insert: {
           average_fuel_cost?: number | null
           brand: string
-          country?: Database["public"]["Enums"]["COUNTRIES"]
+          country?: Database['public']['Enums']['COUNTRIES']
           created_at?: string | null
           depreciation_rate?: number | null
           driver_age_range: string
@@ -166,14 +166,14 @@ export type Database = {
           id?: number
           initial_price?: number | null
           insurance_cost?: number | null
-          insurance_type: string
+          insurance_type?: string | null
           interest_rate?: number | null
           interior_score?: number | null
           last_ai_response_id?: number | null
           maintenance_frequency?: string | null
           mileage: number
           model: string
-          name: string
+          name?: string | null
           offer_on_extended_warranty?: boolean | null
           oil_change_costs?: number | null
           parking_costs?: number | null
@@ -202,7 +202,7 @@ export type Database = {
         Update: {
           average_fuel_cost?: number | null
           brand?: string
-          country?: Database["public"]["Enums"]["COUNTRIES"]
+          country?: Database['public']['Enums']['COUNTRIES']
           created_at?: string | null
           depreciation_rate?: number | null
           driver_age_range?: string
@@ -219,14 +219,14 @@ export type Database = {
           id?: number
           initial_price?: number | null
           insurance_cost?: number | null
-          insurance_type?: string
+          insurance_type?: string | null
           interest_rate?: number | null
           interior_score?: number | null
           last_ai_response_id?: number | null
           maintenance_frequency?: string | null
           mileage?: number
           model?: string
-          name?: string
+          name?: string | null
           offer_on_extended_warranty?: boolean | null
           oil_change_costs?: number | null
           parking_costs?: number | null
@@ -254,12 +254,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_last_ai_response"
-            columns: ["last_ai_response_id"]
+            foreignKeyName: 'fk_last_ai_response'
+            columns: ['last_ai_response_id']
             isOneToOne: false
-            referencedRelation: "ai_responses"
-            referencedColumns: ["id"]
-          },
+            referencedRelation: 'ai_responses'
+            referencedColumns: ['id']
+          }
         ]
       }
     }
@@ -267,45 +267,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_latest_ai_responses:
-        | {
-            Args: {
-              car_ids: number[]
-            }
-            Returns: {
-              analysis_metrics: Json | null
-              analysis_summary: string | null
-              car_id: number | null
-              cost_saving_opportunities: string[] | null
-              created_at: string | null
-              feedback: string | null
-              id: number
-              recommended_insurances: string[] | null
-              response: string
-              suggested_driving_tips: string[] | null
-              version: number | null
-              visualization_config: Json | null
-            }[]
-          }
-        | {
-            Args: {
-              user_id: string
-            }
-            Returns: {
-              analysis_metrics: Json | null
-              analysis_summary: string | null
-              car_id: number | null
-              cost_saving_opportunities: string[] | null
-              created_at: string | null
-              feedback: string | null
-              id: number
-              recommended_insurances: string[] | null
-              response: string
-              suggested_driving_tips: string[] | null
-              version: number | null
-              visualization_config: Json | null
-            }[]
-          }
+      get_latest_ai_responses: {
+        Args: { car_ids: number[] } | { user_id: string }
+        Returns: {
+          analysis_metrics: Json | null
+          analysis_summary: string | null
+          car_id: number | null
+          cost_saving_opportunities: string[] | null
+          created_at: string | null
+          feedback: string | null
+          id: number
+          recommended_insurances: string[] | null
+          response: string
+          suggested_driving_tips: string[] | null
+          version: number | null
+          visualization_config: Json | null
+        }[]
+      }
       sync_existing_users: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -313,13 +291,13 @@ export type Database = {
     }
     Enums: {
       COUNTRIES:
-        | "GERMANY"
-        | "UNITED KINGDOM"
-        | "UNITED STATES OF AMERICA"
-        | "AUSTRIA"
-        | "NETHERLANDS"
-        | "FRANCE"
-        | "BELGIUM"
+        | 'GERMANY'
+        | 'UNITED KINGDOM'
+        | 'UNITED STATES OF AMERICA'
+        | 'AUSTRIA'
+        | 'NETHERLANDS'
+        | 'FRANCE'
+        | 'BELGIUM'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -327,27 +305,29 @@ export type Database = {
   }
 }
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type DefaultSchema = Database[Extract<keyof Database, 'public'>]
 
 export type Tables<
-  PublicTableNameOrOptions extends
-    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    : never = never
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+      Database[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] &
+        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -355,20 +335,22 @@ export type Tables<
     : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -376,20 +358,22 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema['Tables']
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
+    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -397,29 +381,47 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema['Enums']
     | { schema: keyof Database },
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    : never = never
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
+    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema["CompositeTypes"]
+    | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
+    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
+
+export const Constants = {
+  public: {
+    Enums: {
+      COUNTRIES: [
+        'GERMANY',
+        'UNITED KINGDOM',
+        'UNITED STATES OF AMERICA',
+        'AUSTRIA',
+        'NETHERLANDS',
+        'FRANCE',
+        'BELGIUM'
+      ]
+    }
+  }
+} as const
