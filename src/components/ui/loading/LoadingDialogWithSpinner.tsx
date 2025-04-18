@@ -20,9 +20,9 @@ export function LoadingDialogWithSpinner({
   withCloseButton = true
 }: {
   open: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
   title: string | ReactNode
   description: string | ReactNode
+  setIsOpen?: Dispatch<SetStateAction<boolean>>
   withCloseButton?: boolean
 }) {
   return (
@@ -32,7 +32,7 @@ export function LoadingDialogWithSpinner({
           {withCloseButton && (
             <DialogClose
               className='ml-auto flex'
-              onClick={() => setIsOpen(false)}
+              onClick={() => setIsOpen?.(false)}
             >
               <X />
             </DialogClose>
