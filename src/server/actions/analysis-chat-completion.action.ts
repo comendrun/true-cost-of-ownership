@@ -68,6 +68,7 @@ export async function openaiCostsAnalysisCompletion({
   const content = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     messages: generateOpenAIAnalysisChatCompletionMessage(userCar, user),
+    temperature: 0,
     max_tokens: 16384,
     response_format: zodResponseFormat(
       ChatCompletionResponseFormatSchema,
