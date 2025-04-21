@@ -1,8 +1,7 @@
 'use server'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
-import { getPaginatedUserCars } from '@/features/my-cars/server/actions/get-paginated-user-cars.action'
 import CarsGrid from '@/features/my-cars/components/cars-grid'
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function MyCarsPage() {
   const supabase = createClient()
@@ -15,11 +14,5 @@ export default async function MyCarsPage() {
     redirect('/login')
   }
 
-  return (
-    <CarsGrid
-    // userCarsCount={userCarsCount}
-    // initialData={paginatedCars}
-    // error={getPaginatedUserCarsError}
-    />
-  )
+  return <CarsGrid />
 }
