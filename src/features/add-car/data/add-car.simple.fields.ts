@@ -11,7 +11,8 @@ export const simpleFormCarInfoFields: FormFieldType<SimpleFormCarInfoType>[] = [
   getFormField('model'), // Required
   getFormField('year'), // Required
   getFormField('mileage'), // Required
-  getFormField('fuelType') // Required
+  getFormField('fuelType'), // Required
+  getFormField('totalPlannedKMs')
 ]
 
 export const simpleFormFinancialInfoFields: FormFieldType<SimpleFormFinancialInfo>[] =
@@ -28,8 +29,9 @@ export const simpleFormDriverInfoFields: FormFieldType<SimpleFormDriverInfo>[] =
     getFormField('country')
   ]
 
-export const simpleFormCarInfoFieldsKeys =
-  simpleFormCarInfoFields.map(field => field.key)
+export const simpleFormCarInfoFieldsKeys = simpleFormCarInfoFields.map(
+  field => field.key
+)
 
 export const simpleFormFinancialInfoFieldsKeys: string[] =
   simpleFormFinancialInfoFields.map(field => field.key)
