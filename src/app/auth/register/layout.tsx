@@ -14,7 +14,7 @@ export default function RegisterPageLayout({
   children: ReactNode
 }) {
   return (
-    <TabsContent value='register'>
+    <TabsContent value='register' className='max-w-96'>
       <Card>
         <CardHeader>
           <CardTitle>Register</CardTitle>
