@@ -12,12 +12,12 @@ import {
 
 export default function LoginPageLayout({ children }: { children: ReactNode }) {
   return (
-    <TabsContent value='login' className='my-2'>
+    <TabsContent value='login' className='max-w-96 my-2'>
       <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>
-            Please Login to CTCO using your account information.
+            Please Login to AutoMon using your account information.
           </CardDescription>
         </CardHeader>
         <CardContent className='flex h-full min-h-56 w-full items-start justify-center space-y-2'>
