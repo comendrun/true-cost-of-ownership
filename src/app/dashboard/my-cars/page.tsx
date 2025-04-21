@@ -15,25 +15,11 @@ export default async function MyCarsPage() {
     redirect('/login')
   }
 
-  const { count: userCarsCount } = await supabase
-    .from('user_cars')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', user.id)
-
-  // const { data: paginatedCars, error: userCarErrors } = await supabase
-  //   .from('user_cars')
-  //   .select()
-  //   .eq('user_id', user.id)
-  //   .order('created_at', { ascending: false })
-  //   .range(0, 9)
-  const { data: paginatedCars, error: getPaginatedUserCarsError } =
-    await getPaginatedUserCars()
-
   return (
     <CarsGrid
-      userCarsCount={userCarsCount}
-      initialData={paginatedCars}
-      error={getPaginatedUserCarsError}
+    // userCarsCount={userCarsCount}
+    // initialData={paginatedCars}
+    // error={getPaginatedUserCarsError}
     />
   )
 }
