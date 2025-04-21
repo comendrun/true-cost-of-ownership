@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import { createClient } from '@/utils/supabase/server'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
@@ -33,8 +34,14 @@ export default async function RootLayout({
 
   return (
     <html lang='en'>
+      <head>
+        <script
+          crossOrigin='anonymous'
+          src='//unpkg.com/react-scan/dist/auto.global.js'
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-[100vw] border-2 border-white antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-[100vw] antialiased`}
       >
         <RootLayoutClientProviders>
           {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
