@@ -17,7 +17,7 @@ export function NavRecentCars({
 }: {
   cars:
     | {
-        name: string
+        name: string | null
         url: string
         brand: string
         model: string
