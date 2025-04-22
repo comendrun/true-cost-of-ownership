@@ -72,7 +72,7 @@ export function MyPieChart({
   return (
     <Card className='flex min-h-full min-w-full flex-col'>
       <CardHeader className='items-center pb-0'>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className='mr-auto'>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className='flex-1 pb-0'>
