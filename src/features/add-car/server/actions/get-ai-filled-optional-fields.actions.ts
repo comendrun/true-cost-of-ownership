@@ -19,7 +19,8 @@ export async function getAIFilledOptionalFields(
       model: 'gpt-4o-mini',
       messages: generateGetAIFilledOptionalFieldsMessages(car),
       max_tokens: 16384,
-      response_format: zodResponseFormat(CarFormOptionalFieldsSchema, 'schema')
+      response_format: zodResponseFormat(CarFormOptionalFieldsSchema, 'schema'),
+      temperature: 0
     })
 
     const { content } = completion.choices?.[0].message
@@ -32,14 +33,7 @@ export async function getAIFilledOptionalFields(
       .replace(/```$/, '')
       .trim() as string
 
-    console.log('cleanedContent', cleanedContent)
-    console.log('type of cleanedContent', typeof cleanedContent)
-
     const aiResponse: CarFormOptionalFields = JSON.parse(cleanedContent)
-
-    console.log('aiResponse', aiResponse)
-    console.log('type of aiResponse', typeof aiResponse)
-
     return aiResponse
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
@@ -187,7 +181,7 @@ function generateGetAIFilledOptionalFieldsMessages(
     fuelConsumption: { description: "Fuel consumption (L/100KM).", value: ${car.fuelConsumption}, type: "number", recommendIfEmpty: true },
     fuelType: { description: "Fuel type.", value: ${car.fuelType}, type: "enum", options: ['Diesel','Petrol','Hybrid/Diesel','Hybrid/Petrol','Electric'], recommendIfEmpty: false },
     averageFuelCost: { description: "Average fuel cost per liter.", value: ${car.averageFuelCost}, type: "number", recommendIfEmpty: true },
-    insuranceType: { description: "Insurance type.", value: ${car.insuranceType}, type: "enum", recommendIfEmpty: false },
+    insuranceType: { description: "Insurance type.", value: ${car.insuranceType}, type: "enum", recommendIfEmpty: true }, // options: ['Minimum', 'Partial', 'Full']
     insuranceCost: { description: "Annual insurance cost.", value: ${car.insuranceCost}, type: "number", recommendIfEmpty: true },
     tuvCosts: { description: "Annual technical inspection (TÜV) cost. Consider inspection intervals (3 years new, then 2 years) for ${car?.country || 'GERMANY'}.", value: ${car.tuvCosts}, type: "number", recommendIfEmpty: true },
     taxes: { description: "Annual taxes.", value: ${car.taxes}, type: "number", recommendIfEmpty: true },
