@@ -1,11 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown, ExternalLink } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import CarsGridRowActions from './cars-grid-rows-actions'
 import { DataTableColumnHeader } from '@/components/ui/data-table/column-header'
 import { UserCarsTableRow } from '@/types/db.types'
+import Link from 'next/link'
 
 export const columns: ColumnDef<UserCarsTableRow>[] = [
   {
@@ -72,6 +73,47 @@ export const columns: ColumnDef<UserCarsTableRow>[] = [
       return <div className='text-left font-medium'>{formatted}</div>
     }
   },
+
+  {
+    id: 'link',
+    header: ({ column }) => <p>Car Page</p>,
+    cell: ({ row }) => {
+      const id = row.original?.['id']
+      return (
+        <Link
+          href={`/dashboard/my-cars/${id}`}
+          className=''
+          target='_blank'
+          title='Check out the Car details page'
+        >
+          <ExternalLink size={20} />
+        </Link>
+      )
+    }
+  },
+
+  {
+    id: 'link',
+    header: ({ column }) => <p>Analysis</p>,
+    cell: ({ row }) => {
+      const analysisId = row.original?.['last_ai_response_id']
+      const id = row.original?.['id']
+
+      if (!analysisId) return null
+
+      return (
+        <Link
+          href={`/dashboard/my-cars/${id}/analysis`}
+          className=''
+          target='_blank'
+          title='Check out the Generated Analysis'
+        >
+          <ExternalLink size={20} />
+        </Link>
+      )
+    }
+  },
+
   {
     id: 'actions',
     enableHiding: false,
