@@ -41,7 +41,8 @@ export default function CarInfoStep() {
       brand: formData.brand ?? undefined,
       model: formData.model ?? undefined,
       year: formData?.year ?? undefined,
-      mileage: formData.mileage ?? undefined
+      mileage: formData.mileage ?? undefined,
+      totalPlannedKMs: formData.totalPlannedKMs ?? undefined
     }
   })
 
