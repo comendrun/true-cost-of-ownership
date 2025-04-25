@@ -1,11 +1,17 @@
 'use server'
 
+import { UserCarsTableRow } from '@/types/db.types'
 import { createClient } from '@/utils/supabase/server'
+import { AuthError, PostgrestError } from '@supabase/supabase-js'
 
 export async function getPaginatedUserCars(
   pageNum: number = 1,
   pageSize: number = 10
-) {
+): Promise<{
+  data: UserCarsTableRow[] | null
+  error: { message: string } | null
+  total?: number
+}> {
   const supabase = createClient()
 
   const {
@@ -14,20 +20,29 @@ export async function getPaginatedUserCars(
   } = await supabase.auth.getUser()
 
   if (getUserError) {
-    return { data: [], error: getUserError }
+    return handleGetPaginatedUserCarsError(
+      getUserError,
+      'There was an error while fetching the User information.'
+    )
   }
 
   if (!user) {
-    return { data: [], error: new Error('User is not Authenticated') }
+    return handleGetPaginatedUserCarsError(null, 'User is not Authenticated')
   }
-  // if the pageNum is 1 and the pageSize is 10, then the range is {from: 0, to: 9}
-  // if the pageNum is 2 and the pageSize is 10, then the range is {from: 10, to: 19}
+
+  const { count: userCarsCount } = await supabase
+    .from('user_cars')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+
+  if (!userCarsCount || userCarsCount <= 0) {
+    return { data: [], error: null }
+  }
+
   const range = {
     from: (pageNum - 1) * pageSize,
     to: pageNum * pageSize - 1
   }
-
-  console.log('range', range)
 
   const { data, error } = await supabase
     .from('user_cars')
@@ -36,8 +51,26 @@ export async function getPaginatedUserCars(
     .range(range.from, range.to)
 
   if (error) {
-    return { data: [], error }
+    return handleGetPaginatedUserCarsError(
+      error,
+      'There was an error while getting usre cars from DB'
+    )
   }
 
-  return { data, error: null }
+  return { data, error: null, total: userCarsCount }
+}
+
+function handleGetPaginatedUserCarsError(
+  error: PostgrestError | AuthError | null,
+  message: string
+): {
+  data: null
+  error: { message: string } | null
+} {
+  console.error(`[getPaginatedUserCars] ${message}`, error?.message)
+
+  return {
+    data: null,
+    error: { message }
+  }
 }
