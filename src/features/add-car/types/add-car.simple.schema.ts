@@ -29,7 +29,8 @@ export const SimpleFormFieldsSchema = z.object({
   drivingExperienceYears: z
     .number()
     .min(0, 'The years of experience cannot be negative.'),
-  country: z.enum(COUNTRIES).default(COUNTRIES[0])
+  country: z.enum(COUNTRIES).default(COUNTRIES[0]),
+  totalPlannedKMs: z.number(), // KMs, total number of KMs planned to drive the car yearly
 })
 
 export const SimpleFormCarInfoSchema = SimpleFormFieldsSchema.pick({
@@ -37,7 +38,8 @@ export const SimpleFormCarInfoSchema = SimpleFormFieldsSchema.pick({
   model: true,
   mileage: true,
   fuelType: true,
-  year: true
+  year: true,
+  totalPlannedKMs: true
 })
 
 export const SimpleFormFinancialInfoSchema = SimpleFormFieldsSchema.pick({
