@@ -70,7 +70,7 @@ export const CarFormSchema = z.object({
   averageFuelCost: z.number().nullable().optional(),
 
   // Insurance
-  insuranceType: z.enum(['Minimum', 'Partial', 'Full']),
+  insuranceType: z.enum(['Minimum', 'Partial', 'Full']).optional(),
   insuranceCost: z.number().nullable().optional(), // euros, depends on the car
 
   // Other Costs
