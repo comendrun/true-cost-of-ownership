@@ -70,7 +70,7 @@ function generateComparisonMetricsChartConfig(
     },
     [secondCar.carModel.toLowerCase().trim().replace(/\s/g, '')]: {
       label: secondCar.carModel,
-      color: 'hsl(var(--chart-2))'
+      color: 'hsl(var(--chart-4))'
     }
   }
 
@@ -105,36 +105,40 @@ export function RadarChartMultiple({
   hideTooltipLabel?: boolean
 }) {
   const chartConfigkeys = Object.keys(chartConfig)
+
   return (
     <Card className='h-full min-h-full min-w-full'>
       <CardHeader className='items-center pb-4'>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className='mr-auto'>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className='pb-0'>
         <ChartContainer
           config={chartConfig}
-          className='mx-auto aspect-square max-h-[250px]'
+          className='mx-auto aspect-square max-h-[250px] w-full'
         >
-          <RadarChart data={chartData}>
+          <RadarChart data={chartData} className='w-full'>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator='line' />}
-              formatter={(value, name, props) => {
-                const rawKey = `${name}_raw`
-                if (props.payload && rawKey in props.payload) {
-                  return props.payload[rawKey].toLocaleString()
-                }
-                return value
-              }}
+              // formatter={(value, name, props) => {
+              //   const rawKey = `${name}_raw`
+              //   if (props.payload && rawKey in props.payload) {
+              //     return props.payload[rawKey].toLocaleString()
+              //   }
+              //   return value
+              // }}
               //   formatter={value => {
               //     console.log('value in the formatter', value)
               //     return value
               //   }}
-              //   labelFormatter={(label, payload) => {
-              //     console.log('label and payload', label, payload)
-              //     return <div><p>Hello</p></div>
-              //   }}
+              labelFormatter={(label, payload) => {
+                return (
+                  <div>
+                    <p>{payload?.[0].payload?.categoryLabel}</p>
+                  </div>
+                )
+              }}
             />
             <PolarAngleAxis dataKey='category' tickFormatter={value => value} />
             <PolarGrid />
@@ -188,12 +192,12 @@ function generateNormalizedMetricChartData(
     // Build a datum containing both normalized and raw values:
     const chartDatum = {
       category: metricKey,
+      categoryLabel: comparisonMetricCategoryLabels[metricKey],
       [carKey1]: norm1,
       [`${carKey1}_raw`]: raw1,
       [carKey2]: norm2,
       [`${carKey2}_raw`]: raw2
     }
-
     chartData.push(chartDatum)
   })
 
@@ -207,92 +211,17 @@ export default function ComparisonMetricsChart({
   car: UserCarsTableRow
   comparisonMetrics: ComparisonMetrics
 }) {
-  console.log('comparisonMetrics', comparisonMetrics)
-
   const normalizedChartData =
     generateNormalizedMetricChartData(comparisonMetrics)
 
-  console.log('metric chart data', generateMetricChartData(comparisonMetrics))
-
   const chartConfig = generateComparisonMetricsChartConfig(comparisonMetrics)
-
-  console.log('chartConfig', chartConfig)
 
   return (
     <RadarChartMultiple
-      title={'Major Annual Cost Projection'}
+      title='Annual Cost Analysis'
       description={''}
       chartData={normalizedChartData}
       chartConfig={chartConfig}
     />
-  )
-}
-
-export function BarMultiComparisonChart({
-  title,
-  description,
-  chartData,
-  footer,
-  chartConfig,
-  hideTooltipLabel = false
-}: {
-  title: string | ReactNode
-  description: string | ReactNode
-  chartData: { [key: string]: string | number }[]
-  footer?: {
-    footerTitle: string | ReactNode
-    footerDescription: string | ReactNode
-  }
-  chartConfig: ChartConfig
-  hideTooltipLabel?: boolean
-}) {
-  const chartConfigkeys = Object.keys(chartConfig)
-
-  return (
-    <Card className='min-h-full min-w-full'>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <XAxis
-              dataKey='category'
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-            />
-            <Bar
-              dataKey={chartConfigkeys[0]}
-              stackId='a'
-              fill={chartConfig[chartConfigkeys[0]].color}
-              radius={[0, 0, 4, 4]}
-            />
-            <Bar
-              dataKey={chartConfigkeys[1]}
-              stackId='a'
-              fill={chartConfig[chartConfigkeys[1]].color}
-              radius={[4, 4, 0, 0]}
-            />
-            <ChartTooltip
-              content={<ChartTooltipContent hideLabel={hideTooltipLabel} />}
-              cursor={false}
-              defaultIndex={1}
-            />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-      {footer && (
-        <CardFooter className='flex-col items-start gap-2 text-sm'>
-          <div className='flex gap-2 font-medium leading-none'>
-            {footer.footerTitle}
-          </div>
-          <div className='leading-none text-muted-foreground'>
-            {footer.footerDescription}
-          </div>
-        </CardFooter>
-      )}
-    </Card>
   )
 }
