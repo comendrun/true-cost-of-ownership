@@ -64,7 +64,7 @@ export default function LoginTab() {
       <CardHeader>
         <CardTitle>Login</CardTitle>
         <CardDescription>
-          Please Login to CTCO using your account information.
+          Please Login to AutoMon using your account information.
         </CardDescription>
       </CardHeader>
       <CardContent className='space-y-2'>
