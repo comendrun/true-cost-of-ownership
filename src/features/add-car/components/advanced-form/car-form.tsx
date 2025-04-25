@@ -200,10 +200,10 @@ export default function CarForm({
                 )}
               </Accordion>
 
-              <div className='flex w-full items-center justify-center gap-2'>
+              <div className='flex w-max items-center justify-end gap-2 my-4'>
                 <Button
-                  className='w-full'
-                  variant='secondary'
+                  className='w-max px-4'
+                  variant='destructive'
                   type='reset'
                   onClick={handleReset}
                   disabled={isLoading}
@@ -214,9 +214,11 @@ export default function CarForm({
                 <GenerateAIAnalysisButton
                   carId={id}
                   isDisabled={isLoading || !id}
+                  variant='secondary'
+                  className='w-max px-4'
                 />
 
-                <Button className='w-full' type='submit' disabled={isLoading}>
+                <Button className='w-max px-4' type='submit' disabled={isLoading}>
                   Save
                 </Button>
               </div>
