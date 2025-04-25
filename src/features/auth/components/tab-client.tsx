@@ -17,14 +17,14 @@ export default function TabsClient({
   return (
     <Tabs
       defaultValue={activeTab}
-      className='w-[400px]'
+      className='max-w-96'
       onValueChange={value => {
         // Navigate to the appropriate route when the tab changes
         if (value === 'login') router.push('/auth/login')
         if (value === 'register') router.push('/auth/register')
       }}
     >
-      <TabsList className='grid w-full grid-cols-2'>
+      <TabsList className='w-full flex'>
         <TabsTrigger className='w-full' value='login'>
           Login
         </TabsTrigger>
