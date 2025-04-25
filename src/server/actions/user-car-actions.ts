@@ -35,6 +35,7 @@ export async function getUserCars({
 }): Promise<{
   data: UserCarsTableRow[] | null
   error: Error | PostgrestError | { message: string } | null
+  count?: number | null
 }> {
   if (!userId)
     return { data: null, error: { message: 'There is no user ID specified.' } }
@@ -43,11 +44,11 @@ export async function getUserCars({
 
   const supabase = createClient()
 
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from('user_cars')
     .select('*')
     .eq('user_id', userId)
     .order(...sort)
 
-  return { data, error }
+  return { data, error, count }
 }
