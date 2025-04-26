@@ -66,8 +66,8 @@ export function MyPieChart({
   //   return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
   // }, [])
 
-  console.log('chartData in pie', chartData)
-  console.log('chartConfig in pie', chartConfig)
+  // console.log('chartData in pie', chartData)
+  // console.log('chartConfig in pie', chartConfig)
 
   return (
     <Card className='flex min-h-full min-w-full flex-col'>
