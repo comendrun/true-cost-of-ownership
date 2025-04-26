@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-sync-scripts */
-import { createClient } from '@/utils/supabase/server'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -23,33 +22,33 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({
-  children
-}: Readonly<{
+                                           children
+                                         }: Readonly<{
   children: React.ReactNode
 }>) {
-  const supabase = await createClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+  // const supabase = await createClient()
+  // const {
+  //   data: { user }
+  // } = await supabase.auth.getUser()
 
   return (
-    <html lang='en'>
-      <head>
-        <script
-          crossOrigin='anonymous'
-          src='//unpkg.com/react-scan/dist/auto.global.js'
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-[100vw] antialiased`}
-      >
-        <RootLayoutClientProviders>
-          {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
-          {/* <Navbar user={user} /> */}
-          {children}
-          {/* </div> */}
-        </RootLayoutClientProviders>
-      </body>
+    <html lang="en">
+    {/*<head>*/}
+    {/*  <script*/}
+    {/*    crossOrigin='anonymous'*/}
+    {/*    src='//unpkg.com/react-scan/dist/auto.global.js'*/}
+    {/*  />*/}
+    {/*</head>*/}
+    <body
+      className={`${geistSans.variable} ${geistMono.variable} mx-auto min-h-screen w-[100vw] antialiased`}
+    >
+    <RootLayoutClientProviders>
+      {/* <div className='m-10 mx-auto min-h-screen w-full max-w-[1000px] p-5'> */}
+      {/* <Navbar user={user} /> */}
+      {children}
+      {/* </div> */}
+    </RootLayoutClientProviders>
+    </body>
     </html>
   )
 }
