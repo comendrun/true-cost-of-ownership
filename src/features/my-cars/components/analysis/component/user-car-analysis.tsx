@@ -45,6 +45,7 @@ export default function UserCarAnalysis({
             </div>
           </>
         )}
+        {/* Annual Cost Analysis */}
         {comparisonMetrics && (
           <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
             <ComparisonMetricsChart
