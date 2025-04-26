@@ -19,7 +19,7 @@ export default async function AuthLayout({
   }
 
   return (
-    <div className='m-auto flex min-h-screen w-full items-center justify-center border-2 border-blue-400'>
+    <div className='m-auto flex min-h-screen w-full items-center justify-center'>
       <TabsClient>{children}</TabsClient>
     </div>
   )
