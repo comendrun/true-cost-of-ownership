@@ -28,7 +28,6 @@ export function LinearChart({
   chartConfig,
   hideTooltipLabel = false
 }: ChartProps) {
-  console.log('Object.keys(chartData)', Object.keys(chartData[0]))
 
   return (
     <Card className='h-full min-h-full min-w-full'>

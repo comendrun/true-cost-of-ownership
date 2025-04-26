@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { Bar, BarChart, XAxis } from 'recharts'
 import {
   Card,
   CardContent,
@@ -12,15 +12,15 @@ import {
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent
+  ChartTooltip
 } from '@/components/ui/chart'
 import { TrendingUp } from 'lucide-react'
 import { ReactNode } from 'react'
+import { TooltipProps } from 'recharts'
 
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts'
 import { ComparisonMetrics } from '@/features/my-cars/types/analysis.types'
 import { UserCarsTableRow } from '@/types/db.types'
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from 'recharts'
 
 const comparisonMetricCategoryKeys: Array<keyof ComparisonMetrics[0]> = [
   'initialCost',
@@ -30,30 +30,50 @@ const comparisonMetricCategoryKeys: Array<keyof ComparisonMetrics[0]> = [
   'resaleValue'
 ]
 
-enum comparisonMetricCategoryLabels {
-  carModel = 'Car Model',
-  initialCost = 'Initial Cost',
-  annualRunningCost = 'Annual Running Cost',
-  depreciationRate = 'Depcreciation Rate',
-  fuelEfficiency = 'Fuel Efficiency',
-  resaleValue = 'Resale Value'
+const comparisonMetricCategoryLabels: { [key: string]: string } = {
+  carModel: 'Car Model',
+  initialCost: 'Initial Cost',
+  annualRunningCost: 'Annual Running Cost',
+  depreciationRate: 'Depcreciation Rate',
+  fuelEfficiency: 'Fuel Efficiency',
+  resaleValue: 'Resale Value'
 }
 
 function generateMetricChartData(comparisonMetrics: ComparisonMetrics) {
   const chartData: { [key: string]: string | number }[] = []
-  const firstCar = comparisonMetrics[0]
-  const secondCar = comparisonMetrics[1]
-  comparisonMetricCategoryKeys.map(metricKey => {
-    const chartDatum = {
+
+  const carModels = comparisonMetrics.map(car =>
+    car.carModel.toLowerCase().trim().replace(/\s/g, '')
+  )
+
+  comparisonMetricCategoryKeys.forEach(metricKey => {
+    const rawValues = comparisonMetrics.map(car => Number(car[metricKey]))
+
+    const chartDatum: { [key: string]: string | number } = {
       category: metricKey,
-      [firstCar.carModel.toLowerCase().trim().replace(/\s/g, '')]:
-        firstCar[metricKey],
-      [secondCar.carModel.toLowerCase().trim().replace(/\s/g, '')]:
-        secondCar[metricKey]
+      categoryLabel: comparisonMetricCategoryLabels[metricKey]
     }
+
+    // Identify the best value (min if reversed, else max)
+    const bestValue = reversedMetrics[metricKey]
+      ? Math.min(...rawValues)
+      : Math.max(...rawValues)
+
+    comparisonMetrics.forEach(car => {
+      const modelKey = car.carModel.toLowerCase().trim().replace(/\s/g, '')
+      const raw = car[metricKey] as number
+
+      const normalized = reversedMetrics[metricKey]
+        ? bestValue / raw // smaller is better → 1 if it's the best (smallest)
+        : raw / bestValue // bigger is better → 1 if it's the best (largest)
+
+      chartDatum[modelKey] = +normalized.toFixed(3)
+      chartDatum[`${modelKey}_raw`] = raw
+    })
 
     chartData.push(chartDatum)
   })
+
   return chartData
 }
 
@@ -87,13 +107,14 @@ const reversedMetrics: { [key in keyof ComparisonMetrics[0]]?: boolean } = {
 }
 
 export function RadarChartMultiple({
-  title,
-  description,
-  chartData,
-  footer,
-  chartConfig,
-  hideTooltipLabel = false
-}: {
+                                     title,
+                                     description,
+                                     chartData,
+                                     footer,
+                                     chartConfig,
+                                     hideTooltipLabel = false,
+                                     carNameDecoderMap
+                                   }: {
   title: string | ReactNode
   description: string | ReactNode
   chartData: { [key: string]: string | number }[]
@@ -103,44 +124,29 @@ export function RadarChartMultiple({
   }
   chartConfig: ChartConfig
   hideTooltipLabel?: boolean
+  carNameDecoderMap: Record<string, string>
 }) {
   const chartConfigkeys = Object.keys(chartConfig)
-
   return (
-    <Card className='h-full min-h-full min-w-full'>
-      <CardHeader className='items-center pb-4'>
-        <CardTitle className='mr-auto'>{title}</CardTitle>
+    <Card className="h-full min-h-full min-w-full">
+      <CardHeader className="items-center pb-4">
+        <CardTitle className="mr-auto">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className='pb-0'>
+      <CardContent className="pb-0">
         <ChartContainer
           config={chartConfig}
-          className='mx-auto aspect-square max-h-[250px] w-full'
+          className="mx-auto aspect-square max-h-[250px] w-full"
         >
-          <RadarChart data={chartData} className='w-full'>
+          <RadarChart data={chartData} className="w-full">
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator='line' />}
-              // formatter={(value, name, props) => {
-              //   const rawKey = `${name}_raw`
-              //   if (props.payload && rawKey in props.payload) {
-              //     return props.payload[rawKey].toLocaleString()
-              //   }
-              //   return value
-              // }}
-              //   formatter={value => {
-              //     console.log('value in the formatter', value)
-              //     return value
-              //   }}
-              labelFormatter={(label, payload) => {
-                return (
-                  <div>
-                    <p>{payload?.[0].payload?.categoryLabel}</p>
-                  </div>
-                )
-              }}
+              content={<CustomTooltip carNameDecoderMap={carNameDecoderMap} />}
             />
-            <PolarAngleAxis dataKey='category' tickFormatter={value => value} />
+
+            <PolarAngleAxis dataKey="category" tickFormatter={value =>
+              comparisonMetricCategoryLabels[value]
+            } />
             <PolarGrid />
             <Radar
               dataKey={chartConfigkeys[0]}
@@ -156,11 +162,11 @@ export function RadarChartMultiple({
         </ChartContainer>
       </CardContent>
       {footer && (
-        <CardFooter className='flex-col items-start gap-2 text-sm'>
-          <div className='flex gap-2 font-medium leading-none'>
-            {footer.footerTitle} <TrendingUp className='h-4 w-4' />
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">
+            {footer.footerTitle} <TrendingUp className="h-4 w-4" />
           </div>
-          <div className='leading-none text-muted-foreground'>
+          <div className="leading-none text-muted-foreground">
             {footer.footerDescription}
           </div>
         </CardFooter>
@@ -169,59 +175,113 @@ export function RadarChartMultiple({
   )
 }
 
-function generateNormalizedMetricChartData(
-  comparisonMetrics: ComparisonMetrics
+export const CustomTooltip = ({
+                                active,
+                                payload,
+                                label,
+                                carNameDecoderMap
+                              }: TooltipProps<any, any> & { carNameDecoderMap: Record<string, string> }) => {
+  if (!active || !payload?.length) return null
+
+  const firstItem = payload[0]
+  const categoryLabel = firstItem?.payload?.categoryLabel || 'Category'
+
+  return (
+    <div className="flex flex-col gap-4 rounded-md border bg-background p-4 shadow-sm">
+      {/* Top: category label only once */}
+      <div className="mb-2 text-sm font-semibold text-foreground">
+        {categoryLabel}
+      </div>
+
+      {/* Entries per car */}
+      <div className="flex flex-col gap-2">
+        {payload.map((entry, idx) => {
+          const color = entry.color || 'currentColor'
+          const name = decodeCarModelKey(entry.name || entry.dataKey || `Item ${idx}`, carNameDecoderMap)
+          const rawKey = `${entry.dataKey}_raw`
+          const rawValue = entry.payload?.[rawKey]
+
+          const displayValue = formatDisplayValue(rawValue, entry?.dataKey)
+
+          return (
+            <div key={idx} className="flex items-center gap-2">
+              <span
+                className="h-2.5 w-2.5 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+              <span className="font-medium text-foreground">{name}</span>
+              <span className="ml-auto text-muted-foreground">
+                {displayValue}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function formatDisplayValue(
+  rawValue: string | number,
+  dataKey?: string | number
 ) {
-  const chartData: { [key: string]: string | number }[] = []
-  const [car1, car2] = comparisonMetrics
+  if (typeof dataKey !== 'string') return rawValue
 
-  // Create unique keys for each car
-  const carKey1 = car1.carModel.toLowerCase().trim().replace(/\s/g, '')
-  const carKey2 = car2.carModel.toLowerCase().trim().replace(/\s/g, '')
+  if (dataKey.includes('cost') || dataKey.includes('value')) {
+    return `€${Number(rawValue).toLocaleString()}`
+  }
+  if (dataKey.includes('efficiency')) {
+    return `${rawValue} km/l`
+  }
+  if (dataKey.includes('rate')) {
+    return `${rawValue}%`
+  }
 
-  comparisonMetricCategoryKeys.forEach(metricKey => {
-    const raw1 = car1[metricKey] as number
-    const raw2 = car2[metricKey] as number
-
-    // Apply normalization (and reverse if needed)
-    // (Assume you have your normalization logic here; see previous examples)
-    // For demonstration, let's assume norm1 and norm2 are computed values
-    const norm1 = /* ... normalized value for car1 ... */ raw1 // replace with your computed value
-    const norm2 = /* ... normalized value for car2 ... */ raw2 // replace with your computed value
-
-    // Build a datum containing both normalized and raw values:
-    const chartDatum = {
-      category: metricKey,
-      categoryLabel: comparisonMetricCategoryLabels[metricKey],
-      [carKey1]: norm1,
-      [`${carKey1}_raw`]: raw1,
-      [carKey2]: norm2,
-      [`${carKey2}_raw`]: raw2
-    }
-    chartData.push(chartDatum)
-  })
-
-  return chartData
+  return rawValue
 }
 
 export default function ComparisonMetricsChart({
-  car,
-  comparisonMetrics
-}: {
+                                                 car,
+                                                 comparisonMetrics
+                                               }: {
   car: UserCarsTableRow
   comparisonMetrics: ComparisonMetrics
 }) {
-  const normalizedChartData =
-    generateNormalizedMetricChartData(comparisonMetrics)
+  const normalizedChartData = generateMetricChartData(comparisonMetrics)
 
   const chartConfig = generateComparisonMetricsChartConfig(comparisonMetrics)
 
+  const carNameDecoderMap = createCarModelDecoder(comparisonMetrics)
+
   return (
     <RadarChartMultiple
-      title='Annual Cost Analysis'
+      title="Annual Cost Analysis"
       description={''}
       chartData={normalizedChartData}
       chartConfig={chartConfig}
+      carNameDecoderMap={carNameDecoderMap}
     />
   )
+}
+
+export function encodeCarModelName(carModel: string): string {
+  return carModel.toLowerCase().trim().replace(/\s+/g, '')
+}
+
+export function createCarModelDecoder(
+  comparisonMetrics: ComparisonMetrics
+): Record<string, string> {
+  const map: Record<string, string> = {}
+  comparisonMetrics.forEach(car => {
+    const key = encodeCarModelName(car.carModel)
+    map[key] = car.carModel
+  })
+  return map
+}
+
+export function decodeCarModelKey(
+  key: string,
+  decoderMap: Record<string, string>
+): string {
+  return decoderMap[key] ?? key // fallback if not found
 }
