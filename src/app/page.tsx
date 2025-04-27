@@ -10,9 +10,9 @@ export default async function Home() {
     data: { user }
   } = await supabase.auth.getUser()
 
-  if (user?.aud === 'authenticated') {
-    redirect('/dashboard')
-  }
+  // if (user?.aud === 'authenticated') {
+  //   redirect('/dashboard')
+  // }
   return (
     <div className='mx-auto flex items-center gap-4'>
       {/* <Link href='/add-car'>

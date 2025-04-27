@@ -16,9 +16,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { login } from '../../../features/auth/server/actions/auth.server.actions'
-import { loginSchema } from '../../../features/auth/types/auth-form.types'
 import { LoginForm } from '@/features/auth/components/login-tab'
+import { login } from '@/features/auth/server/actions/auth.server.actions'
+import { loginSchema } from '@/features/auth/types/auth-form.types'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)

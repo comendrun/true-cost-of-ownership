@@ -1,3 +1,8 @@
+'use client'
+import { ReactNode } from 'react'
+
+import { TabsContent } from '@radix-ui/react-tabs'
+
 import {
   Card,
   CardContent,
@@ -5,22 +10,15 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import { TabsContent } from '@/components/ui/tabs'
-import { ReactNode } from 'react'
 
-export default function RegisterPageLayout({
-  children
-}: {
-  children: ReactNode
-}) {
+export default function LoginPageLayout({ children }: { children: ReactNode }) {
   return (
-    <TabsContent value='register' className='max-w-96'>
+    <TabsContent value='login' className='max-w-96 my-2'>
       <Card>
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle>Login</CardTitle>
           <CardDescription>
-            You don&apos;t have an account? Create your new account now to save
-            the researched Cars.
+            Please Login to AutoMon using your account information.
           </CardDescription>
         </CardHeader>
         <CardContent className='flex h-full min-h-56 w-full items-start justify-center space-y-2'>
