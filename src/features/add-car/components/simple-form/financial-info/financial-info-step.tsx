@@ -41,7 +41,7 @@ export default function SimpleFormFinancialInfoStep() {
   })
 
   const onSubmit = async (data: SimpleFormFinancialInfo) => {
-    console.log('data', data)
+    console.log('[SimpleFormFinancialInfoStep - onSubmit] data', data)
     setData(data)
     router.push('/dashboard/add-car/simple/driver')
   }

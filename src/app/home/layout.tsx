@@ -1,7 +1,9 @@
 import React from 'react'
 
-export default function LandingPageLayout() {
+export default function LandingPageLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div>LandingPageLayout</div>
+    <div className='container w-full mx-auto p-5 h-full'>
+      {children}
+    </div>
   )
 }

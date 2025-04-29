@@ -21,7 +21,7 @@ export async function getUserCarWithId(carId: number): Promise<{
     .eq('user_id', user.id)
     .single()
 
-  console.log('data', data, 'error', error)
+  console.log('[getUserCarWithId] data', data, 'error', error)
 
   return { data, error }
 }

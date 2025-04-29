@@ -62,7 +62,7 @@ export default function RegisterTab() {
   } = form
 
   const onRegisterHandler: SubmitHandler<RegisterForm> = async data => {
-    console.log('data', data)
+    console.log('[onRegisterHandler] data', data)
     // const formData = data as FormData
   }
 

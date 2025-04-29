@@ -56,7 +56,7 @@ export default function LoginTab() {
   } = form
 
   const onLoginSubmitHandler: SubmitHandler<LoginForm> = data => {
-    console.log('data', data)
+    console.log('[onLoginSubmitHandler] data', data)
   }
 
   return (
