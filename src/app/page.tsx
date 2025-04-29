@@ -12,6 +12,8 @@ export default async function Home() {
 
   if (user?.aud === 'authenticated') {
     redirect('/dashboard')
+  } else {
+    redirect('/home')
   }
   return (
     <div className='mx-auto flex items-center gap-4'>
