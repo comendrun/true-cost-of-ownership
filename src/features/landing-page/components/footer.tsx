@@ -6,7 +6,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="p-10 w-full text-white flex justify-between items-center border-t">
+    <footer className="p-10 w-full  flex justify-between items-center border-t">
       <div className="logo py-4 hover:cursor-pointer">
         <Link href="/">
           <p className="font-bold text-md tracking-widest">AutoMon</p>
