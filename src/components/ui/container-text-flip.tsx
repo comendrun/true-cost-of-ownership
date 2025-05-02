@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useId } from 'react'
-
-import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 export interface ContainerTextFlipProps {
   /** Array of words to cycle through in the animation */
