@@ -18,8 +18,8 @@ export default function Logo() {
           >
             <div className='rounded-lgtext-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center'>
               <img
-                src='\assets\logo-image-no-bg.png'
-                className='w-full rounded-md border-black bg-white dark:border-white dark:bg-white'
+                src='/assets/Logo-idea-cropped.png'
+                className='w-full rounded-full border-black bg-white dark:border-white dark:bg-white'
                 alt='logo'
               />
               {/* <div className='size-4'>§</div> */}

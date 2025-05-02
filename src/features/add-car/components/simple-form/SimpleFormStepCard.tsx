@@ -20,13 +20,13 @@ export default function SimpleFormStepCard({
   cardFooter?: React.ReactNode
 }) {
   return (
-    <Card className='w-[350px]'>
+    <Card className='w-[350px] md:w-[500px] xl:w-[800px]'>
       <CardHeader>
         <CardTitle>{cardTitle}</CardTitle>
         <CardDescription>{cardDescription}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className='grid w-full gap-4 md:grid-cols-2'>{children}</div>
+        <div className='grid w-full gap-4 lg:grid-cols-2 grid-cols-1'>{children}</div>
       </CardContent>
       <CardFooter className='flex justify-between'>{cardFooter}</CardFooter>
     </Card>

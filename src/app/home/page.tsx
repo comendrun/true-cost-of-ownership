@@ -1,9 +1,11 @@
 import React from 'react'
 import LandingPageNavbar from '@/features/landing-page/components/navbar'
-import { Button } from '@/components/ui/button'
-import { ContainerTextFlip } from '@/components/ui/container-text-flip'
 import { createClient } from '@/utils/supabase/server'
-import HeroSection from '@/features/landing-page/components/hero-section'
+import { LandingPageHeroSection } from '@/features/landing-page/components/hero-section'
+import HowItWorksSection from '@/features/landing-page/components/how-it-works'
+import FaqSection from '@/features/landing-page/components/faq-section'
+import BottomCallToAction from '@/features/landing-page/components/bottom-call-to-action'
+import Footer from '@/features/landing-page/components/footer'
 
 export default async function LandingPage() {
   const supabase = createClient()
@@ -12,33 +14,30 @@ export default async function LandingPage() {
   const isAuthenticated = (user && user.aud === 'authenticated') || false
 
   return (
-    <section className="font-sans flex flex-col gap-20">
+    <section className="relative mx-auto my-10 flex max-w-8xl flex-col items-center justify-center">
+      {/*<section className="font-sans flex flex-col gap-20">*/}
 
       {/* Navbar */}
-      <LandingPageNavbar />
+      <LandingPageNavbar isAuthenticated={isAuthenticated} />
 
       {/*  Hero  Section */}
-      <HeroSection isAuthenticated={isAuthenticated} />
+      {/*<HeroSection isAuthenticated={isAuthenticated} />*/}
+      <LandingPageHeroSection isAuthenticated={isAuthenticated} />
 
       {/* How it Works */}
-      <section>
-
-      </section>
+      <HowItWorksSection />
 
       {/*  Featured Comparisons */}
-      <section>
 
-      </section>
+
+      {/* FAQ*/}
+      <FaqSection />
 
       {/*  Final Call to Action */}
-      <section>
-
-      </section>
+      <BottomCallToAction />
 
       {/* Footer */}
-      <footer>
-
-      </footer>
+      <Footer />
     </section>
   )
 }

@@ -12,9 +12,9 @@ import {
 import { UserCarsTableRow, AIResponseTableRow } from '@/types/db.types'
 
 export default function UserCarAnalysis({
-  car,
-  aiResponse
-}: {
+                                          car,
+                                          aiResponse
+                                        }: {
   car: UserCarsTableRow
   aiResponse: AIResponseTableRow
 }) {
@@ -34,20 +34,21 @@ export default function UserCarAnalysis({
 
   return (
     <>
-      <div className='3xl:grid-cols-3 grid auto-rows-fr auto-rows-min gap-4 xl:grid-cols-2'>
+      <p className="text-xl font-semibold">{car.name}{car.variant && ` - ${car.variant}`} - {car.year}</p>
+      <div className="3xl:grid-cols-3 grid auto-rows-fr auto-rows-min gap-4 xl:grid-cols-2">
         {costAnalysis && (
           <>
-            <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+            <div className="flex max-w-full items-center justify-center rounded-xl bg-muted/50">
               <AnnualCostLinearChart car={car} costAnalysis={costAnalysis} />
             </div>
-            <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+            <div className="flex max-w-full items-center justify-center rounded-xl bg-muted/50">
               <MajorExpensesChart car={car} costAnalysis={costAnalysis} />
             </div>
           </>
         )}
         {/* Annual Cost Analysis */}
         {comparisonMetrics && (
-          <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+          <div className="flex max-w-full items-center justify-center rounded-xl bg-muted/50">
             <ComparisonMetricsChart
               car={car}
               comparisonMetrics={comparisonMetrics}
@@ -55,7 +56,7 @@ export default function UserCarAnalysis({
           </div>
         )}
         {resaleValueInsights && (
-          <div className='flex max-w-full items-center justify-center rounded-xl bg-muted/50'>
+          <div className="flex max-w-full items-center justify-center rounded-xl bg-muted/50">
             <ResaleValueInsightsLinearChart
               car={car}
               resaleValueInsights={resaleValueInsights}

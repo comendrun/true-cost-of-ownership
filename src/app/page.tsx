@@ -11,8 +11,10 @@ export default async function Home() {
   } = await supabase.auth.getUser()
 
   if (user?.aud === 'authenticated') {
+    console.log("The User is authenticated! redirecting to the /dashboard")
     redirect('/dashboard')
   } else {
+    console.log("The User is not Authenticated! Redirecting to the /home page")
     redirect('/home')
   }
   return (

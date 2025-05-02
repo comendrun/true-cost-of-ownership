@@ -59,4 +59,7 @@
       - [ ] add a new page to show the comparison
       - [ ] in the comparison page, give users the ability to add or remove cars
       - [ ] in the comparison page, give users the ability to equilize the terms and situations of each car and then get a new analysis (interest rate, loan term, etc.)
-- [ ] 
+- [ ] use the following loading indicator with multiple steps for the ai generation parts:
+  https://ui.aceternity.com/components/multi-step-loader
+- [ ] fix the issue in the simple form that requires two times submitting for the react hook form to identify the changes and to recognize the last step (onSubmit)
+- [ ] Add the ability to choose two or more cars and compare their stats with each other
