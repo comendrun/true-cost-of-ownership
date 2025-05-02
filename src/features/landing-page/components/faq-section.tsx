@@ -42,7 +42,7 @@ const faq = [
 const FaqSection = () => {
 
   return (
-    <LandingPageSection className="w-full max-w-3xl">
+    <LandingPageSection className="w-full max-w-3xl px-4">
       <motion.div
         initial={{
           opacity: 0,
@@ -61,7 +61,7 @@ const FaqSection = () => {
         <div className="w-full overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700">
           <LandingPageSectionAnimatedHeaders text="FAQ" />
           <Accordion variant="splitted" className="flex w-full">
-            {faq.map(({ id, question, answer }, idx) => (
+            {faq.map(({ id, question, answer }) => (
               <AccordionItem key={id} aria-label={`Question Number ${id}`} title={question}>
                 {answer}
               </AccordionItem>
