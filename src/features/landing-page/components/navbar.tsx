@@ -37,7 +37,7 @@ function LandingPageNavbar({ isAuthenticated }: { isAuthenticated: boolean }) {
         <div className="hidden md:flex">
           <Button variant="link">
             <a href="https://www.comendrun.com/" target="_blank">
-              comendrun
+              Kamran Rouhani
             </a>
           </Button>
         </div>
