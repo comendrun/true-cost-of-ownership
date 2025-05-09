@@ -63,3 +63,5 @@
   https://ui.aceternity.com/components/multi-step-loader
 - [ ] fix the issue in the simple form that requires two times submitting for the react hook form to identify the changes and to recognize the last step (onSubmit)
 - [ ] Add the ability to choose two or more cars and compare their stats with each other
+- [ ] Add a functionality for users to give feedback about the generated data and the analysis
+- [ ] after gathering and getting some feedback from users, rank up the analysis and also the entries there, and then use them someone adds the same vehicle in case the feedback has a good rating, or use it as inspiration for the ai response.
