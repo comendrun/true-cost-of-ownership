@@ -1,15 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import React, {
-  Dispatch,
+import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
+import {
   ReactElement,
-  ReactNode,
-  SetStateAction,
   useState
 } from 'react'
 import { handleGenerateAIAnalysis } from '../../functions/car-form.helper.functions'
-import { LucideIcon } from 'lucide-react'
-import { LoadingDialogWithSpinner } from '@/components/ui/loading/LoadingDialogWithSpinner'
 
 export default function GenerateAIAnalysisButton({
   isDisabled,
