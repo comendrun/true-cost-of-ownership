@@ -114,7 +114,7 @@ export const LandingPageHeroSection = ({ isAuthenticated }: { isAuthenticated: b
             asChild
             variant="outline"
             className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
-            <a href="https://comednrun.com" target='_blank' className='text-4xl'>
+            <a href="https://www.comendrun.com/#contact" target='_blank' className='text-4xl'>
               Get in Contact
             </a>
           </Button>
