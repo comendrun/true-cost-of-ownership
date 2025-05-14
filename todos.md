@@ -65,3 +65,5 @@
 - [ ] Add the ability to choose two or more cars and compare their stats with each other
 - [ ] Add a functionality for users to give feedback about the generated data and the analysis
 - [ ] after gathering and getting some feedback from users, rank up the analysis and also the entries there, and then use them someone adds the same vehicle in case the feedback has a good rating, or use it as inspiration for the ai response.
+- [ ] Add the User preferred and also the currency that was used by the AI to generate the analysis and the fields to the car table
+- [ ] define a new method or function that would calculate the total deprecitation rate of the vehicle after certain years
