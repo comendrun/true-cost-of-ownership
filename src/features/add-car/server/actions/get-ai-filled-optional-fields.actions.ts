@@ -172,7 +172,7 @@ function generateGetAIFilledOptionalFieldsMessages(
     totalInterestPaid: { description: "Total interest paid over the loan.", value: ${car.totalInterestPaid}, type: "number", recommendIfEmpty: true },
     truePurchasePrice: { description: "True purchase price (purchasePrice + totalInterestPaid).", value: ${car.truePurchasePrice}, type: "number", recommendIfEmpty: true },
     initialPrice: { description: "Estimated original price when new (should exceed purchasePrice due to depreciation).", value: ${car.initialPrice}, type: "number", recommendIfEmpty: true },
-    depreciationRate: { description: "Depreciation rate (%).", value: ${car.depreciationRate}, type: "number", recommendIfEmpty: true },
+    depreciationRate: { description: "Annual Depreciation rate in (%). it should consider the current age of the car (${car.year}-NOW())  and also the planned ownership years (${car.plannedYearsOfOwnership})", value: ${car.depreciationRate}, type: "number", recommendIfEmpty: true },
     guaranteeYears: { description: "Warranty duration (years).", value: ${car.guaranteeYears}, type: "number", recommendIfEmpty: true },
     serviceCosts: { description: "Annual service costs.", value: ${car.serviceCosts}, type: "number", recommendIfEmpty: true },
     serviceIncludes: { description: "Services included in the service package.", value: ${car.serviceIncludes}, type: "string", recommendIfEmpty: true },

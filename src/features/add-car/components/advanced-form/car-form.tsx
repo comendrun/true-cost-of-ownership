@@ -4,32 +4,32 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useCarFormStore } from '@/features/add-car/hooks/cars-store'
+import { UserCarsTableRow } from '@/types/db.types'
+import { SelectField } from '@/types/form-field.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import GenerateAIAnalysisButton from '../../../../components/others/generate-ai-analysis-button'
+import { advancedFormSteps } from '../../data/add-car.advanced.fields'
+import { formFields } from '../../data/fields'
 import { convertUserCarsTableInsertToAdvancedFormValues } from '../../functions/advanced-form-helper-functions'
+import {
+  saveCarAndGetRecommendations,
+  updateCarAndGetRecommendations
+} from '../../server/actions/save-car.server.actions'
+import { CarFormSchema } from '../../types/add-car.schemas'
+import {
+  CarFormFields,
+  CarFormOptionalFields,
+  FormStepsIDs
+} from '../../types/add-cars.types'
 import AdvancedFormAccordionItem from '../advanced-form-accordion-item'
 import AdvancedFormFieldComponents from '../advanced-form-field-components'
-import GenerateAIAnalysisButton from '../ai-response/generate-ai-analysis-buttin'
 import SavedCarAIResponseDialog from '../ai-response/saved-car-ai-response-dialog'
 import CountrySelectField from '../country-select-field'
-import { UserCarsTableRow } from '@/types/db.types'
-import { SelectField } from '@/types/form-field.types'
-import {
-  updateCarAndGetRecommendations,
-  saveCarAndGetRecommendations
-} from '../../server/actions/save-car.server.actions'
-import {
-  FormStepsIDs,
-  CarFormFields,
-  CarFormOptionalFields
-} from '../../types/add-cars.types'
-import { advancedFormSteps } from '../../data/add-car.advanced.fields'
-import { CarFormSchema } from '../../types/add-car.schemas'
-import { formFields } from '../../data/fields'
 
 export default function CarForm({
   id,
@@ -200,7 +200,7 @@ export default function CarForm({
                 )}
               </Accordion>
 
-              <div className='flex w-max items-center justify-end gap-2 my-4'>
+              <div className='my-4 flex w-max items-center justify-end gap-2'>
                 <Button
                   className='w-max px-4'
                   variant='destructive'
@@ -218,7 +218,11 @@ export default function CarForm({
                   className='w-max px-4'
                 />
 
-                <Button className='w-max px-4' type='submit' disabled={isLoading}>
+                <Button
+                  className='w-max px-4'
+                  type='submit'
+                  disabled={isLoading}
+                >
                   Save
                 </Button>
               </div>
