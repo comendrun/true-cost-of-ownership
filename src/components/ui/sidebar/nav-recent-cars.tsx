@@ -11,6 +11,7 @@ import {
   useSidebar
 } from '@/components/ui/sidebar'
 import { navItems } from './sidebar.consts'
+import Link from 'next/link'
 
 export function NavRecentCars({
   cars
@@ -35,12 +36,12 @@ export function NavRecentCars({
         {cars?.map((item, index) => (
           <SidebarMenuItem key={`item-${item.name}-${index}-${item.url}`}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <Link href={item.url}>
                 {/* <item.icon /> */}
                 <span>
                   {item.name || `${item.brand}-${item.model}-${item.year}`}
                 </span>
-              </a>
+              </Link>
             </SidebarMenuButton>
             {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>

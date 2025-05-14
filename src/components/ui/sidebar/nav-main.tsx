@@ -20,6 +20,7 @@ import {
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { navItems } from './sidebar.consts'
 import { UserCarsTableRow } from '@/types/db.types'
+import Link from 'next/link'
 
 export function NavMain({ cars }: { cars: UserCarsTableRow[] | null }) {
   const items: {
@@ -57,9 +58,9 @@ export function NavMain({ cars }: { cars: UserCarsTableRow[] | null }) {
                   {item.items?.map(subItem => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link href={subItem.url}>
                           <span>{subItem.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

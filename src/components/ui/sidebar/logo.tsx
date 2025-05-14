@@ -6,12 +6,7 @@ export default function Logo() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <Link
-          // size='lg'
-          href='/dashboard'
-          //   className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex gap-4 p-4'
-          className=''
-        >
+        <Link href='/dashboard' className=''>
           <SidebarMenuButton
             className='flex gap-4 p-4 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             size='lg'
