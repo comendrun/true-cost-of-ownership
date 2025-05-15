@@ -49,15 +49,15 @@ function LandingPageNavbar({ isAuthenticated }: { isAuthenticated: boolean }) {
         <div className='hidden gap-3 md:flex'>
           <ThemeToggleButton />
           {isAuthenticated ? (
-            <Button variant='default'>
+            <Button asChild variant='default'>
               <Link href='/dashboard'>Dashboard</Link>
             </Button>
           ) : (
             <>
-              <Button variant='ghost'>
+              <Button asChild variant='ghost'>
                 <Link href='/auth/login'>Login</Link>
               </Button>
-              <Button variant='default'>
+              <Button asChild variant='default'>
                 <Link href='/auth/register'>Register</Link>
               </Button>
             </>
