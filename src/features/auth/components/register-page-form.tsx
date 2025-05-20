@@ -28,9 +28,13 @@ export default function RegistrationPageForm({
     isFailed: boolean
   }>
 }) {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
   const registerActionMessage = searchParams.get('message')
+
+  const localStoredUser = useUserStore(state => state.user)
+  const setUser = useUserStore(state => state.setUser)
 
   const form = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema)
@@ -44,7 +48,9 @@ export default function RegistrationPageForm({
     setValue
   } = form
 
-  const router = useRouter()
+  if (localStoredUser) {
+    setUser(null)
+  }
 
   const onRegisterHandler: SubmitHandler<RegisterForm> = async data => {
     setIsLoading(true)
@@ -61,19 +67,12 @@ export default function RegistrationPageForm({
       toast.success(message)
       //   revalidatePath('/', 'layout')
       //   redirect('/')
-      router.push('/')
+      router.push('/dashboard')
     } catch (error) {
       console.error('The was an error registering the user', error)
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const localStoredUser = useUserStore(state => state.user)
-  const setUser = useUserStore(state => state.setUser)
-
-  if (localStoredUser) {
-    setUser(null)
   }
 
   return (
@@ -89,7 +88,7 @@ export default function RegistrationPageForm({
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel className='required-field'>Email Address</FormLabel>
 
                 <FormControl>
                   <Input {...field} />
@@ -108,7 +107,7 @@ export default function RegistrationPageForm({
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel className='required-field'>Username</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -128,7 +127,7 @@ export default function RegistrationPageForm({
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className='required-field'>Password</FormLabel>
 
                 <FormControl>
                   <Input type='password' {...field} />

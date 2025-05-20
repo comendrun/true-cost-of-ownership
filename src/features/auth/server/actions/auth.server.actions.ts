@@ -24,7 +24,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/dashboard')
 }
 
 export async function signup(submittedData: FormData): Promise<{
@@ -43,12 +43,35 @@ export async function signup(submittedData: FormData): Promise<{
     }
   }
 
+  const username = parsed.data.username
+
+  const { data: dbUserNames, error: getUserProfilesError } = await supabase
+    .from('usernames')
+    .select('*')
+    .eq('username', username)
+
+  console.log('dbUsernames', dbUserNames)
+  if (getUserProfilesError) {
+    return {
+      message:
+        'There was an error while trying to create the new User. Please try again later.',
+      isFailed: true
+    }
+  }
+
+  if (dbUserNames.length > 0) {
+    return {
+      message: 'The Username already exists',
+      isFailed: true
+    }
+  }
+
   const payload = {
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
       data: {
-        username: parsed.data.username
+        username
       }
     }
   }
@@ -63,6 +86,7 @@ export async function signup(submittedData: FormData): Promise<{
   }
 
   revalidatePath('/', 'layout')
+  revalidatePath('/dashboard', 'layout')
   return {
     message: 'The Sign up Process was successful. you will be redirected soon.',
     isFailed: false

@@ -264,7 +264,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      usernames: {
+        Row: {
+          username: string | null
+        }
+        Insert: {
+          username?: string | null
+        }
+        Update: {
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       get_latest_ai_responses: {
