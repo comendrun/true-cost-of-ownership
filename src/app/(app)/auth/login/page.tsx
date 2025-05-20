@@ -37,6 +37,13 @@ export default function LoginPage() {
     setValue
   } = form
 
+  const localStoredUser = useUserStore(state => state.user)
+  const setUser = useUserStore(state => state.setUser)
+
+  if (localStoredUser) {
+    setUser(null)
+  }
+
   const onLoginSubmitHandler: SubmitHandler<LoginForm> = async data => {
     setIsLoading(true)
     try {
@@ -50,13 +57,6 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const localStoredUser = useUserStore(state => state.user)
-  const setUser = useUserStore(state => state.setUser)
-
-  if (localStoredUser) {
-    setUser(null)
   }
 
   return (
