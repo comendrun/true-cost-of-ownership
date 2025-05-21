@@ -91,7 +91,7 @@ export default function RegistrationPageForm({
                 <FormLabel className='required-field'>Email Address</FormLabel>
 
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete='email' {...field} />
                 </FormControl>
 
                 <FormDescription></FormDescription>
@@ -109,7 +109,7 @@ export default function RegistrationPageForm({
               <FormItem>
                 <FormLabel className='required-field'>Username</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input autoComplete='username' {...field} />
                 </FormControl>
 
                 <FormDescription>
@@ -130,7 +130,7 @@ export default function RegistrationPageForm({
                 <FormLabel className='required-field'>Password</FormLabel>
 
                 <FormControl>
-                  <Input type='password' {...field} />
+                  <Input autoComplete='password' type='password' {...field} />
                 </FormControl>
 
                 <FormDescription></FormDescription>

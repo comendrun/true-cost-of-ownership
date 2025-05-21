@@ -80,7 +80,7 @@ export default function LoginTab() {
                       <FormLabel>Email Address</FormLabel>
 
                       <FormControl>
-                        <Input type='text' {...field} />
+                        <Input autoComplete='email' type='text' {...field} />
                       </FormControl>
 
                       <FormDescription></FormDescription>
@@ -99,7 +99,7 @@ export default function LoginTab() {
                       <FormLabel>Password</FormLabel>
 
                       <FormControl>
-                        <Input type='text' {...field} />
+                        <Input autoComplete='password' type='text' {...field} />
                       </FormControl>
 
                       <FormDescription></FormDescription>
