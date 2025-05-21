@@ -52,10 +52,12 @@ export default function SimpleFormDriverInfoStep() {
   const onSubmit = async (data: SimpleFormDriverInfo) => {
     setData(data)
 
-    // const finalData: SimpleFormFields = {...formData, ...data}
-    // console.log('finalData', finalData)
+    const submittedData = {
+      ...formData,
+      ...data
+    }
 
-    const parsedData = SimpleFormFieldsSchema.safeParse(formData)
+    const parsedData = SimpleFormFieldsSchema.safeParse(submittedData)
 
     if (!parsedData.success) {
       toast.error(
