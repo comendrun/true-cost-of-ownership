@@ -8,10 +8,10 @@ export default function Logo() {
       <SidebarMenuItem>
         <Link href='/dashboard' className=''>
           <SidebarMenuButton
-            className='flex gap-4 p-4 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+            className='flex w-full gap-4 p-4 py-8 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             size='lg'
           >
-            <div className='rounded-lgtext-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center'>
+            <div className='flex aspect-square size-12 items-center justify-center rounded-lg text-sidebar-primary-foreground border-2 border-white'>
               <img
                 src='/assets/Logo-idea-cropped.png'
                 className='w-full rounded-full border-black bg-white dark:border-white dark:bg-white'

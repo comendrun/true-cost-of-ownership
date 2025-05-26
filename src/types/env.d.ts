@@ -5,5 +5,6 @@ namespace NodeJS {
     SUPBASE_PROJECT_REFERENCE_ID: string
     OPENAI_API_KEY: string
     NEXT_PUBLIC_HOST: string
+    NEXT_PUBLIC_APP_VERSION: string
   }
 }
