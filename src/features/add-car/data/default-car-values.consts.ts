@@ -40,6 +40,7 @@ export const defaultCarFormValues = {
   totalPlannedKMs: 0, // Default to 0 since it's required
   fuelConsumption: undefined,
   fuelType: undefined,
+  transmissionType: undefined,
   averageFuelCost: undefined,
 
   // Insurance

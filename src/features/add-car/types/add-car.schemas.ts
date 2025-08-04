@@ -67,6 +67,7 @@ export const CarFormSchema = z.object({
     'Hybrid/Petrol',
     'Electric'
   ]),
+  transmissionType: z.enum(['Manual', 'Automatic', 'Semi-Automatic', 'CVT']),
   averageFuelCost: z.number().nullable().optional(),
 
   // Insurance

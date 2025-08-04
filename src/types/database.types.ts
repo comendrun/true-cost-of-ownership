@@ -109,6 +109,7 @@ export type Database = {
           financing_duration: number | null
           fuel_consumption: number | null
           fuel_type: string
+          transmission_type: string | null
           guarantee_years: number | null
           id: number
           initial_price: number | null
@@ -162,6 +163,7 @@ export type Database = {
           financing_duration?: number | null
           fuel_consumption?: number | null
           fuel_type: string
+          transmission_type?: string | null
           guarantee_years?: number | null
           id?: number
           initial_price?: number | null
@@ -215,6 +217,7 @@ export type Database = {
           financing_duration?: number | null
           fuel_consumption?: number | null
           fuel_type?: string
+          transmission_type?: string | null
           guarantee_years?: number | null
           id?: number
           initial_price?: number | null

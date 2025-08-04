@@ -9,12 +9,14 @@ import Footer from '@/features/landing-page/components/footer'
 
 export default async function LandingPage() {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user }
+  } = await supabase.auth.getUser()
 
   const isAuthenticated = (user && user.aud === 'authenticated') || false
 
   return (
-    <section className="relative mx-auto my-10 flex max-w-8xl flex-col items-center justify-center">
+    <section className='max-w-8xl relative mx-auto my-10 flex flex-col items-center justify-center'>
       {/*<section className="font-sans flex flex-col gap-20">*/}
 
       {/* Navbar */}
@@ -28,7 +30,6 @@ export default async function LandingPage() {
       <HowItWorksSection />
 
       {/*  Featured Comparisons */}
-
 
       {/* FAQ*/}
       <FaqSection />

@@ -257,6 +257,14 @@ export const formFields: Record<FormFieldKey, FormFieldType> = {
       'Electric'
     ]
   },
+  transmissionType: {
+    key: 'transmissionType',
+    type: 'string',
+    required: true,
+    label: 'Transmission Type',
+    component: 'select',
+    selectItems: ['Manual', 'Automatic', 'Semi-Automatic', 'CVT']
+  },
   averageFuelCost: {
     key: 'averageFuelCost',
     type: 'number',

@@ -1,0 +1,77 @@
+# 🔐 ENV files at any depth
+**/.env
+**/.env.*
+**/*.env
+**/*.env.*
+
+# 🔐 Secrets and certificates at any depth
+**/*.pem
+**/*.key
+**/*.crt
+**/*.der
+**/*.p12
+**/*.pfx
+**/*.jks
+**/secrets/
+**/config/secrets/
+**/certs/
+**/certificates/
+**/keys/
+**/private/
+**/ssh/
+**/.ssh/
+
+# 🌐 Apache or web server configs anywhere
+**/httpd.conf
+**/apache2.conf
+**/sites-available/
+**/sites-enabled/
+**/.htaccess
+
+# 🟨 Spring Boot config files anywhere
+**/application-*.yml
+**/application-*.properties
+**/keystore.*
+**/truststore.*
+
+# 🗄️ Flyway & DB migrations anywhere
+**/db/migration/
+**/src/main/resources/db/migration/
+**/migrations/
+**/flyway/
+**/*.sql
+
+# 🐳 Deployment secrets & Docker configs anywhere
+**/docker-compose.override.yml
+**/docker-compose.secrets.yml
+**/docker/
+**/.docker/
+**/.dockerignore
+
+# ⚙️ IDE, build, and project metadata
+**/.next/
+**/node_modules/
+**/.npmrc
+**/.nvmrc
+**/.vscode/
+**/.idea/
+**/.yarn/
+**/.pnpm-store/
+**/.eslintcache
+**/.git/
+**/.gitignore
+**/.gitattributes
+
+# 🧹 Logs, runtime state, compiled builds
+**/*.log
+**/*.pid
+**/*.lock
+**/dist/
+**/build/
+**/out/
+
+# 🔒 Custom generic sensitive file patterns
+**/secret*/**
+**/*-secret.**
+**/*-credentials.**
+**/credentials.*/

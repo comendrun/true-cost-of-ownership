@@ -17,6 +17,7 @@ export const SimpleFormFieldsSchema = z.object({
     'Hybrid/Petrol',
     'Electric'
   ]),
+  transmissionType: z.enum(['Manual', 'Automatic', 'Semi-Automatic', 'CVT']),
   purchasePrice: z
     .number()
     .min(500, { message: 'Purchase price must be at least 500 euros.' }), // euros
@@ -38,6 +39,7 @@ export const SimpleFormCarInfoSchema = SimpleFormFieldsSchema.pick({
   model: true,
   mileage: true,
   fuelType: true,
+  transmissionType: true,
   year: true,
   totalPlannedKMs: true
 })

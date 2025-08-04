@@ -51,6 +51,7 @@ export default function VehicleDetailPage({ car }: { car: UserCarsTableRow }) {
     extended_warranty_cost,
     financing_duration,
     fuel_type,
+    transmission_type,
     guarantee_years,
     id,
     insurance_type,
@@ -101,6 +102,7 @@ export default function VehicleDetailPage({ car }: { car: UserCarsTableRow }) {
       >
         <div className="flex flex-col md:flex-row gap-2"><p>Year: {year} | </p>
           <p> Variant: {variant ?? '-'} | </p>
+          <p> Transmission: {transmission_type ?? '-'} | </p>
           <p>Country: {country}</p></div>
         <CarActionsDropDown car={car} />
 

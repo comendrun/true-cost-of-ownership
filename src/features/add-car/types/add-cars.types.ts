@@ -87,6 +87,7 @@ export const userCarFormToTableKeyMapping: Record<
   totalPlannedKMs: 'total_planned_kms',
   fuelConsumption: 'fuel_consumption',
   fuelType: 'fuel_type',
+  transmissionType: 'transmission_type',
   averageFuelCost: 'average_fuel_cost',
   insuranceType: 'insurance_type',
   insuranceCost: 'insurance_cost',

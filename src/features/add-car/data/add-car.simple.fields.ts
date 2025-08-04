@@ -12,6 +12,7 @@ export const simpleFormCarInfoFields: FormFieldType<SimpleFormCarInfoType>[] = [
   getFormField('year'), // Required
   getFormField('mileage'), // Required
   getFormField('fuelType'), // Required
+  getFormField('transmissionType'), // Required
   getFormField('totalPlannedKMs')
 ]
 
